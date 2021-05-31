@@ -1,4 +1,18 @@
-<!-- SPDX-FileCopyrightText: 2021 NOI Spa <digital@noi.bz.it> -->
-<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
-# aliens4friends-dashboard
-[![REUSE status](https://api.reuse.software/badge/github.com/noi-techpark/aliens4friends-dashboard)](https://api.reuse.software/info/github.com/noi-techpark/aliens4friends-dashboard)
+# Aliens4friends Dashboard
+
+An expandable dashboard to filter and visualize alien4friends license statistics
+
+## Development
+
+composer install
+npm install
+npm run hot
+
+## Build
+
+composer install
+npm run prod
+
+## Deploy
+
+Transfer to target host

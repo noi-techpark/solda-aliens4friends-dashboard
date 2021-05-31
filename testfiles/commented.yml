@@ -1,0 +1,210 @@
+id: bash-5.0-r0+solda21src
+name: bash
+version: '5.0'
+revision: r0
+
+tags:
+  distro:
+  - openharmony-linux
+  image:
+  - openharmony-image-extra
+  - openharmony-image-base
+  - openharmony-image-base-tests
+  - openharmony-image-extra-tests
+  machine:
+  - stm32mp1-av96
+  - qemux86
+  - seco-imx8mm-c61
+  - qemuarm
+  - qemuarm64
+  - qemux86-64
+  - seco-intel-b68
+  release:
+  - v0.1.0-rc1
+
+source_files:
+- files_in_archive: 1298 # number of files found within this archive
+  name: bash-5.0.tar.gz
+  sha1: d116b469b9e6ea5264a74661d3a4c797da7f997b
+  src_uri: https://ftp.gnu.org/gnu/bash/bash-5.0.tar.gz  # main (upstream) source archive tarball, we try debian matching only with this archive!
+- files_in_archive: false # it's not an archive, so this value is false
+  name: bash50-001
+  sha1: 9b8c7b32bf434d36b030c37b54fe8cebe54e2ab7
+  src_uri: https://ftp.gnu.org/gnu/bash/bash-5.0-patches/bash50-001 # single files may be downloaded from the Internet...
+- files_in_archive: false
+  name: execute_cmd.patch
+  sha1: 5a506601bc7ee53a9b56ccdf8f840e63378fccd8
+  src_uri: file://execute_cmd.patch # ... or they may be local files (the same holds for archives).
+  # from an IP compliance perspective, any file/archive downloaded from the Internet has a known_provenance, while local files have unknown_provenance
+
+debian_matching: # the matching debian package.
+  name: bash
+  version: 5.0-4
+  # IMPORTANT: the debian match is related only to the main source archive (tarball) found in source_files above, not to all source_files
+  ip_matching_files: 1289 # files that are matching (between debian sources and the main source archive above) from an Intellectual Property standpoint (no different copyright and license)
+  # IMPORTANT NOTE: to calculate the matching percentage, you should use upstream_source_total as denominator:
+  # debian_matching.ip_matching_files / statistics.files.upstream_source_total
+
+statistics:
+  files:
+    total: 1324
+
+    audit_done: 0 # Fossology green
+    audit_to_do: 790 # Fossology red
+    audit_total: 790 # Fossology red+green
+    # IMPORTANT NOTE 1: grey files -- i.e., files that do not need to be audited because they have no copyright/license statements inside -- are missing from this total)
+    # IMPORTANT NOTE 2: the licenses pie chart must use audit_total as a denominator to calculate the percentage
+    # ( licenses.license_scanner_findings[i].file_count / audit_total )
+
+    upstream_source_total: 1297 # total files contained in the main upstream source tarbal
+
+    unknown_provenance: 8  # files that have an unknown_provenance, meaning: local files (see above, in source_files)
+    known_provenance: 1316 # files that have a known_provenance, meaning: downloaded files (see above, in source_files)
+
+  licenses:
+    license_audit_findings:
+      all_licenses:
+          - shortname: GPL-2.0-or-later
+            file_count: 158
+          - shortname: LGPL-2.0-or-later
+            file_count: 74
+      main_licenses:
+        - GPL-3.0-or-later # there is no file_count here, these are the main licenses of the whole package
+        - GPL-2.0-or-later
+    license_scanner_findings:
+    - file_count: 713
+      shortname: GPL-3.0-or-later
+    - file_count: 213
+      shortname: GPL-1.0-or-later
+    - file_count: 209
+      shortname: GPL-2.0-or-later
+    - file_count: 172
+      shortname: MIT
+    - file_count: 172
+      shortname: LGPL-2.1-only
+    - file_count: 165
+      shortname: LGPL-2.0-or-later
+    - file_count: 164
+      shortname: LGPL-2.1-or-later
+    - file_count: 159
+      shortname: BSD-2-Clause
+    - file_count: 159
+      shortname: AFL-2.1
+    - file_count: 158
+      shortname: public-domain
+    - file_count: 158
+      shortname: curl
+    - file_count: 158
+      shortname: LPGL-2.1-or-later
+    - file_count: 158
+      shortname: ISC
+    - file_count: 158
+      shortname: BSD-4-Clause
+    - file_count: 158
+      shortname: BSD-3-Clause
+    - file_count: 158
+      shortname: Artistic-1.0
+    - file_count: 37
+      shortname: scancode-free-unknown
+    - file_count: 31
+      shortname: Artistic-1.0-Perl
+    - file_count: 27
+      shortname: scancode-warranty-disclaimer
+    - file_count: 21
+      shortname: GPL-2.0-only
+    - file_count: 7
+      shortname: scancode-other-permissive
+    - file_count: 7
+      shortname: GFDL-1.3-or-later
+    - file_count: 7
+      shortname: GFDL-1.3+
+    - file_count: 7
+      shortname: GFDL-1.1-or-later
+    - file_count: 7
+      shortname: GFDL-1.1+
+    - file_count: 6
+      shortname: scancode-unknown
+    - file_count: 6
+      shortname: X-Consortium
+    - file_count: 6
+      shortname: PD
+    - file_count: 6
+      shortname: GFDL-1.3-only
+    - file_count: 6
+      shortname: GFDL-1.3
+    - file_count: 5
+      shortname: scancode-unknown-license-reference
+    - file_count: 5
+      shortname: scancode-public-domain
+    - file_count: 5
+      shortname: GPL-3.0-only
+    - file_count: 4
+      shortname: Latex2e
+    - file_count: 4
+      shortname: FSFULLR
+    - file_count: 3
+      shortname: scancode-proprietary-license
+    - file_count: 3
+      shortname: GFDL-1.2-or-later
+    - file_count: 3
+      shortname: FSFAP
+    - file_count: 3
+      shortname: Bison-exception-2.2
+    - file_count: 2
+      shortname: scancode-autoconf-simple-exception-2.0
+    - file_count: 2
+      shortname: scancode-autoconf-simple-exception
+    - file_count: 2
+      shortname: noderivs
+    - file_count: 2
+      shortname: LGPL-3.0-or-later
+    - file_count: 2
+      shortname: CC-BY-SA-3.0
+    - file_count: 1
+      shortname: scancode-tex-exception
+    - file_count: 1
+      shortname: scancode-elib-gpl
+    - file_count: 1
+      shortname: scancode-bison-exception-2.0
+    - file_count: 1
+      shortname: X11
+    - file_count: 1
+      shortname: OFL-1.1
+    - file_count: 1
+      shortname: NTP
+    - file_count: 1
+      shortname: HPND
+    - file_count: 1
+      shortname: GFDL-1.2+
+    - file_count: 1
+      shortname: GFDL-1.1-only
+    - file_count: 1
+      shortname: GFDL-1.1
+    - file_count: 1
+      shortname: FSFUL
+    - file_count: 1
+      shortname: CC-BY-SA-4.0
+    - file_count: 1
+      shortname: BSD-4-Clause-UC
+binary_packages:
+  - name: bash-5.0-r0+openharmony-linux-qemuarm+v0.1.0-rc1
+    revision: r0
+    version: '5.0'
+  - name: bash-5.0-r0+openharmony-linux-qemuarm64+v0.1.0-rc1
+    revision: r0
+    version: '5.0'
+  - name: bash-5.0-r0+openharmony-linux-qemux86+v0.1.0-rc1
+    revision: r0
+    version: '5.0'
+  - name: bash-5.0-r0+openharmony-linux-qemux86-64+v0.1.0-rc1
+    revision: r0
+    version: '5.0'
+  - name: bash-5.0-r0+openharmony-linux-seco-imx8mm-c61+v0.1.0-rc1
+    revision: r0
+    version: '5.0'
+  - name: bash-5.0-r0+openharmony-linux-seco-intel-b68+v0.1.0-rc1
+    revision: r0
+    version: '5.0'
+  - name: bash-5.0-r0+openharmony-linux-stm32mp1-av96+v0.1.0-rc1
+    revision: r0
+    version: '5.0'
