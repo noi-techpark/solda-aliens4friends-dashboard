@@ -10,6 +10,9 @@ class JsonProxy extends Controller
     public function get(Request $request)
     {
         $uri = $request->query('uri');
+        $token = $request->query('private_token');
+
+        if($request->query('private_token')) $uri .= "&private_token=".$token;
 
         try
         {

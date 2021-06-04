@@ -272,8 +272,49 @@
     </v-container>
 
     <v-container fill-height fluid>
+      <v-row no-gutters class="text-right">
+          <v-col cols="12">
+              <div style="display:inline-block" class="mr-4">
+              <v-switch
+                    v-model="filterMode"
+                    label="Exclude selection"
+                    color="red"
+                    class="ma-0"
+                    value="exclusive"
+                    hide-details
+                    @click="filterChange = true"
+                ></v-switch>
+                </div>
+                <v-btn
+                :disabled="!filterChange"
+                @click="filter(needle)"
+                >
+                Apply
+                <v-icon
+                    right
+                    dark
+                >
+                    mdi-filter
+                </v-icon>
+                </v-btn>
 
-      <v-row>
+                <v-btn
+                :disabled="needle == '' && Object.keys(columnFilter).length == 0"
+                outlined
+                @click="clearFilter"
+                >
+                Clear
+                <v-icon
+                    right
+                    dark
+
+                >
+                    mdi-close
+                </v-icon>
+                </v-btn>
+          </v-col>
+      </v-row>
+      <v-row class="mt-0">
         <v-col :class="{ filtered : isFiltered }">
           <table-component
             :entries="current"
@@ -281,6 +322,7 @@
             :stats="total_stats"
             :palette="palette"
             :colors="colors"
+            @filter-clicked="triggerSearch"
             ident="Meta"
           ></table-component>
         </v-col>
@@ -314,6 +356,10 @@ export default {
   data() {
     return {
       needle: "",
+      filterChange: false,
+      filtered: false,
+      filterMode: "inclusive",
+      columnFilter: {},
       headers: headers.headers,
       snackbar: false,
       current: [],
@@ -327,17 +373,8 @@ export default {
         min: 0,
         max: 0
       },
-      palette: colors.colors,
-      colors: {
-        "Known provenance": "#4ea262",
-        "Unknown provenance": "#808080",
-        "Audit done": "#4ea262",
-        "Audit todo": "#ff3232",
-        audit_total: "#777777",
-        upstream_source_total: "#DDDDDD",
-        total: "#999999",
-        "Audit not required": "#999999"
-      }
+      palette: colors.palette,
+      colors: colors.colors
     };
   },
   computed: {
@@ -364,14 +401,16 @@ export default {
         if (source[i].statistics) {
           const filestats = source[i].statistics.files;
 
-          // es fehlen oft die audit-knoten
-          if (isNaN(filestats.unknown_provenance)) filestats.unknown_provenance = 0;
+          // TODO: make model
+          if (isNaN(filestats.unknown_provenance))
+            filestats.unknown_provenance = 0;
           if (isNaN(filestats.known_provenance)) filestats.known_provenance = 0;
           if (isNaN(filestats.total)) filestats.total = 0;
           if (isNaN(filestats.audit_total)) filestats.audit_total = 0;
           if (isNaN(filestats.audit_done)) filestats.audit_done = 0;
           if (isNaN(filestats.audit_to_do)) filestats.audit_to_do = 0;
-          if (isNaN(filestats.upstream_source_total)) filestats.upstream_source_total = 0;
+          if (isNaN(filestats.upstream_source_total))
+            filestats.upstream_source_total = 0;
 
           // predefine license colors
           let licenses = [];
@@ -423,6 +462,37 @@ export default {
 
       this.progress = parseInt((all.audited / all.audit_total) * 100);
       this.total_stats = all;
+
+      // generate column filter values
+      for (var i = 0; i < this.headers.length; i++) {
+        if (this.headers[i].autofilter) {
+          this.headers[i].filterVals = [];
+          this.headers[i].activeVals = {};
+
+          for (var a = 0; a < res.length; a++) {
+            let vals = this.resolve(this.headers[i].value, res[a]);
+
+            if (vals) {
+              if (this.headers[i].type == "chart") {
+                vals = vals.map(o => {
+                  return o.shortname;
+                });
+              }
+
+              this.headers[i].filterVals = [
+                ...new Set([...this.headers[i].filterVals, ...vals])
+              ];
+            }
+          }
+
+          this.headers[i].filterVals.sort();
+
+          for (var a = 0; a < this.headers[i].filterVals.length; a++) {
+            this.headers[i].activeVals[this.headers[i].filterVals[a]] = false;
+          }
+        }
+      }
+
       this.current = res;
 
       return res;
@@ -437,7 +507,7 @@ export default {
       return res;
     },
     isFiltered: function() {
-      return this.needle != "";
+      return this.filtered;
     },
     stats: function() {
       let res = {
@@ -569,12 +639,17 @@ export default {
           audit_all: {
             title: "License types audited",
             subtitle: "Results by human auditor analysis",
-            value: this.accumulatedLicenses("license_audit_findings.all_licenses")
+            value: this.accumulatedLicenses(
+              "license_audit_findings.all_licenses"
+            )
           },
           main_licenses: {
             title: "Main license types",
             subtitle: "Accumulated main licenses",
-            value: this.accumulatedLicenses("license_audit_findings.main_licenses", true)
+            value: this.accumulatedLicenses(
+              "license_audit_findings.main_licenses",
+              true
+            )
           }
         }
       };
@@ -588,7 +663,45 @@ export default {
       return properties.reduce((prev, curr) => prev && prev[curr], obj);
     },
     triggerSearch(e) {
+      let needle = e;
+
+      // if column filter, register filter but do not trigger automagically
+      if (needle.col) {
+        this.filterChange = true;
+
+        this.columnFilter[needle.col] = {
+          state: needle.active,
+          needle: "",
+          key: needle.col
+        };
+
+        Object.keys(this.columnFilter).forEach((key, index) => {
+          Object.keys(this.columnFilter[key].state).forEach(
+            (innerKey, innerIndex) => {
+              if (this.columnFilter[key].state[innerKey]) {
+                this.columnFilter[key].needle += innerKey + " ";
+              }
+            }
+          );
+        });
+
+        return false;
+      }
+
       this.filter(e);
+    },
+    clearFilter() {
+      this.columnFilter = [];
+
+      for (var i = 0; i < this.headers.length; i++) {
+        if (this.headers[i].activeVals) {
+          Object.keys(this.headers[i].activeVals).forEach((key, index) => {
+            this.headers[i].activeVals[key] = false;
+          });
+        }
+      }
+
+      this.filter("");
     },
     filter(needle) {
       this.needle = needle;
@@ -599,22 +712,47 @@ export default {
 
       for (var a = 0; a < this.entries.length; a++) {
         let found = true;
-        let str = JSON.stringify(this.entries[a]).toLowerCase() || "";
+        let cols_found = true;
 
-        for (var i = 0; i < splitted.length; i++) {
-          found = str.indexOf(splitted[i].toLowerCase()) != -1 && found;
+        // table column filter
+        Object.keys(this.columnFilter).forEach((key, index) => {
+          let col = this.resolve(key, this.entries[a]);
+
+          if (!!col) {
+            let colString = JSON.stringify(col).toLowerCase() || "";
+            let colNeedle = this.columnFilter[key].needle.split(" ");
+
+            for (var i = 0; i < colNeedle.length - 1; i++) {
+              let here =
+                colString.indexOf('"' + colNeedle[i].toLowerCase() + '"') != -1;
+              if (this.filterMode == "exclusive") here = !here;
+              cols_found = here && cols_found;
+            }
+          } else {
+            cols_found = false;
+          }
+        });
+
+        // global text search
+        if (this.needle != "") {
+          let str = JSON.stringify(this.entries[a]).toLowerCase() || "";
+
+          for (var i = 0; i < splitted.length; i++) {
+            found = str.indexOf(splitted[i].toLowerCase()) != -1 && found;
+          }
         }
 
-        if (found) {
+        if (found && cols_found) {
           res.push(this.entries[a]);
         }
       }
 
       this.current = res;
+      this.filterChange = false;
+      this.filtered = this.current.length != this.entries.length;
     },
     accumulatedMainLicenses: function() {
       let res = {};
-
       for (let i = 0; i < this.current.length; i++) {
         let license_names = [];
 
@@ -712,13 +850,13 @@ export default {
         data = sorted.values;
       }
 
+      // grouping
       if (grouping) {
         const odata = data;
 
         labels = labels.slice(0, grouping);
         data = odata.slice(0, grouping);
 
-        // grouping
         let others = odata.slice(grouping);
 
         if (others.reduce((a, b) => a + b, 0) > 0) {
@@ -826,5 +964,9 @@ export default {
   .v-application .primary--text {
     color: green !important;
   }
+}
+
+.act .theme--light.v-icon {
+  color: red;
 }
 </style>

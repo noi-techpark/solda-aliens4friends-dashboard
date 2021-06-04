@@ -89,8 +89,17 @@ export default {
     if (this.$route.query.json) {
       this.loading = true;
 
+      let uri = this.$route.query.json;
+
+      // if private_token is set, it should be a gitlab uri
+      if(this.$route.query.private_token) {
+        let parts = this.$route.query.json.split("/repository/files/");
+        let subparts = parts[parts.length - 1].split("/raw?ref");
+        uri = parts[0] + "/repository/files/" + encodeURIComponent(encodeURIComponent(subparts[0])) + "/raw?ref" + subparts[1] + "&private_token=" + this.$route.query.private_token
+      }
+
       axios
-        .get("/json?uri=" + this.$route.query.json)
+        .get("/json?uri=" + uri, { private_token : this.$route.query.private_token })
         .then(response => {
             if(response.data.data.tool && response.data.data.tool.name == "aliens4friends.harvest") {
                 this.$store.dispatch("file/saveFile", { json: response.data.data });
