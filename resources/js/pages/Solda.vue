@@ -277,7 +277,7 @@
               <div style="display:inline-block" class="mr-4">
               <v-switch
                     v-model="filterMode"
-                    label="Exclude selection"
+                    label="Exclusive selection"
                     color="red"
                     class="ma-0"
                     value="exclusive"
@@ -672,14 +672,17 @@ export default {
         this.columnFilter[needle.col] = {
           state: needle.active,
           needle: "",
-          key: needle.col
+          key: needle.col,
+          antiNeedle: "",
         };
 
         Object.keys(this.columnFilter).forEach((key, index) => {
           Object.keys(this.columnFilter[key].state).forEach(
             (innerKey, innerIndex) => {
               if (this.columnFilter[key].state[innerKey]) {
-                this.columnFilter[key].needle += innerKey + " ";
+                this.columnFilter[key].needle += innerKey + "|||";
+              } else {
+                this.columnFilter[key].antiNeedle += innerKey + "|||";
               }
             }
           );
@@ -720,14 +723,24 @@ export default {
 
           if (!!col) {
             let colString = JSON.stringify(col).toLowerCase() || "";
-            let colNeedle = this.columnFilter[key].needle.split(" ");
+            let colNeedle = this.columnFilter[key].needle.split("|||");
+            let colAntiNeedle = this.columnFilter[key].antiNeedle.split("|||");
 
+            // check if we find the needles
             for (var i = 0; i < colNeedle.length - 1; i++) {
-              let here =
-                colString.indexOf('"' + colNeedle[i].toLowerCase() + '"') != -1;
-              if (this.filterMode == "exclusive") here = !here;
+              let here = colString.indexOf('"' + colNeedle[i].toLowerCase() + '"') != -1;
+              // if (this.filterMode == "exclusive") here = !here;
               cols_found = here && cols_found;
             }
+
+            // if exclusive mode, other values should not be present
+            if (this.filterMode == "exclusive") {
+                for (var i = 0; i < colAntiNeedle.length - 1; i++) {
+                    let here = colString.indexOf('"' + colAntiNeedle[i].toLowerCase() + '"') != -1;
+                    cols_found = !here && cols_found;
+                }
+            }
+
           } else {
             cols_found = false;
           }

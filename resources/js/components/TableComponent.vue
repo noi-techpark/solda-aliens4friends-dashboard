@@ -121,7 +121,11 @@
       </template>
 
       <template v-for="h in headers" v-slot:[`header.${h.value}`]="{ header }">
-        <div style="float: left;" v-if="header.filterVals" :key="h.value">
+        <div
+          style="float: left;"
+          v-if="header.filterVals && header.filterVals.length > 0"
+          :key="h.value"
+        >
           <v-menu
             :close-on-content-click="false"
             :nudge-width="200"
@@ -168,6 +172,60 @@
               <v-divider></v-divider>
               <v-row no-gutters> </v-row>
             </v-list>
+          </v-menu>
+        </div>
+        <div style="float: left;" v-if="header.valueFilter" :key="h.value">
+          <v-menu
+            :close-on-content-click="false"
+            :nudge-width="200"
+            offset-y
+            transition="slide-y-transition"
+            left
+            fixed
+            style="overflow:hidden;height:100px"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <span v-on="on" v-bind="attrs" style="line-height:16px"
+                ><v-icon small class="mr-1"
+                  >mdi-numeric-1-box-multiple-outline</v-icon
+                ></span
+              >
+            </template>
+            <v-row
+              style="background:white;width:250px;overflow:hidden"
+              class="pa-2"
+            >
+              <v-col>
+                <v-text-field
+                  :value="header.text"
+                  readonly
+                  style="width:50px"
+                  single-line
+                  small
+                  class="pt-0 mt-0"
+                >
+                </v-text-field>
+              </v-col>
+              <v-col>
+                <v-select
+                  :items="['=', '>', '<']"
+                  dense
+                  style="width:50px"
+                  single-line
+                ></v-select>
+              </v-col>
+              <v-col>
+                <v-text-field
+                  v-model="header.filterValue"
+                  :label="'0'"
+                  single-line
+                  style="width:50px"
+                  clearable
+                  class="pt-0 mt-0"
+                >
+                </v-text-field>
+              </v-col>
+            </v-row>
           </v-menu>
         </div>
         <v-tooltip top :key="h.text">
