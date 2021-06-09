@@ -92,7 +92,8 @@ export default {
       axios
         .get("/json?uri=" + this.$route.query.json)
         .then(response => {
-            if(response.data.data.tool && response.data.data.tool.name == "aliens4friends.harvest") {
+            var supported_tools = [ "aliens4friends.harvest", "fossywrapper" ];
+            if(response.data.data.tool && supported_tools.includes(response.data.data.tool.name)) {
                 this.$store.dispatch("file/saveFile", { json: response.data.data });
                 this.loading = false;
                 this.loaded = true;
