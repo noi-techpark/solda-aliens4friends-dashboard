@@ -13,7 +13,9 @@
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>Package Explorer</v-toolbar-title>
+          <v-toolbar-title>
+            Package Explorer ({{ entries.length }})
+          </v-toolbar-title>
         </v-toolbar>
       </template>
 
@@ -119,9 +121,116 @@
       </template>
 
       <template v-for="h in headers" v-slot:[`header.${h.value}`]="{ header }">
-        <v-tooltip top>
+        <div
+          style="float: left;"
+          v-if="header.filterVals && header.filterVals.length > 0"
+          :key="h.value"
+        >
+          <v-menu
+            :close-on-content-click="false"
+            :nudge-width="200"
+            offset-y
+            transition="slide-y-transition"
+            left
+            fixed
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <span
+                :class="{
+                  act: Object.values(header.activeVals).reduce((a, o) => {
+                    return a || o;
+                  }, false)
+                }"
+                v-on="on"
+                v-bind="attrs"
+                style="line-height:16px"
+                ><v-icon small class="mr-1">mdi-filter</v-icon></span
+              >
+            </template>
+            <v-list flat dense class="pa-0" max-height="300" color="white">
+              <template v-for="item in header.filterVals">
+                <v-list-item
+                  :key="`${item}`"
+                  :value="item"
+                  :ripple="false"
+                  dense
+                  style="background:white;"
+                >
+                  <v-list-item-action style="margin:0;" class="mr-2">
+                    <v-checkbox
+                      v-model="header.activeVals[item]"
+                      @click="toggle(header, item)"
+                      color="primary"
+                      dense
+                    ></v-checkbox>
+                  </v-list-item-action>
+                  <v-list-item-content>
+                    <v-list-item-title v-text="item"></v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </template>
+              <v-divider></v-divider>
+              <v-row no-gutters> </v-row>
+            </v-list>
+          </v-menu>
+        </div>
+        <div style="float: left;" v-if="header.valueFilter" :key="h.value">
+          <v-menu
+            :close-on-content-click="false"
+            :nudge-width="200"
+            offset-y
+            transition="slide-y-transition"
+            left
+            fixed
+            style="overflow:hidden;height:100px"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <span v-on="on" v-bind="attrs" style="line-height:16px"
+                ><v-icon small class="mr-1"
+                  >mdi-numeric-1-box-multiple-outline</v-icon
+                ></span
+              >
+            </template>
+            <v-row
+              style="background:white;width:250px;overflow:hidden"
+              class="pa-2"
+            >
+              <v-col>
+                <v-text-field
+                  :value="header.text"
+                  readonly
+                  style="width:50px"
+                  single-line
+                  small
+                  class="pt-0 mt-0"
+                >
+                </v-text-field>
+              </v-col>
+              <v-col>
+                <v-select
+                  :items="['=', '>', '<']"
+                  dense
+                  style="width:50px"
+                  single-line
+                ></v-select>
+              </v-col>
+              <v-col>
+                <v-text-field
+                  v-model="header.filterValue"
+                  :label="'0'"
+                  single-line
+                  style="width:50px"
+                  clearable
+                  class="pt-0 mt-0"
+                >
+                </v-text-field>
+              </v-col>
+            </v-row>
+          </v-menu>
+        </div>
+        <v-tooltip top :key="h.text">
           <template v-slot:activator="{ on }">
-            <span v-on="on">{{ h.text }}</span>
+            <span v-on="on" style="line-height:16px">{{ h.text }}</span>
           </template>
           <span>{{ h.tooltip }}</span>
         </v-tooltip>
@@ -131,19 +240,27 @@
         v-for="head in headers"
         v-slot:[`item.${head.value}`]="{ item }"
       >
-        <div v-if="head.type == 'implode'">
-          <div v-for="text in resolve(head.value, item)" style="font-size:11px">
+        <div v-if="head.type == 'implode'" :key="head.value">
+          <div
+            v-for="text in resolve(head.value, item)"
+            style="font-size:11px"
+            :key="text"
+          >
             {{ text }}
           </div>
         </div>
 
-        <div v-if="head.type == 'implode_tag'">
-          <div v-for="text in resolve(head.value, item)" style="font-size:11px">
+        <div v-if="head.type == 'implode_tag'" :key="head.value">
+          <div
+            v-for="text in resolve(head.value, item)"
+            style="font-size:11px"
+            :key="text"
+          >
             <v-chip small class="mb-1">{{ text }}</v-chip>
           </div>
         </div>
 
-        <div v-if="head.type == 'progress'">
+        <div v-if="head.type == 'progress'" :key="head.value">
           <v-progress-linear
             :value="item.progress"
             :color="palette[0]"
@@ -158,7 +275,7 @@
           </div>
         </div>
 
-        <div v-if="head.type == 'workload'">
+        <div v-if="head.type == 'workload'" :key="head.value">
           <div>
             <v-icon size="15" v-if="normalize(item.workload_total) < 0.2"
               >mdi-weight</v-icon
@@ -197,7 +314,7 @@
           </div>
         </div>
 
-        <div v-if="head.type == 'chart'">
+        <div v-if="head.type == 'chart'" :key="head.value">
           <div
             class="ma-1"
             v-if="
@@ -205,7 +322,10 @@
                 'statistics.licenses.license_audit_findings.all_licenses'
             "
           >
-            <div class="ma-1 text-center" style="font-weight:bold;min-height:21px">
+            <div
+              class="ma-1 text-center"
+              style="font-weight:bold;min-height:21px"
+            >
               {{ sums["all_" + item.uid] }}
             </div>
 
@@ -237,7 +357,10 @@
             class="ma-1"
             v-if="head.value == 'statistics.licenses.license_scanner_findings'"
           >
-            <div class="ma-1 text-center" style="font-weight:bold;min-height:21px">
+            <div
+              class="ma-1 text-center"
+              style="font-weight:bold;min-height:21px"
+            >
               {{ sums["scan_" + item.uid] }}
             </div>
 
@@ -266,7 +389,10 @@
           </div>
         </div>
 
-        <div v-if="head.type == 'match' && item.debian_matching">
+        <div
+          v-if="head.type == 'match' && item.debian_matching"
+          :key="head.value"
+        >
           <v-tooltip top>
             <template v-slot:activator="{ on }">
               <v-icon
@@ -310,6 +436,7 @@
         <div
           v-if="head.type == 'string'"
           style="font-size:11px;word-break: break-all;"
+          :key="head.value"
         >
           {{ item[head.value] }}
         </div>
@@ -376,6 +503,14 @@ export default {
     };
   },
   methods: {
+    toggle(header, item) {
+      this.$emit("filter-clicked", {
+        col: header.value,
+        val: item,
+        active: header.activeVals,
+        item: item
+      });
+    },
     getCDef(e) {
       Vue.nextTick(() => {
         this.getCharts(e);
@@ -447,6 +582,9 @@ export default {
       if (match >= 0.1) return "orange";
 
       return "red";
+    },
+    columnFiltered: function(items) {
+      return items.reduce((acc, cur) => acc || cur, false);
     },
     sortNamesAndValueArrays: function(names = [], values = []) {
       var list = [];

@@ -8,7 +8,6 @@ exports.headers = [
         width: "220px",
         tooltip: "Package name"
     },
-
     {
         text: "Audit Progress",
         align: "start",
@@ -30,6 +29,8 @@ exports.headers = [
         value: "statistics.licenses.license_audit_findings.main_licenses",
         type: "implode_tag",
         fixed: true,
+        autofilter: true,
+        sortable: false,
         tooltip: "Main licenses"
     },
     {
@@ -37,22 +38,27 @@ exports.headers = [
         value: "tags.distro",
         type: "implode",
         fixed: true,
+        autofilter: true,
+        sortable: false,
         tooltip: "Distro"
     },
-
     {
         text: "Image",
         value: "tags.image",
         type: "implode",
         fixed: true,
+        autofilter: true,
+        sortable: false,
         tooltip: "Image"
     },
-
     {
         text: "Machine",
         value: "tags.machine",
         type: "implode",
         fixed: true,
+        filtered: true,
+        autofilter: true,
+        sortable: false,
         tooltip: "Machine"
     },
     {
@@ -60,6 +66,8 @@ exports.headers = [
         value: "tags.release",
         type: "implode",
         fixed: true,
+        autofilter: true,
+        sortable: false,
         tooltip: "Release"
     },
     {
@@ -69,6 +77,8 @@ exports.headers = [
         type: "chart",
         width: "200px",
         fixed: true,
+        autofilter: true,
+        sortable: false,
         tooltip: "license_scanner_findings"
     },
     {
@@ -78,6 +88,8 @@ exports.headers = [
         type: "chart",
         width: "200px",
         fixed: true,
+        autofilter: true,
+        sortable: false,
         tooltip: "all_licenses"
     },
 
@@ -87,6 +99,7 @@ exports.headers = [
         align: "end",
         type: "match",
         width: "100px",
+        sortable: false,
         fixed: true,
         tooltip: "ip_matching_files / upstream_source_total"
     }

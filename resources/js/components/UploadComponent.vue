@@ -10,14 +10,23 @@
   >
     <v-card-text class="pa-0">
       <v-row class="d-flex flex-column" dense align="center" justify="center">
-        <v-progress-linear color="rgb(213, 61, 14)" indeterminate v-if="loading" height="20"></v-progress-linear>
-        <v-icon v-if="!loading" :class="[dragover ? 'mt-0, mb-1' : 'mt-0']" size="20">
+        <v-progress-linear
+          color="rgb(213, 61, 14)"
+          indeterminate
+          v-if="loading"
+          height="20"
+        ></v-progress-linear>
+        <v-icon
+          v-if="!loading"
+          :class="[dragover ? 'mt-0, mb-1' : 'mt-0']"
+          size="20"
+        >
           mdi-cloud-upload
         </v-icon>
         <p class="mb-0 pb-0" v-if="!loaded && !loading">
           Drop your Json-File here
         </p>
-         <p v-if="!loaded && loading" class="mb-0 pb-0">
+        <p v-if="!loaded && loading" class="mb-0 pb-0">
           Loading file from uri...
         </p>
         <p class="mb-0 pb-0" v-if="loaded">
@@ -49,10 +58,22 @@
           <v-divider></v-divider>
         </template>
       </v-virtual-scroll>
-      <v-snackbar fixed v-model="snackbar.status" :timeout="snackbar.timeout" color="red" bottom right>
+      <v-snackbar
+        fixed
+        v-model="snackbar.status"
+        :timeout="snackbar.timeout"
+        color="red"
+        bottom
+        right
+      >
         {{ snackbar.text }}
         <template v-slot:action="{ attrs }">
-          <v-btn color="white" text v-bind="attrs" @click="snackbar.status = false">
+          <v-btn
+            color="white"
+            text
+            v-bind="attrs"
+            @click="snackbar.status = false"
+          >
             Close
           </v-btn>
         </template>
@@ -76,9 +97,9 @@ export default {
     return {
       dragover: false,
       snackbar: {
-          status : false,
-          text: "",
-          timeout: 5000
+        status: false,
+        text: "",
+        timeout: 5000
       },
       loading: false,
       loaded: false,
@@ -89,22 +110,43 @@ export default {
     if (this.$route.query.json) {
       this.loading = true;
 
+      let uri = this.$route.query.json;
+
+      // if private_token is set, it should be a gitlab uri
+      if (this.$route.query.private_token) {
+        let parts = this.$route.query.json.split("/repository/files/");
+        let subparts = parts[parts.length - 1].split("/raw?ref");
+        uri =
+          parts[0] +
+          "/repository/files/" +
+          encodeURIComponent(encodeURIComponent(subparts[0])) +
+          "/raw?ref" +
+          subparts[1] +
+          "&private_token=" +
+          this.$route.query.private_token;
+      }
+
       axios
-        .get("/json?uri=" + this.$route.query.json)
-        .then(response => {
-            var supported_tools = [ "aliens4friends.harvest", "fossywrapper" ];
-            if(response.data.data.tool && supported_tools.includes(response.data.data.tool.name)) {
-                this.$store.dispatch("file/saveFile", { json: response.data.data });
-                this.loading = false;
-                this.loaded = true;
-            } else {
-                this.snackbar.text = "Invalid JSON-Feed"
-                this.snackbar.status = true;
-                this.loading = false;
-            }
+        .get("/json?uri=" + uri, {
+          private_token: this.$route.query.private_token
         })
-        .catch((error) => {
-          this.snackbar.text = "Data could not be retrieved"
+        .then(response => {
+          const supported_tools = ["aliens4friends.harvest", "fossywrapper"];
+          if (
+            response.data.data.tool &&
+            supported_tools.includes(response.data.data.tool.name)
+          ) {
+            this.$store.dispatch("file/saveFile", { json: response.data.data });
+            this.loading = false;
+            this.loaded = true;
+          } else {
+            this.snackbar.text = "Invalid JSON-Feed";
+            this.snackbar.status = true;
+            this.loading = false;
+          }
+        })
+        .catch(error => {
+          this.snackbar.text = "Data could not be retrieved";
           this.snackbar.status = true;
           this.loading = false;
           return Promise.reject(error);

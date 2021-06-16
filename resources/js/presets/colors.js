@@ -1,4 +1,15 @@
-exports.colors = [
+exports.colors = {
+    "Known provenance": "#4ea262",
+    "Unknown provenance": "#808080",
+    "Audit done": "#4ea262",
+    "Audit todo": "#ff3232",
+    "audit_total": "#777777",
+    "upstream_source_total": "#DDDDDD",
+    "total": "#999999",
+    "Audit not required": "#999999"
+}
+
+exports.palette = [
     "#63b598",
     "#ce7d78",
     "#ea9e70",
