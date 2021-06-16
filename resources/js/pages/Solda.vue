@@ -15,6 +15,7 @@
         <v-spacer></v-spacer>
         <upload-component
             class="mr-3"
+            @data-complete="filter(needle)"
         ></upload-component>
     </v-app-bar>
     <v-container fluid>
@@ -299,11 +300,10 @@
                 </v-btn>
 
                 <v-btn
-                :disabled="needle == '' && Object.keys(columnFilter).length == 0"
                 outlined
                 @click="clearFilter"
                 >
-                Clear
+                Reset
                 <v-icon
                     right
                     dark
@@ -323,6 +323,7 @@
             :palette="palette"
             :colors="colors"
             @filter-clicked="triggerSearch"
+            @filter-change="filterChange = true"
             ident="Meta"
           ></table-component>
         </v-col>
@@ -356,6 +357,12 @@ export default {
   data() {
     return {
       needle: "",
+      params : {
+        needle : '',
+        cols : {},
+        filters : {},
+        excl : 0,
+      },
       filterChange: false,
       filtered: false,
       filterMode: "inclusive",
@@ -376,6 +383,17 @@ export default {
       palette: colors.palette,
       colors: colors.colors
     };
+  },
+  mounted: function() {
+      if (this.$route.query.params) {
+        this.params = JSON.parse(this.$route.query.params)
+
+        // preset needle
+        this.needle = this.params.needle;
+
+        // preset exclusive mode
+        if(this.params.excl == 1) this.filterMode = "exclusive"
+      }
   },
   computed: {
     ...mapGetters({
@@ -433,11 +451,19 @@ export default {
 
           // patch table index and single progresses
           source[i].uid = i;
-          source[i].progress = parseInt(
+          source[i].progress = filestats.audit_total == 0 ? 100 : parseInt(
             (filestats.audit_done / filestats.audit_total) * 100
           );
+
           source[i].workload = filestats.audit_done;
           source[i].workload_total = filestats.audit_total;
+
+          // patch debian match
+          source[i].match = source[i].debian_matching
+            ? (source[i].debian_matching.ip_matching_files /
+                filestats.upstream_source_total) *
+              100
+            : 0;
 
           // overall progress & normalization params
           all.known += filestats.known_provenance;
@@ -460,7 +486,7 @@ export default {
         res.push(source[i]);
       }
 
-      this.progress = parseInt((all.audited / all.audit_total) * 100);
+      this.progress = all.audit_total == 0 ? 100 : parseInt((all.audited / all.audit_total) * 100);
       this.total_stats = all;
 
       // generate column filter values
@@ -487,9 +513,22 @@ export default {
 
           this.headers[i].filterVals.sort();
 
+          let active = false;
           for (var a = 0; a < this.headers[i].filterVals.length; a++) {
-            this.headers[i].activeVals[this.headers[i].filterVals[a]] = false;
+            this.headers[i].activeVals[this.headers[i].filterVals[a]] = this.params.cols[this.headers[i].value] && this.params.cols[this.headers[i].value][this.headers[i].filterVals[a]];
+            if(this.headers[i].activeVals[this.headers[i].filterVals[a]]) active = true;
           }
+
+          if(active)
+          this.triggerSearch({
+            col : this.headers[i].value,
+            active : this.headers[i].activeVals
+          })
+
+        }
+
+        if (this.headers[i].valueFilter && this.params.filters[this.headers[i].value]) {
+            this.headers[i].valueFilter = this.params.filters[this.headers[i].value]
         }
       }
 
@@ -536,7 +575,7 @@ export default {
               )
                 return accumulator;
               return accumulator + currentValue.statistics.files.total;
-            }, 0)
+            }, 0) 
           },
           audit_total: {
             title: "Files",
@@ -589,7 +628,7 @@ export default {
             }, 0)
           },
           upstream_source_total: {
-            title: "Files",
+            title: "Files/Packages",
             subtitle: "upstream_source_total",
             value: this.current.reduce((accumulator, currentValue) => {
               if (
@@ -666,32 +705,52 @@ export default {
       let needle = e;
 
       // if column filter, register filter but do not trigger automagically
+
+
       if (needle.col) {
+        let active = false;
+
         this.filterChange = true;
+
+        if(!this.params.cols[needle.col]) this.params.cols[needle.col] = {}
 
         this.columnFilter[needle.col] = {
           state: needle.active,
           needle: "",
           key: needle.col,
-          antiNeedle: "",
+          antiNeedle: ""
         };
+
+
 
         Object.keys(this.columnFilter).forEach((key, index) => {
           Object.keys(this.columnFilter[key].state).forEach(
             (innerKey, innerIndex) => {
               if (this.columnFilter[key].state[innerKey]) {
                 this.columnFilter[key].needle += innerKey + "|||";
+                this.params.cols[needle.col][innerKey] = 1;
+                active = true;
               } else {
                 this.columnFilter[key].antiNeedle += innerKey + "|||";
+                if(this.params.cols[needle.col][innerKey]) delete this.params.cols[needle.col][innerKey]
               }
             }
           );
         });
 
+        if(!active) delete this.columnFilter[needle.col]
+
         return false;
       }
 
+
       this.filter(e);
+    },
+    setParamUrl() {
+      let url = new URL(window.location.href);
+      url.searchParams.delete('params');
+      url.searchParams.set('params', JSON.stringify(this.params));
+      window.history.pushState({path:JSON.stringify(this.params)},'', url.href);
     },
     clearFilter() {
       this.columnFilter = [];
@@ -702,12 +761,28 @@ export default {
             this.headers[i].activeVals[key] = false;
           });
         }
+
+        if (this.headers[i].valueFilter) {
+          this.headers[i].valueFilter.value = "";
+          this.headers[i].valueFilter.operator = ">";
+        }
       }
+
+      this.params = {
+        needle : '',
+        cols : {},
+        filters : {},
+        excl : 0,
+      }
+
+      this.filterMode = "inclusive";
 
       this.filter("");
     },
     filter(needle) {
       this.needle = needle;
+
+      this.params.needle = needle;
 
       let res = [];
 
@@ -718,6 +793,7 @@ export default {
         let cols_found = true;
 
         // table column filter
+        // TODO: Remove toggle/triggerSearch and read directly from table headers
         Object.keys(this.columnFilter).forEach((key, index) => {
           let col = this.resolve(key, this.entries[a]);
 
@@ -728,19 +804,23 @@ export default {
 
             // check if we find the needles
             for (var i = 0; i < colNeedle.length - 1; i++) {
-              let here = colString.indexOf('"' + colNeedle[i].toLowerCase() + '"') != -1;
+              let here =
+                colString.indexOf('"' + colNeedle[i].toLowerCase() + '"') != -1;
               // if (this.filterMode == "exclusive") here = !here;
               cols_found = here && cols_found;
             }
 
             // if exclusive mode, other values should not be present
             if (this.filterMode == "exclusive") {
-                for (var i = 0; i < colAntiNeedle.length - 1; i++) {
-                    let here = colString.indexOf('"' + colAntiNeedle[i].toLowerCase() + '"') != -1;
-                    cols_found = !here && cols_found;
-                }
+              this.params.excl = 1
+              for (var i = 0; i < colAntiNeedle.length - 1; i++) {
+                let here =
+                  colString.indexOf(
+                    '"' + colAntiNeedle[i].toLowerCase() + '"'
+                  ) != -1;
+                cols_found = !here && cols_found;
+              }
             }
-
           } else {
             cols_found = false;
           }
@@ -760,9 +840,54 @@ export default {
         }
       }
 
+      // check table headers for valueFilters
+      for (var i = 0; i < this.headers.length; i++) {
+        if (
+          this.headers[i].valueFilter &&
+          !isNaN(this.headers[i].valueFilter.value)
+        ) {
+
+    
+
+          const filter = this.headers[i].valueFilter;
+
+          if(filter.value != '') 
+          {
+            switch (filter.operator) {
+              case "=":
+                res = res.filter(
+                  val => Math.ceil(val[this.headers[i].value]) == filter.value
+                );
+                break;
+              case "!":
+                res = res.filter(
+                  val => val[this.headers[i].value] != filter.value
+                );
+                break;
+              case "<":
+                res = res.filter(
+                  val => val[this.headers[i].value] < filter.value
+                );
+                break;
+              case ">":
+                res = res.filter(
+                  val => val[this.headers[i].value] > filter.value
+                );
+                break;
+            }
+
+            this.params.filters[this.headers[i].value] = filter
+          } else {
+            delete this.params.filters[this.headers[i].value] 
+          }
+        }
+      }
+
       this.current = res;
+
       this.filterChange = false;
       this.filtered = this.current.length != this.entries.length;
+      this.setParamUrl()
     },
     accumulatedMainLicenses: function() {
       let res = {};
@@ -942,44 +1067,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-.apexcharts-legend.position-right {
-  width: 180px;
-  overflow: hidden;
-}
-
-.v-card,
-.v-data-table {
-  border: 2px solid white !important;
-}
-
-.v-input__append-inner .v-icon {
-  color: green !important;
-}
-
-.filtered {
-  > .v-card,
-  > div .v-data-table {
-    border: 2px solid green !important;
-  }
-}
-.filtered.v-btn {
-  border: 2px solid green !important;
-}
-
-.v-text-field__details {
-  display: none !important;
-}
-.v-input__slot {
-  margin-bottom: 4px !important;
-
-  .v-application .primary--text {
-    color: green !important;
-  }
-}
-
-.act .theme--light.v-icon {
-  color: red;
-}
-</style>

@@ -14,7 +14,7 @@
       <template v-slot:top>
         <v-toolbar flat>
           <v-toolbar-title>
-            Package Explorer ({{ entries.length }})
+            Package Explorer
           </v-toolbar-title>
         </v-toolbar>
       </template>
@@ -131,7 +131,7 @@
             :nudge-width="200"
             offset-y
             transition="slide-y-transition"
-            left
+            right
             fixed
           >
             <template v-slot:activator="{ on, attrs }">
@@ -144,7 +144,7 @@
                 v-on="on"
                 v-bind="attrs"
                 style="line-height:16px"
-                ><v-icon small class="mr-1">mdi-filter</v-icon></span
+                ><v-icon small class="mr-1 mb-1">mdi-filter</v-icon></span
               >
             </template>
             <v-list flat dense class="pa-0" max-height="300" color="white">
@@ -177,54 +177,50 @@
         <div style="float: left;" v-if="header.valueFilter" :key="h.value">
           <v-menu
             :close-on-content-click="false"
-            :nudge-width="200"
             offset-y
+            
             transition="slide-y-transition"
-            left
+            right
             fixed
-            style="overflow:hidden;height:100px"
           >
             <template v-slot:activator="{ on, attrs }">
-              <span v-on="on" v-bind="attrs" style="line-height:16px"
-                ><v-icon small class="mr-1"
-                  >mdi-numeric-1-box-multiple-outline</v-icon
+              <span v-on="on" v-bind="attrs" style="line-height:16px"  :class="{ 'act' : header.valueFilter.value != '' }">
+                <v-icon small class="mr-1 mb-1">mdi-numeric-1-box-multiple-outline</v-icon
                 ></span
               >
             </template>
             <v-row
               style="background:white;width:250px;overflow:hidden"
               class="pa-2"
+              no-gutters
             >
-              <v-col>
-                <v-text-field
-                  :value="header.text"
-                  readonly
-                  style="width:50px"
-                  single-line
-                  small
-                  class="pt-0 mt-0"
-                >
-                </v-text-field>
-              </v-col>
+              <v-spacer></v-spacer>
               <v-col>
                 <v-select
-                  :items="['=', '>', '<']"
+                  :items="['=', '>', '<', '!']"
                   dense
-                  style="width:50px"
+                  v-model="header.valueFilter.operator"
                   single-line
+                  class="mr-4"
+                  style="top:2px;position:relative"
+                  @change="$emit('filter-change')"
                 ></v-select>
               </v-col>
-              <v-col>
+              <v-col cols="6">
                 <v-text-field
-                  v-model="header.filterValue"
-                  :label="'0'"
+                  v-model="header.valueFilter.value"
+                  label=""
+                   
                   single-line
-                  style="width:50px"
-                  clearable
-                  class="pt-0 mt-0"
+                  :rules=[rules.isnumber]
+                  :suffix="header.valueFilter.unit"
+                  style="text-align:center;"
+                  class="pt-0 mt-0 text-center"
+                  @blur="$emit('filter-change')"
                 >
                 </v-text-field>
               </v-col>
+              <v-spacer></v-spacer>
             </v-row>
           </v-menu>
         </div>
@@ -246,7 +242,7 @@
             style="font-size:11px"
             :key="text"
           >
-            {{ text }}
+           {{ text }}
           </div>
         </div>
 
@@ -398,29 +394,29 @@
               <v-icon
                 v-on="on"
                 large
-                :color="match(item)"
-                v-if="match(item) == 'red'"
+                :color="match(item.match)"
+                v-if="match(item.match) == 'red'"
                 >mdi-network-strength-1</v-icon
               >
               <v-icon
                 v-on="on"
                 large
-                :color="match(item)"
-                v-if="match(item) == 'orange'"
+                :color="match(item.match)"
+                v-if="match(item.match) == 'orange'"
                 >mdi-network-strength-2</v-icon
               >
               <v-icon
                 v-on="on"
                 large
-                :color="match(item)"
-                v-if="match(item) == 'yellow'"
+                :color="match(item.match)"
+                v-if="match(item.match) == 'yellow'"
                 >mdi-network-strength-3</v-icon
               >
               <v-icon
                 v-on="on"
                 large
-                :color="match(item)"
-                v-if="match(item) == 'green'"
+                :color="match(item.match)"
+                v-if="match(item.match) == 'green'"
                 >mdi-network-strength-4</v-icon
               >
             </template>
@@ -499,6 +495,9 @@ export default {
       sums: {},
       charts: {},
       expanded: [],
+      rules: {
+        isnumber : value => !isNaN(value) || 'numbers only'
+      },
       singleExpand: false
     };
   },
@@ -551,16 +550,6 @@ export default {
       const res = properties.reduce((prev, curr) => prev && prev[curr], obj);
       return properties.reduce((prev, curr) => prev && prev[curr], obj) || [];
     },
-    getColor(score) {
-      if (score > 89) return "green";
-      else if (score > 49) return "orange";
-      else return "red";
-    },
-    getDiversity(score) {
-      if (score < 20) return "green";
-      else if (score < 50) return "orange";
-      else return "red";
-    },
     emitFiltered(e) {
       this.$emit("filtered-items", e);
     },
@@ -570,16 +559,10 @@ export default {
         ((x - this.stats.min) / (this.stats.max - this.stats.min)) * faktor;
       return norm + 0.1 * faktor;
     },
-    match: function(str) {
-      if (!str.debian_matching || !str.statistics) return "red";
-
-      let match =
-        str.debian_matching.ip_matching_files /
-        str.statistics.files.upstream_source_total;
-
-      if (match >= 0.95) return "green";
-      if (match >= 0.6) return "yellow";
-      if (match >= 0.1) return "orange";
+    match: function(match) {
+      if (match >= 95) return "green";
+      if (match >= 60) return "yellow";
+      if (match >= 10) return "orange";
 
       return "red";
     },
