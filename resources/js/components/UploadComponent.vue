@@ -137,6 +137,7 @@ export default {
             supported_tools.includes(response.data.data.tool.name)
           ) {
             this.$store.dispatch("file/saveFile", { json: response.data.data });
+            this.$emit("data-complete");
             this.loading = false;
             this.loaded = true;
           } else {
@@ -155,18 +156,15 @@ export default {
   },
   methods: {
     removeFile(fileName) {
-      // Find the index of the
       const index = this.uploadedFiles.findIndex(
         file => file.name === fileName
       );
-      // If file is in uploaded files remove it
       if (index > -1) this.uploadedFiles.splice(index, 1);
     },
     onDrop(e) {
       this.dragover = false;
-      // If there are already uploaded files remove them
       if (this.uploadedFiles.length > 0) this.uploadedFiles = [];
-      // If user has uploaded multiple files but the component is not multiple throw error
+
       if (!this.multiple && e.dataTransfer.files.length > 1) {
         this.$store.dispatch("log/addNotification", {
           message: "Only one file can be uploaded at a time..",
@@ -189,12 +187,12 @@ export default {
           colour: "error"
         });
       } else {
-        this.$emit("filesUploaded", this.uploadedFiles.length);
         var reader = new FileReader();
         reader.onload = event => {
           var parsedObj = JSON.parse(event.target.result);
           this.$store.dispatch("file/saveFile", { json: parsedObj });
           this.loaded = true;
+          this.$emit("data-complete");
         };
         reader.readAsText(this.uploadedFiles[0]);
       }

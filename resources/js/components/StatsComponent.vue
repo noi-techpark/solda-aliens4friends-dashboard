@@ -28,7 +28,7 @@ export default {
   props: {
     title: { type: String, default: "Stats" },
     subtitle: { type: String, default: "Generic" },
-    value: { type: Number, default: -1 },
+    value: { default: "-" },
     items: {
       type: Array,
       default: () => {
