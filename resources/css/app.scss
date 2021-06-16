@@ -1,0 +1,42 @@
+.apexcharts-legend.position-right {
+  width: 180px;
+  overflow: hidden;
+}
+
+.v-card,
+.v-data-table {
+  border: 2px solid white !important;
+}
+
+.v-input__append-inner .v-icon {
+  color: green !important;
+}
+
+.filtered {
+  > .v-card,
+  > div .v-data-table {
+    border: 2px solid green !important;
+  }
+}
+.filtered.v-btn {
+  border: 2px solid green !important;
+}
+
+.v-text-field__details {
+  display: none !important;
+}
+.v-input__slot {
+  margin-bottom: 4px !important;
+
+  .v-application .primary--text {
+    color: green !important;
+  }
+}
+
+.act .theme--light.v-icon {
+  color: red;
+}
+
+.v-data-table>.v-data-table__wrapper>table>tbody>tr>td, .v-data-table>.v-data-table__wrapper>table>tbody>tr>th, .v-data-table>.v-data-table__wrapper>table>tfoot>tr>td, .v-data-table>.v-data-table__wrapper>table>tfoot>tr>th, .v-data-table>.v-data-table__wrapper>table>thead>tr>td, .v-data-table>.v-data-table__wrapper>table>thead>tr>th {
+  padding:0 8px;
+}

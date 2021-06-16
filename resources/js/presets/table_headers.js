@@ -5,22 +5,34 @@ exports.headers = [
         value: "id",
         type: "string",
         fixed: true,
-        width: "220px",
-        tooltip: "Package name"
+        width: "100px",
+        tooltip: "package id"
     },
     {
-        text: "Audit Progress",
+        text: "Aud. Progress",
         align: "start",
+        width: "150px",
         type: "progress",
         value: "progress",
+        valueFilter: {
+            value : '',
+            unit : '%',
+            operator: '>'
+        },
         fixed: true,
-        tooltip: "audit_done / audit_total"
+        tooltip: "audit_done / audit_total * 100"
     },
     {
-        text: "Audit Workload",
+        text: "Aud. Workload",
+        width: "150px",
         align: "center",
         type: "workload",
         value: "workload_total",
+        valueFilter: {
+            value : '',
+            unit : 'u/m',
+            operator: '>'
+        },
         fixed: true,
         tooltip: "audit_total"
     },
@@ -28,10 +40,11 @@ exports.headers = [
         text: "Main licenses",
         value: "statistics.licenses.license_audit_findings.main_licenses",
         type: "implode_tag",
+        width: "120px",
         fixed: true,
         autofilter: true,
         sortable: false,
-        tooltip: "Main licenses"
+        tooltip: "license_audit_findings.main_licenses"
     },
     {
         text: "Distro",
@@ -40,7 +53,7 @@ exports.headers = [
         fixed: true,
         autofilter: true,
         sortable: false,
-        tooltip: "Distro"
+        tooltip: "tags.distro"
     },
     {
         text: "Image",
@@ -49,26 +62,28 @@ exports.headers = [
         fixed: true,
         autofilter: true,
         sortable: false,
-        tooltip: "Image"
+        tooltip: "tags.image"
     },
     {
         text: "Machine",
+        width: "100px",
         value: "tags.machine",
         type: "implode",
         fixed: true,
         filtered: true,
         autofilter: true,
         sortable: false,
-        tooltip: "Machine"
+        tooltip: "tags.machin"
     },
     {
         text: "Release",
         value: "tags.release",
         type: "implode",
+        width: "100px",
         fixed: true,
         autofilter: true,
         sortable: false,
-        tooltip: "Release"
+        tooltip: "tags.release"
     },
     {
         text: "Scan",
@@ -92,15 +107,19 @@ exports.headers = [
         sortable: false,
         tooltip: "all_licenses"
     },
-
     {
         text: "Debian Match",
-        value: "debian_matching",
+        value: "match",
         align: "end",
         type: "match",
-        width: "100px",
+        width: "115px",
+        valueFilter: {
+            value : '',
+            unit : '%',
+            operator: '>'
+        },
         sortable: false,
         fixed: true,
-        tooltip: "ip_matching_files / upstream_source_total"
+        tooltip: "debian_matching.ip_matching_files / statistics.files.upstream_source_total"
     }
 ];
