@@ -9,7 +9,7 @@
                                   <v-img v-if="entries.length > 0" 
   max-width="18"
   style="display:inline-block;position:relative;top:4px"
-  class="mr-2"
+  class="mr-4 ml-2"
   src="img/alien.png"
 ></v-img>
          <span> Aliens4Friends Dashboard</span>
@@ -44,24 +44,21 @@
   width="80"
   src="img/alien.png"
   style="display:inline-block; float:left;filter: drop-shadow(2px 0px 2px green) blur(4px);"
-  class="mr-4"
+  class="mr-6"
 ></v-img>
 
               
         
            To start, <b>please drag an evaluation file to the upper right corner.</b>
      
-         <br/>   <br/>     Alternatively, <b>you can specify a link via the ?json= parameter to load your evaluation file directly via a url</b>. 
+         <br/>   <br/>     Alternatively, <b>you can specify a link via the ?json= parameter to load your evaluation file directly via url</b>. 
          <br/>  Each time you apply a filter setting, the url is updated and you receive a deep link with which the current filter configuration can be restored.
      
             </v-col>
           </v-row>
-
         </v-card-text>
       </v-card>
-       
     </v-col>
-
   </v-row>
 
 </v-container>
@@ -673,10 +670,12 @@ export default {
         }
       }
 
-      // test aggregate flag. aggregates must be 0 if active
-      // res = res.filter(value => {
-      //   return value.statistics && !value.statistics.aggregate;
-      // });
+      /* 
+       // test aggregate flag. aggregates must be 0 if active
+       res = res.filter(value => {
+         return value.statistics && !value.statistics.aggregate;
+       });
+      */
 
       this.current = res;
 
@@ -705,7 +704,7 @@ export default {
               if (
                 !currentValue.statistics ||
                 isNaN(currentValue.statistics.files.known_provenance) ||
-                !currentValue.statistics.aggregate
+                currentValue.statistics.aggregate === false
               )
                 return accumulator;
               return (
@@ -721,7 +720,7 @@ export default {
               if (
                 !currentValue.statistics ||
                 isNaN(currentValue.statistics.files.total) ||
-                !currentValue.statistics.aggregate
+                currentValue.statistics.aggregate === false
               )
                 return accumulator;
               return accumulator + currentValue.statistics.files.total;
@@ -735,7 +734,7 @@ export default {
               if (
                 !currentValue.statistics ||
                 isNaN(currentValue.statistics.files.audit_total) ||
-                !currentValue.statistics.aggregate
+                currentValue.statistics.aggregate === false
               )
                 return accumulator;
               return accumulator + currentValue.statistics.files.audit_total;
@@ -749,7 +748,7 @@ export default {
               if (
                 !currentValue.statistics ||
                 isNaN(currentValue.statistics.files.unknown_provenance) ||
-                !currentValue.statistics.aggregate
+                currentValue.statistics.aggregate === false
               )
                 return accumulator;
               return (
@@ -765,7 +764,7 @@ export default {
               if (
                 !currentValue.statistics ||
                 isNaN(currentValue.statistics.files.audit_done) ||
-                !currentValue.statistics.aggregate
+                currentValue.statistics.aggregate === false
               )
                 return accumulator;
               return accumulator + currentValue.statistics.files.audit_done;
@@ -779,7 +778,7 @@ export default {
               if (
                 !currentValue.statistics ||
                 isNaN(currentValue.statistics.files.audit_to_do) ||
-                !currentValue.statistics.aggregate
+                currentValue.statistics.aggregate === false
               )
                 return accumulator;
               return accumulator + currentValue.statistics.files.audit_to_do;
@@ -793,7 +792,7 @@ export default {
               if (
                 !currentValue.statistics ||
                 isNaN(currentValue.statistics.files.upstream_source_total) ||
-                !currentValue.statistics.aggregate
+                currentValue.statistics.aggregate === false
               )
                 return accumulator;
               return (
@@ -1063,7 +1062,7 @@ export default {
         if (
           this.current[i].statistics &&
           this.current[i].statistics.licenses &&
-          this.current[i].statistics.aggregate
+          this.current[i].statistics.aggregate !== false
         ) {
           license_names = this.current[i].statistics.licenses
             .license_audit_findings.main_licenses;
@@ -1079,7 +1078,7 @@ export default {
     accumulatedLicenses: function(node, count = false) {
       let res = {};
       for (let i = 0; i < this.current.length; i++) {
-        if (!this.current[i].statistics.aggregate) continue;
+        if (this.current[i].statistics.aggregate === false) continue;
 
         let licenses = this.current[i].statistics
           ? this.resolve(node, this.current[i].statistics.licenses) || []
@@ -1105,7 +1104,7 @@ export default {
       for (let i = 0; i < this.current.length; i++) {
         let tags = this.resolve(node, this.current[i].tags) || [];
         for (let a = 0; a < tags.length; a++) {
-          if (this.current[i].statistics.aggregate)
+          if (this.current[i].statistics.aggregate !== false)
             res[tags[a]] = { name: tags[a] };
         }
       }
