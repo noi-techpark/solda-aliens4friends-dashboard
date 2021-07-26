@@ -1,24 +1,69 @@
 <template>
-  <div>
+  <div style="width:100%">
       <v-app-bar app>
         <template v-slot:img="{ props }">
             <v-img v-bind="props" gradient="to top right, #FFFFFF, #F5F5F5"></v-img>
         </template>
 
-        <v-toolbar-title class="ml-3">Aliens4Friends Dashboard</v-toolbar-title>
+        <v-toolbar-title class="ml-3">
+                                  <v-img v-if="entries.length > 0" 
+  max-width="18"
+  style="display:inline-block;position:relative;top:4px"
+  class="mr-4 ml-2"
+  src="img/alien.png"
+></v-img>
+         <span> Aliens4Friends Dashboard</span>
+          </v-toolbar-title>
          <v-spacer></v-spacer>
           <v-btn elevation="0" width="250"  class="mr-4" :class="{ filtered : isFiltered }">
             {{ current.length }}/{{ entries.length }}  packages
         </v-btn>
-        <search-component  :class="{ filtered : isFiltered }" @search="triggerSearch" :needle="needle"></search-component>
+        
+        <search-component :class="{ filtered : isFiltered }" @search="triggerSearch" :needle="needle"></search-component>
 
-        <v-spacer></v-spacer>
+        <v-spacer v-show="entries.length == 0"></v-spacer>
         <upload-component
+            v-show="entries.length == 0" 
             class="mr-3"
             @data-complete="filter(needle)"
         ></upload-component>
     </v-app-bar>
-    <v-container fluid>
+
+<v-container fluid fill-height v-if="entries.length == 0">
+  <v-row align="center"
+      justify="center">
+
+    <v-col cols="6" style="width:100%" full-width>
+      <v-card tile>
+        <v-card-title class="mb-4">Welcome to the Aliens4Friends Dashboard
+</v-card-title>
+        <v-card-text>
+          <v-row>
+            <v-col>
+                        <v-img
+  width="80"
+  src="img/alien.png"
+  style="display:inline-block; float:left;filter: drop-shadow(2px 0px 2px green) blur(4px);"
+  class="mr-6"
+></v-img>
+
+              
+        
+           To start, <b>please drag an evaluation file to the upper right corner.</b>
+     
+         <br/>   <br/>     Alternatively, <b>you can specify a link via the ?json= parameter to load your evaluation file directly via url</b>. 
+         <br/>  Each time you apply a filter setting, the url is updated and you receive a deep link with which the current filter configuration can be restored.
+     
+            </v-col>
+          </v-row>
+        </v-card-text>
+      </v-card>
+    </v-col>
+  </v-row>
+
+</v-container>
+    <!-- stats -->
+    <v-container fluid v-if="entries.length > 0">
       <v-row v-if="false">
         <v-progress-linear
           :value="progress"
@@ -34,7 +79,11 @@
       <v-row align="stretch">
 
         <v-col cols="6" :class="{ filtered : isFiltered }">
-          <v-card flat tile>
+
+                          <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+          <v-card flat tile           v-bind="attrs"
+          v-on="on">
             <v-card-title>FOSSology audit progress</v-card-title>
             <v-card-subtitle>Total audit files</b>
             </v-card-subtitle>
@@ -82,9 +131,23 @@
               ></apexchart>
             </v-card-text>
           </v-card>
+                </template>
+
+    
+
+
+               
+                                <span>{{stats.counts.audit_done.tooltip}} + {{stats.counts.audit_to_do.tooltip}} + diff</span>
+              </v-tooltip>
+
+
+
         </v-col>
         <v-col cols="6" :class="{ filtered : isFiltered }">
-          <v-card flat tile>
+                                    <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+          <v-card flat tile v-bind="attrs"
+          v-on="on">
             <v-card-title>Provenance</v-card-title>
             <v-card-subtitle>Upstream source total: <b>{{ stats.counts.upstream_source_total.value }}</b></v-card-subtitle>
             <v-card-text class="pa-0">
@@ -125,6 +188,14 @@
               ></apexchart>
             </v-card-text>
           </v-card>
+                          </template>
+
+    
+
+
+               
+                                <span>{{stats.counts.known_provenance.tooltip}} + {{stats.counts.unknown_provenance.tooltip}}</span>
+              </v-tooltip>
         </v-col>
 
 
@@ -148,6 +219,19 @@
                 :options="getCharts(stats.charts.scan.value).chartOptions"
                 :series="getCharts(stats.charts.scan.value).series[0].data"
               ></apexchart>
+              
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <div v-bind="attrs" v-on="on" style="text-align:right">
+                    <v-spacer />
+                    <v-icon>mdi-information</v-icon>
+                  </div>
+                </template>
+                
+                <span>{{stats.charts.scan.tooltip}}</span>
+                </v-tooltip>
+         
+              
             </v-card-text>
           </v-card>
         </v-col>
@@ -177,6 +261,17 @@
                   getCharts(stats.charts.main_licenses.value).series[0].data
                 "
               ></apexchart>
+
+                            <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <div v-bind="attrs" v-on="on" style="text-align:right">
+                    <v-spacer />
+                    <v-icon>mdi-information</v-icon>
+                  </div>
+                </template>
+                
+                <span>{{stats.charts.main_licenses.tooltip}}</span>
+                </v-tooltip>
             </v-card-text>
           </v-card>
         </v-col>
@@ -202,6 +297,17 @@
                 :options="getCharts(stats.charts.audit_all.value).chartOptions"
                 :series="getCharts(stats.charts.audit_all.value).series[0].data"
               ></apexchart>
+
+                                          <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <div v-bind="attrs" v-on="on" style="text-align:right">
+                    <v-spacer />
+                    <v-icon>mdi-information</v-icon>
+                  </div>
+                </template>
+                
+                <span>{{stats.charts.audit_all.tooltip}}</span>
+                </v-tooltip>
             </v-card-text>
           </v-card>
         </v-col>
@@ -213,6 +319,7 @@
                 :level="0"
                 :title="stats.counts.main_licenses.title"
                 :subtitle="stats.counts.main_licenses.subtitle"
+                :tooltip="stats.counts.main_licenses.tooltip"
                 :value="stats.counts.main_licenses.value.length"
                 :items="stats.counts.main_licenses.value"
               ></stats-component>
@@ -223,6 +330,7 @@
                 :level="0"
                 :title="stats.counts.total.title"
                 :subtitle="stats.counts.total.subtitle"
+                :tooltip="stats.counts.total.tooltip"
                 :value="stats.counts.total.value"
               ></stats-component>
             </v-col>
@@ -233,6 +341,7 @@
                 :level="0"
                 :title="stats.counts.flavours.title"
                 :subtitle="stats.counts.flavours.subtitle"
+                :tooltip="stats.counts.flavours.tooltip"
                 :value="stats.counts.flavours.value.length"
                 :items="stats.counts.flavours.value"
               ></stats-component>
@@ -243,6 +352,7 @@
                 :level="0"
                 :title="stats.counts.images.title"
                 :subtitle="stats.counts.images.subtitle"
+                :tooltip="stats.counts.images.tooltip"
                 :value="stats.counts.images.value.length"
                 :items="stats.counts.images.value"
               ></stats-component>
@@ -253,6 +363,7 @@
                 :level="0"
                 :title="stats.counts.machines.title"
                 :subtitle="stats.counts.machines.subtitle"
+                :tooltip="stats.counts.machines.tooltip"
                 :value="stats.counts.machines.value.length"
                 :items="stats.counts.machines.value"
               ></stats-component>
@@ -263,6 +374,7 @@
                 :level="0"
                 :title="stats.counts.buildtags.title"
                 :subtitle="stats.counts.buildtags.subtitle"
+                :tooltip="stats.counts.buildtags.tooltip"
                 :value="stats.counts.buildtags.value.length"
                 :items="stats.counts.buildtags.value"
               ></stats-component>
@@ -272,20 +384,33 @@
       </v-row>
     </v-container>
 
-    <v-container fill-height fluid>
+    <!-- datatables -->
+    <v-container  fluid  v-if="entries.length > 0">
       <v-row no-gutters class="text-right">
           <v-col cols="12">
-              <div style="display:inline-block" class="mr-4">
-              <v-switch
-                    v-model="filterMode"
-                    label="Exclusive selection"
-                    color="red"
-                    class="ma-0"
-                    value="exclusive"
-                    hide-details
-                    @click="filterChange = true"
-                ></v-switch>
-                </div>
+                          <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+              <div style="display:inline-block" class="mr-4" v-bind="attrs" v-on="on" >
+
+
+                        <v-switch
+                              v-model="filterMode"
+                              label="Exclusive selection"
+                              color="red"
+                              class="ma-0"
+                              value="exclusive"
+                              hide-details
+                              @click="filterChange = true"
+                          ></v-switch>
+                           </div>
+                </template>
+
+    
+
+
+               
+                                <span>match if only selected items are present</span>
+              </v-tooltip>
                 <v-btn
                 :disabled="!filterChange"
                 @click="filter(needle)"
@@ -357,11 +482,11 @@ export default {
   data() {
     return {
       needle: "",
-      params : {
-        needle : '',
-        cols : {},
-        filters : {},
-        excl : 0,
+      params: {
+        needle: "",
+        cols: {},
+        filters: {},
+        excl: 0
       },
       filterChange: false,
       filtered: false,
@@ -385,15 +510,15 @@ export default {
     };
   },
   mounted: function() {
-      if (this.$route.query.params) {
-        this.params = JSON.parse(this.$route.query.params)
+    if (this.$route.query.params) {
+      this.params = JSON.parse(this.$route.query.params);
 
-        // preset needle
-        this.needle = this.params.needle;
+      // preset needle
+      this.needle = this.params.needle;
 
-        // preset exclusive mode
-        if(this.params.excl == 1) this.filterMode = "exclusive"
-      }
+      // preset exclusive mode
+      if (this.params.excl == 1) this.filterMode = "exclusive";
+    }
   },
   computed: {
     ...mapGetters({
@@ -451,9 +576,10 @@ export default {
 
           // patch table index and single progresses
           source[i].uid = i;
-          source[i].progress = filestats.audit_total == 0 ? 100 : parseInt(
-            (filestats.audit_done / filestats.audit_total) * 100
-          );
+          source[i].progress =
+            filestats.audit_total == 0
+              ? 100
+              : parseInt((filestats.audit_done / filestats.audit_total) * 100);
 
           source[i].workload = filestats.audit_done;
           source[i].workload_total = filestats.audit_total;
@@ -486,7 +612,10 @@ export default {
         res.push(source[i]);
       }
 
-      this.progress = all.audit_total == 0 ? 100 : parseInt((all.audited / all.audit_total) * 100);
+      this.progress =
+        all.audit_total == 0
+          ? 100
+          : parseInt((all.audited / all.audit_total) * 100);
       this.total_stats = all;
 
       // generate column filter values
@@ -515,22 +644,38 @@ export default {
 
           let active = false;
           for (var a = 0; a < this.headers[i].filterVals.length; a++) {
-            this.headers[i].activeVals[this.headers[i].filterVals[a]] = this.params.cols[this.headers[i].value] && this.params.cols[this.headers[i].value][this.headers[i].filterVals[a]];
-            if(this.headers[i].activeVals[this.headers[i].filterVals[a]]) active = true;
+            this.headers[i].activeVals[this.headers[i].filterVals[a]] =
+              this.params.cols[this.headers[i].value] &&
+              this.params.cols[this.headers[i].value][
+                this.headers[i].filterVals[a]
+              ];
+            if (this.headers[i].activeVals[this.headers[i].filterVals[a]])
+              active = true;
           }
 
-          if(active)
-          this.triggerSearch({
-            col : this.headers[i].value,
-            active : this.headers[i].activeVals
-          })
-
+          if (active)
+            this.triggerSearch({
+              col: this.headers[i].value,
+              active: this.headers[i].activeVals
+            });
         }
 
-        if (this.headers[i].valueFilter && this.params.filters[this.headers[i].value]) {
-            this.headers[i].valueFilter = this.params.filters[this.headers[i].value]
+        if (
+          this.headers[i].valueFilter &&
+          this.params.filters[this.headers[i].value]
+        ) {
+          this.headers[i].valueFilter = this.params.filters[
+            this.headers[i].value
+          ];
         }
       }
+
+      /* 
+       // test aggregate flag. aggregates must be 0 if active
+       res = res.filter(value => {
+         return value.statistics && !value.statistics.aggregate;
+       });
+      */
 
       this.current = res;
 
@@ -554,10 +699,12 @@ export default {
           known_provenance: {
             title: "Files",
             subtitle: "Known provenance",
+            tooltip: "current statistics.files.known_provenance sum",
             value: this.current.reduce((accumulator, currentValue) => {
               if (
                 !currentValue.statistics ||
-                isNaN(currentValue.statistics.files.known_provenance)
+                isNaN(currentValue.statistics.files.known_provenance) ||
+                currentValue.statistics.aggregate === false
               )
                 return accumulator;
               return (
@@ -568,22 +715,26 @@ export default {
           total: {
             title: "Files",
             subtitle: "total",
+            tooltip: "current statistics.files.total sum",
             value: this.current.reduce((accumulator, currentValue) => {
               if (
                 !currentValue.statistics ||
-                isNaN(currentValue.statistics.files.total)
+                isNaN(currentValue.statistics.files.total) ||
+                currentValue.statistics.aggregate === false
               )
                 return accumulator;
               return accumulator + currentValue.statistics.files.total;
-            }, 0) 
+            }, 0)
           },
           audit_total: {
             title: "Files",
             subtitle: "Audit total",
+            tooltip: "current statistics.files.audit_total sum",
             value: this.current.reduce((accumulator, currentValue) => {
               if (
                 !currentValue.statistics ||
-                isNaN(currentValue.statistics.files.audit_total)
+                isNaN(currentValue.statistics.files.audit_total) ||
+                currentValue.statistics.aggregate === false
               )
                 return accumulator;
               return accumulator + currentValue.statistics.files.audit_total;
@@ -592,10 +743,12 @@ export default {
           unknown_provenance: {
             title: "Files",
             subtitle: "Unknown provenance",
+            tooltip: "current statistics.files.unknown_provenance sum",
             value: this.current.reduce((accumulator, currentValue) => {
               if (
                 !currentValue.statistics ||
-                isNaN(currentValue.statistics.files.unknown_provenance)
+                isNaN(currentValue.statistics.files.unknown_provenance) ||
+                currentValue.statistics.aggregate === false
               )
                 return accumulator;
               return (
@@ -606,10 +759,12 @@ export default {
           audit_done: {
             title: "Files",
             subtitle: "Audit done",
+            tooltip: "current statistics.files.audit_done sum",
             value: this.current.reduce((accumulator, currentValue) => {
               if (
                 !currentValue.statistics ||
-                isNaN(currentValue.statistics.files.audit_done)
+                isNaN(currentValue.statistics.files.audit_done) ||
+                currentValue.statistics.aggregate === false
               )
                 return accumulator;
               return accumulator + currentValue.statistics.files.audit_done;
@@ -618,10 +773,12 @@ export default {
           audit_to_do: {
             title: "Files",
             subtitle: "Audit todo",
+            tooltip: "current statistics.files.audit_to_do sum",
             value: this.current.reduce((accumulator, currentValue) => {
               if (
                 !currentValue.statistics ||
-                isNaN(currentValue.statistics.files.audit_to_do)
+                isNaN(currentValue.statistics.files.audit_to_do) ||
+                currentValue.statistics.aggregate === false
               )
                 return accumulator;
               return accumulator + currentValue.statistics.files.audit_to_do;
@@ -630,10 +787,12 @@ export default {
           upstream_source_total: {
             title: "Files/Packages",
             subtitle: "upstream_source_total",
+            tooltip: "current statistics.files.upstream_source_total sum",
             value: this.current.reduce((accumulator, currentValue) => {
               if (
                 !currentValue.statistics ||
-                isNaN(currentValue.statistics.files.upstream_source_total)
+                isNaN(currentValue.statistics.files.upstream_source_total) ||
+                currentValue.statistics.aggregate === false
               )
                 return accumulator;
               return (
@@ -645,38 +804,46 @@ export default {
           flavours: {
             title: "Distros",
             subtitle: "accumulated",
+            tooltip: "filtered, unique tags.distro + sum",
             value: this.accumulatedTags("distro")
           },
           images: {
             title: "Images",
             subtitle: "accumulated",
+            tooltip: "filtered, unique tags.image + sum",
             value: this.accumulatedTags("image")
           },
           main_licenses: {
             title: "Main Licenses",
             subtitle: "accumulated",
+            tooltip:
+              "filtered, unique statistics.licenses.license_audit_findings.main_licenses + sum",
             value: this.accumulatedMainLicenses()
           },
           machines: {
             title: "Machines",
             subtitle: "accumulated",
+            tooltip: "filtered, unique tags.machine + sum",
             value: this.accumulatedTags("machine")
           },
           buildtags: {
             title: "Releases",
             subtitle: "accumulated",
+            tooltip: "filtered, unique tags.release + sum",
             value: this.accumulatedTags("release")
           }
         },
         charts: {
           scan: {
             title: "License types scanned",
+            tooltip: "accumulated license_scanner_findings",
             subtitle:
               "Results from automated scanners such as scancode, monk, nomos, ojo",
             value: this.accumulatedLicenses("license_scanner_findings")
           },
           audit_all: {
             title: "License types audited",
+            tooltip: "accumulated license_audit_findings.all_licenses",
             subtitle: "Results by human auditor analysis",
             value: this.accumulatedLicenses(
               "license_audit_findings.all_licenses"
@@ -684,6 +851,7 @@ export default {
           },
           main_licenses: {
             title: "Main license types",
+            tooltip: "accumulated license_audit_findings.main_licenses",
             subtitle: "Accumulated main licenses",
             value: this.accumulatedLicenses(
               "license_audit_findings.main_licenses",
@@ -706,13 +874,12 @@ export default {
 
       // if column filter, register filter but do not trigger automagically
 
-
       if (needle.col) {
         let active = false;
 
         this.filterChange = true;
 
-        if(!this.params.cols[needle.col]) this.params.cols[needle.col] = {}
+        if (!this.params.cols[needle.col]) this.params.cols[needle.col] = {};
 
         this.columnFilter[needle.col] = {
           state: needle.active,
@@ -720,8 +887,6 @@ export default {
           key: needle.col,
           antiNeedle: ""
         };
-
-
 
         Object.keys(this.columnFilter).forEach((key, index) => {
           Object.keys(this.columnFilter[key].state).forEach(
@@ -732,25 +897,29 @@ export default {
                 active = true;
               } else {
                 this.columnFilter[key].antiNeedle += innerKey + "|||";
-                if(this.params.cols[needle.col][innerKey]) delete this.params.cols[needle.col][innerKey]
+                if (this.params.cols[needle.col][innerKey])
+                  delete this.params.cols[needle.col][innerKey];
               }
             }
           );
         });
 
-        if(!active) delete this.columnFilter[needle.col]
+        if (!active) delete this.columnFilter[needle.col];
 
         return false;
       }
-
 
       this.filter(e);
     },
     setParamUrl() {
       let url = new URL(window.location.href);
-      url.searchParams.delete('params');
-      url.searchParams.set('params', JSON.stringify(this.params));
-      window.history.pushState({path:JSON.stringify(this.params)},'', url.href);
+      url.searchParams.delete("params");
+      url.searchParams.set("params", JSON.stringify(this.params));
+      window.history.pushState(
+        { path: JSON.stringify(this.params) },
+        "",
+        url.href
+      );
     },
     clearFilter() {
       this.columnFilter = [];
@@ -769,11 +938,11 @@ export default {
       }
 
       this.params = {
-        needle : '',
-        cols : {},
-        filters : {},
-        excl : 0,
-      }
+        needle: "",
+        cols: {},
+        filters: {},
+        excl: 0
+      };
 
       this.filterMode = "inclusive";
 
@@ -812,7 +981,7 @@ export default {
 
             // if exclusive mode, other values should not be present
             if (this.filterMode == "exclusive") {
-              this.params.excl = 1
+              this.params.excl = 1;
               for (var i = 0; i < colAntiNeedle.length - 1; i++) {
                 let here =
                   colString.indexOf(
@@ -846,13 +1015,9 @@ export default {
           this.headers[i].valueFilter &&
           !isNaN(this.headers[i].valueFilter.value)
         ) {
-
-    
-
           const filter = this.headers[i].valueFilter;
 
-          if(filter.value != '') 
-          {
+          if (filter.value != "") {
             switch (filter.operator) {
               case "=":
                 res = res.filter(
@@ -876,9 +1041,9 @@ export default {
                 break;
             }
 
-            this.params.filters[this.headers[i].value] = filter
+            this.params.filters[this.headers[i].value] = filter;
           } else {
-            delete this.params.filters[this.headers[i].value] 
+            delete this.params.filters[this.headers[i].value];
           }
         }
       }
@@ -887,14 +1052,18 @@ export default {
 
       this.filterChange = false;
       this.filtered = this.current.length != this.entries.length;
-      this.setParamUrl()
+      this.setParamUrl();
     },
     accumulatedMainLicenses: function() {
       let res = {};
       for (let i = 0; i < this.current.length; i++) {
         let license_names = [];
 
-        if (this.current[i].statistics && this.current[i].statistics.licenses) {
+        if (
+          this.current[i].statistics &&
+          this.current[i].statistics.licenses &&
+          this.current[i].statistics.aggregate !== false
+        ) {
           license_names = this.current[i].statistics.licenses
             .license_audit_findings.main_licenses;
         }
@@ -909,6 +1078,8 @@ export default {
     accumulatedLicenses: function(node, count = false) {
       let res = {};
       for (let i = 0; i < this.current.length; i++) {
+        if (this.current[i].statistics.aggregate === false) continue;
+
         let licenses = this.current[i].statistics
           ? this.resolve(node, this.current[i].statistics.licenses) || []
           : [];
@@ -933,7 +1104,8 @@ export default {
       for (let i = 0; i < this.current.length; i++) {
         let tags = this.resolve(node, this.current[i].tags) || [];
         for (let a = 0; a < tags.length; a++) {
-          res[tags[a]] = { name: tags[a] };
+          if (this.current[i].statistics.aggregate !== false)
+            res[tags[a]] = { name: tags[a] };
         }
       }
 
