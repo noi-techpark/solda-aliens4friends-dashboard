@@ -97,7 +97,7 @@
                 <v-col cols="6" v-if="item.binary_packages">
                   <h4 class="mt-3">BINARY PACKAGES</h4>
                   <v-virtual-scroll
-                    :items="item.binary_packages[0]"
+                    :items="getBinaries(item.binary_packages)"
                     :item-height="30"
                     height="200"
                   >
@@ -178,14 +178,19 @@
           <v-menu
             :close-on-content-click="false"
             offset-y
-            
             transition="slide-y-transition"
             right
             fixed
           >
             <template v-slot:activator="{ on, attrs }">
-              <span v-on="on" v-bind="attrs" style="line-height:16px"  :class="{ 'act' : header.valueFilter.value != '' }">
-                <v-icon small class="mr-1 mb-1">mdi-numeric-1-box-multiple-outline</v-icon
+              <span
+                v-on="on"
+                v-bind="attrs"
+                style="line-height:16px"
+                :class="{ act: header.valueFilter.value != '' }"
+              >
+                <v-icon small class="mr-1 mb-1"
+                  >mdi-numeric-1-box-multiple-outline</v-icon
                 ></span
               >
             </template>
@@ -210,9 +215,8 @@
                 <v-text-field
                   v-model="header.valueFilter.value"
                   label=""
-                   
                   single-line
-                  :rules=[rules.isnumber]
+                  :rules="[rules.isnumber]"
                   :suffix="header.valueFilter.unit"
                   style="text-align:center;"
                   class="pt-0 mt-0 text-center"
@@ -242,7 +246,7 @@
             style="font-size:11px"
             :key="text"
           >
-           {{ text }}
+            {{ text }}
           </div>
         </div>
 
@@ -496,12 +500,18 @@ export default {
       charts: {},
       expanded: [],
       rules: {
-        isnumber : value => !isNaN(value) || 'numbers only'
+        isnumber: value => !isNaN(value) || "numbers only"
       },
       singleExpand: false
     };
   },
   methods: {
+    getBinaries(item) {
+      // input file array inconsistencies
+      if (item.length > 0 && typeof item[0].name == "undefined") {
+        return item[0];
+      } else return item;
+    },
     toggle(header, item) {
       this.$emit("filter-clicked", {
         col: header.value,
