@@ -20,7 +20,7 @@
         </template>
       </v-text-field>
     </template>
-    <span>global match: all space-separated substrings must be present</span>
+    <span>{{ tooltip }}</span>
   </v-tooltip>
 </template>
 
@@ -28,7 +28,8 @@
 export default {
   name: "Search",
   props: {
-    needle: { type: String, default: "" }
+    needle: { type: String, default: "" },
+    tooltip: { type: String, default: "" }
   },
   watch: {
     needle: function(val) {
