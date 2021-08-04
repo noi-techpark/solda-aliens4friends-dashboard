@@ -9,6 +9,17 @@
         "prod": "npm run production",
         "production": "mix --production"
     },
+    "author": {
+        "name": "Alex Complojer",
+        "email": "alex@agon-e.com"
+    },
+    "contributors": [
+        {
+            "name": "Martin Rabanser",
+            "email": "martin.rabanser@rmb-consulting.tech"
+        }
+    ],
+    "license": "SEE LICENSE IN ./LICENSE",
     "devDependencies": {
         "axios": "^0.21",
         "bootstrap": "^4.0.0",
