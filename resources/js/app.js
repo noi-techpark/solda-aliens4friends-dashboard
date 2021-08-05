@@ -5,6 +5,8 @@ import App from './layouts/App.vue';
 import vuetify from './plugins/vuetify' // path to vuetify export
 import VueApexCharts from 'vue-apexcharts'
 
+import css from '../css/app.scss'
+
 Vue.use(VueApexCharts)
 Vue.component('apexchart', VueApexCharts)
 
