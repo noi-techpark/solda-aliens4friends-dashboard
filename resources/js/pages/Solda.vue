@@ -77,17 +77,9 @@
               </v-row>
             </v-card-text>
           </v-card>
-                </template>
-
-
-
-
-
-                                <span>{{stats.counts.audit_done.tooltip}} + {{stats.counts.audit_to_do.tooltip}} + diff</span>
-              </v-tooltip>
-
-
-
+          <v-tooltip>
+            <span>{{stats.counts.audit_done.tooltip}} + {{stats.counts.audit_to_do.tooltip}} + diff</span>
+          </v-tooltip>
         </v-col>
       </v-row>
     </v-container>
