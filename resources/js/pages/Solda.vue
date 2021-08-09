@@ -1,205 +1,216 @@
 <template>
   <div style="width:100%">
-      <v-app-bar app>
-        <template v-slot:img="{ props }">
-            <v-img v-bind="props" gradient="to top right, #FFFFFF, #F5F5F5"></v-img>
-        </template>
+    <v-app-bar app>
+      <template v-slot:img="{ props }">
+        <v-img v-bind="props" gradient="to top right, #FFFFFF, #F5F5F5"></v-img>
+      </template>
 
-        <v-toolbar-title class="ml-3">
-                                  <v-img v-if="entries.length > 0" 
-  max-width="18"
-  style="display:inline-block;position:relative;top:4px"
-  class="mr-4 ml-2"
-  src="img/alien.png"
-></v-img>
-         <span> Aliens4Friends Dashboard</span>
-          </v-toolbar-title>
-         <v-spacer></v-spacer>
-          <v-btn elevation="0" width="250"  class="mr-4" :class="{ filtered : isFiltered }">
-            {{ current.length }}/{{ entries.length }}  packages
-        </v-btn>
-        
-        <search-component :class="{ filtered : isFiltered }" @search="triggerSearch" :needle="needle"></search-component>
+      <v-toolbar-title class="ml-3">
+        <v-img
+          v-if="entries.length > 0"
+          max-width="18"
+          style="display:inline-block;position:relative;top:4px"
+          class="mr-4 ml-2"
+          src="img/alien.png"
+        ></v-img>
+        <span> Aliens4Friends Dashboard</span>
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn
+        elevation="0"
+        width="250"
+        class="mr-4"
+        :class="{ filtered: isFiltered }"
+      >
+        {{ current.length }}/{{ entries.length }} packages
+      </v-btn>
 
-        <v-spacer v-show="entries.length == 0"></v-spacer>
-        <upload-component
-            v-show="entries.length == 0" 
-            class="mr-3"
-            @data-complete="filter(needle)"
-        ></upload-component>
+      <search-component
+        :class="{ filtered: isFiltered }"
+        @search="triggerSearch"
+        :needle="needle"
+        :tooltip="tooltips.stats.elements.searchbar"
+      ></search-component>
+
+      <v-spacer v-show="entries.length == 0"></v-spacer>
+      <upload-component
+        v-show="entries.length == 0"
+        class="mr-3"
+        @data-complete="filter(needle)"
+      ></upload-component>
     </v-app-bar>
 
-<v-container fluid fill-height v-if="entries.length == 0">
-  <v-row align="center"
-      justify="center">
+    <v-container fluid fill-height v-if="entries.length == 0">
+      <v-row align="center" justify="center">
+        <v-col cols="6" style="width:100%" full-width>
+          <v-card tile>
+            <v-card-title class="mb-4"
+              >Welcome to the Aliens4Friends Dashboard
+            </v-card-title>
+            <v-card-text>
+              <v-row>
+                <v-col>
+                  <v-img
+                    width="80"
+                    src="img/alien.png"
+                    style="display:inline-block; float:left;filter: drop-shadow(2px 0px 2px green) blur(4px);"
+                    class="mr-6"
+                  ></v-img>
 
-    <v-col cols="6" style="width:100%" full-width>
-      <v-card tile>
-        <v-card-title class="mb-4">Welcome to the Aliens4Friends Dashboard
-</v-card-title>
-        <v-card-text>
-          <v-row>
-            <v-col>
-                        <v-img
-  width="80"
-  src="img/alien.png"
-  style="display:inline-block; float:left;filter: drop-shadow(2px 0px 2px green) blur(4px);"
-  class="mr-6"
-></v-img>
+                  To start,
+                  <b
+                    >please drag an evaluation file to the upper right
+                    corner.</b
+                  >
 
-              
-        
-           To start, <b>please drag an evaluation file to the upper right corner.</b>
-     
-         <br/>   <br/>     Alternatively, <b>you can specify a link via the ?json= parameter to load your evaluation file directly via url</b>. 
-         <br/>  Each time you apply a filter setting, the url is updated and you receive a deep link with which the current filter configuration can be restored.
-     
-            </v-col>
-          </v-row>
-        </v-card-text>
-      </v-card>
-    </v-col>
-  </v-row>
-
-</v-container>
-    <!-- stats -->
-    <v-container fluid v-if="entries.length > 0">
-      <v-row v-if="false">
-        <v-progress-linear
-          :value="progress"
-          :color="palette[0]"
-          :height="30"
-          class="mx-3"
-        >
-          <template v-slot:default="{ value }">
-            <strong>{{ Math.ceil(value) || 0 }}%</strong>
-          </template>
-        </v-progress-linear>
-      </v-row>
-      <v-row align="stretch">
-
-        <v-col cols="6" :class="{ filtered : isFiltered }">
-
-                          <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-          <v-card flat tile           v-bind="attrs"
-          v-on="on">
-            <v-card-title>FOSSology audit progress</v-card-title>
-            <v-card-subtitle>Total audit files</b>
-            </v-card-subtitle>
-            <v-card-text class="pa-0">
-              <apexchart
-                v-if="entries.length > 0 && current.length > 0"
-                height="110px"
-                type="bar"
-                :options="
-                  getCharts(
-                    [
-                      stats.counts.audit_done.value,
-                      stats.counts.audit_to_do.value,
-                      auditdiff.value
-                    ],
-                    [
-                      stats.counts.audit_done.subtitle,
-                      stats.counts.audit_to_do.subtitle,
-                      auditdiff.subtitle
-                    ],
-                    false,
-                    true,
-                    false,
-                    '100%'
-                  ).chartOptions
-                "
-                :series="
-                  getCharts(
-                    [
-                      stats.counts.audit_done.value,
-                      stats.counts.audit_to_do.value,
-                      auditdiff.value
-                    ],
-                    [
-                      stats.counts.audit_done.subtitle,
-                      stats.counts.audit_to_do.subtitle,
-                      auditdiff.subtitle
-                    ],
-                    false,
-                    true,
-                    false,
-                    '100%'
-                  ).series
-                "
-              ></apexchart>
+                  <br />
+                  <br />
+                  Alternatively,
+                  <b
+                    >you can specify a link via the ?json= parameter to load
+                    your evaluation file directly via url</b
+                  >. <br />
+                  Each time you apply a filter setting, the url is updated and
+                  you receive a deep link with which the current filter
+                  configuration can be restored.
+                </v-col>
+              </v-row>
             </v-card-text>
           </v-card>
                 </template>
 
-    
 
 
-               
+
+
                                 <span>{{stats.counts.audit_done.tooltip}} + {{stats.counts.audit_to_do.tooltip}} + diff</span>
               </v-tooltip>
 
 
 
         </v-col>
-        <v-col cols="6" :class="{ filtered : isFiltered }">
-                                    <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-          <v-card flat tile v-bind="attrs"
-          v-on="on">
-            <v-card-title>Provenance</v-card-title>
-            <v-card-subtitle>Upstream source total: <b>{{ stats.counts.upstream_source_total.value }}</b></v-card-subtitle>
-            <v-card-text class="pa-0">
-              <apexchart
-                v-if="entries.length > 0 && current.length > 0"
-                height="110px"
-                type="bar"
-                :options="
-                  getCharts(
-                    [
-                      stats.counts.known_provenance.value,
-                      stats.counts.unknown_provenance.value
-                    ],
-                    [
-                      stats.counts.known_provenance.subtitle,
-                      stats.counts.unknown_provenance.subtitle
-                    ],
-                    false,
-                    true,
-                    false
-                  ).chartOptions
-                "
-                :series="
-                  getCharts(
-                    [
-                      stats.counts.known_provenance.value,
-                      stats.counts.unknown_provenance.value
-                    ],
-                    [
-                      stats.counts.known_provenance.subtitle,
-                      stats.counts.unknown_provenance.subtitle
-                    ],
-                    false,
-                    true,
-                    false
-                  ).series
-                "
-              ></apexchart>
-            </v-card-text>
-          </v-card>
-                          </template>
+      </v-row>
+    </v-container>
+    <!-- stats -->
+    <v-container fluid v-if="entries.length > 0">
+      <v-row align="stretch">
+        <v-col cols="6" :class="{ filtered: isFiltered }">
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-card flat tile v-bind="attrs" v-on="on">
+                <v-card-title>FOSSology audit progress</v-card-title>
+                <v-card-subtitle>Total audit files </v-card-subtitle>
+                <v-card-text class="pa-0">
+                  <apexchart
+                    v-if="entries.length > 0 && current.length > 0"
+                    height="110px"
+                    type="bar"
+                    :options="
+                      getCharts(
+                        [
+                          stats.counts.audit_done.value,
+                          stats.counts.audit_to_do.value,
+                          auditdiff.value
+                        ],
+                        [
+                          stats.counts.audit_done.subtitle,
+                          stats.counts.audit_to_do.subtitle,
+                          auditdiff.subtitle
+                        ],
+                        false,
+                        true,
+                        false,
+                        '100%'
+                      ).chartOptions
+                    "
+                    :series="
+                      getCharts(
+                        [
+                          stats.counts.audit_done.value,
+                          stats.counts.audit_to_do.value,
+                          auditdiff.value
+                        ],
+                        [
+                          stats.counts.audit_done.subtitle,
+                          stats.counts.audit_to_do.subtitle,
+                          auditdiff.subtitle
+                        ],
+                        false,
+                        true,
+                        false,
+                        '100%'
+                      ).series
+                    "
+                  ></apexchart>
+                </v-card-text>
+              </v-card>
+            </template>
 
-    
+            <span
+              >{{ stats.counts.audit_done.tooltip }} +
+              {{ stats.counts.audit_to_do.tooltip }} + diff</span
+            >
+          </v-tooltip>
+        </v-col>
+        <v-col cols="6" :class="{ filtered: isFiltered }">
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-card flat tile v-bind="attrs" v-on="on">
+                <v-card-title>Provenance</v-card-title>
+                <v-card-subtitle
+                  >Upstream source total:
+                  <b>{{
+                    stats.counts.upstream_source_total.value
+                  }}</b></v-card-subtitle
+                >
+                <v-card-text class="pa-0">
+                  <apexchart
+                    v-if="entries.length > 0 && current.length > 0"
+                    height="110px"
+                    type="bar"
+                    :options="
+                      getCharts(
+                        [
+                          stats.counts.known_provenance.value,
+                          stats.counts.unknown_provenance.value
+                        ],
+                        [
+                          stats.counts.known_provenance.subtitle,
+                          stats.counts.unknown_provenance.subtitle
+                        ],
+                        false,
+                        true,
+                        false
+                      ).chartOptions
+                    "
+                    :series="
+                      getCharts(
+                        [
+                          stats.counts.known_provenance.value,
+                          stats.counts.unknown_provenance.value
+                        ],
+                        [
+                          stats.counts.known_provenance.subtitle,
+                          stats.counts.unknown_provenance.subtitle
+                        ],
+                        false,
+                        true,
+                        false
+                      ).series
+                    "
+                  ></apexchart>
+                </v-card-text>
+              </v-card>
+            </template>
 
-
-               
-                                <span>{{stats.counts.known_provenance.tooltip}} + {{stats.counts.unknown_provenance.tooltip}}</span>
-              </v-tooltip>
+            <span
+              >{{ stats.counts.known_provenance.tooltip }} +
+              {{ stats.counts.unknown_provenance.tooltip }}</span
+            >
+          </v-tooltip>
         </v-col>
 
-
-        <v-col cols="4" :class="{ filtered : isFiltered }">
+        <v-col cols="4" :class="{ filtered: isFiltered }">
           <v-card flat tile>
             <v-card-title>
               <v-row no-gutters>
@@ -219,7 +230,6 @@
                 :options="getCharts(stats.charts.scan.value).chartOptions"
                 :series="getCharts(stats.charts.scan.value).series[0].data"
               ></apexchart>
-              
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
                   <div v-bind="attrs" v-on="on" style="text-align:right">
@@ -227,15 +237,13 @@
                     <v-icon>mdi-information</v-icon>
                   </div>
                 </template>
-                
-                <span>{{stats.charts.scan.tooltip}}</span>
-                </v-tooltip>
-         
-              
+
+                <span>{{ stats.charts.scan.tooltip }}</span>
+              </v-tooltip>
             </v-card-text>
           </v-card>
         </v-col>
-        <v-col cols="4" :class="{ filtered : isFiltered }">
+        <v-col cols="4" :class="{ filtered: isFiltered }">
           <v-card flat tile>
             <v-card-title>
               <v-row no-gutters>
@@ -262,20 +270,20 @@
                 "
               ></apexchart>
 
-                            <v-tooltip bottom>
+              <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
                   <div v-bind="attrs" v-on="on" style="text-align:right">
                     <v-spacer />
                     <v-icon>mdi-information</v-icon>
                   </div>
                 </template>
-                
-                <span>{{stats.charts.main_licenses.tooltip}}</span>
-                </v-tooltip>
+
+                <span>{{ stats.charts.main_licenses.tooltip }}</span>
+              </v-tooltip>
             </v-card-text>
           </v-card>
         </v-col>
-        <v-col cols="4" :class="{ filtered : isFiltered }">
+        <v-col cols="4" :class="{ filtered: isFiltered }">
           <v-card flat tile>
             <v-card-title>
               <v-row no-gutters>
@@ -289,7 +297,9 @@
             <v-card-subtitle>{{
               stats.charts.audit_all.subtitle
             }}</v-card-subtitle>
-            <v-card-text v-if="Object.keys(stats.charts.audit_all.value).length > 0">
+            <v-card-text
+              v-if="Object.keys(stats.charts.audit_all.value).length > 0"
+            >
               <apexchart
                 v-if="entries.length > 0 && current.length > 0"
                 height="300px"
@@ -298,22 +308,22 @@
                 :series="getCharts(stats.charts.audit_all.value).series[0].data"
               ></apexchart>
 
-                                          <v-tooltip bottom>
+              <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
                   <div v-bind="attrs" v-on="on" style="text-align:right">
                     <v-spacer />
                     <v-icon>mdi-information</v-icon>
                   </div>
                 </template>
-                
-                <span>{{stats.charts.audit_all.tooltip}}</span>
-                </v-tooltip>
+
+                <span>{{ stats.charts.audit_all.tooltip }}</span>
+              </v-tooltip>
             </v-card-text>
           </v-card>
         </v-col>
         <v-col>
           <v-row fill-height>
-            <v-col :class="{ filtered : isFiltered }">
+            <v-col :class="{ filtered: isFiltered }">
               <stats-component
                 @searchFor="triggerSearch"
                 :level="0"
@@ -324,7 +334,7 @@
                 :items="stats.counts.main_licenses.value"
               ></stats-component>
             </v-col>
-            <v-col :class="{ filtered : isFiltered }">
+            <v-col :class="{ filtered: isFiltered }">
               <stats-component
                 @searchFor="triggerSearch"
                 :level="0"
@@ -334,9 +344,8 @@
                 :value="stats.counts.total.value"
               ></stats-component>
             </v-col>
-            <v-col :class="{ filtered : isFiltered }">
+            <v-col :class="{ filtered: isFiltered }">
               <stats-component
-
                 @searchFor="triggerSearch"
                 :level="0"
                 :title="stats.counts.flavours.title"
@@ -346,7 +355,7 @@
                 :items="stats.counts.flavours.value"
               ></stats-component>
             </v-col>
-            <v-col :class="{ filtered : isFiltered }">
+            <v-col :class="{ filtered: isFiltered }">
               <stats-component
                 @searchFor="triggerSearch"
                 :level="0"
@@ -357,7 +366,7 @@
                 :items="stats.counts.images.value"
               ></stats-component>
             </v-col>
-            <v-col :class="{ filtered : isFiltered }">
+            <v-col :class="{ filtered: isFiltered }">
               <stats-component
                 @searchFor="triggerSearch"
                 :level="0"
@@ -368,7 +377,7 @@
                 :items="stats.counts.machines.value"
               ></stats-component>
             </v-col>
-            <v-col :class="{ filtered : isFiltered }">
+            <v-col :class="{ filtered: isFiltered }">
               <stats-component
                 @searchFor="triggerSearch"
                 :level="0"
@@ -385,62 +394,56 @@
     </v-container>
 
     <!-- datatables -->
-    <v-container  fluid  v-if="entries.length > 0">
+    <v-container fluid v-if="entries.length > 0">
       <v-row no-gutters class="text-right">
-          <v-col cols="12">
-                          <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-              <div style="display:inline-block" class="mr-4" v-bind="attrs" v-on="on" >
+        <v-col cols="12">
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <div
+                style="display:inline-block"
+                class="mr-4"
+                v-bind="attrs"
+                v-on="on"
+              >
+                <v-switch
+                  v-model="filterMode"
+                  label="Exclusive selection"
+                  color="red"
+                  class="ma-0"
+                  value="exclusive"
+                  hide-details
+                  @click="filterChange = true"
+                ></v-switch>
+              </div>
+            </template>
 
-
-                        <v-switch
-                              v-model="filterMode"
-                              label="Exclusive selection"
-                              color="red"
-                              class="ma-0"
-                              value="exclusive"
-                              hide-details
-                              @click="filterChange = true"
-                          ></v-switch>
-                           </div>
-                </template>
-
-    
-
-
-               
-                                <span>match if only selected items are present</span>
-              </v-tooltip>
-                <v-btn
+            <span>{{ tooltips.stats.elements.exclusive_mode }}</span>
+          </v-tooltip>
+          <v-tooltip color="green" top v-model="filterChange">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
                 :disabled="!filterChange"
                 @click="filter(needle)"
-                >
+                :class="{ highlight: filterChange }"
+              >
                 Apply
-                <v-icon
-                    right
-                    dark
-                >
-                    mdi-filter
+                <v-icon right dark>
+                  mdi-filter
                 </v-icon>
-                </v-btn>
-
-                <v-btn
-                outlined
-                @click="clearFilter"
-                >
-                Reset
-                <v-icon
-                    right
-                    dark
-
-                >
-                    mdi-close
-                </v-icon>
-                </v-btn>
-          </v-col>
+              </v-btn>
+            </template>
+            <span>{{ tooltips.stats.elements.apply_button }}</span>
+          </v-tooltip>
+          <v-btn outlined @click="clearFilter">
+            Reset
+            <v-icon right dark>
+              mdi-close
+            </v-icon>
+          </v-btn>
+        </v-col>
       </v-row>
       <v-row class="mt-0">
-        <v-col :class="{ filtered : isFiltered }">
+        <v-col :class="{ filtered: isFiltered }">
           <table-component
             :entries="current"
             :headers="headers"
@@ -454,22 +457,42 @@
         </v-col>
       </v-row>
       <v-row class="mt-0">
-          <v-col class="text-right" style="font-size:11px">
-              powered by
-              <b><a style="color:rgb(213,61,14)" href="https://www.linkedin.com/in/martinrabanser" target="_blank">rmb Martin Rabanser</a></b> &amp;
-              <b><a style="color:rgb(213,61,14)" href="mailto:alex@agon-e.com" target="_blank">Alex Complojer</a></b>
-          </v-col>
+        <v-col class="text-right" style="font-size:11px">
+          powered by
+          <b
+            ><a
+              style="color:rgb(213,61,14)"
+              href="https://www.linkedin.com/in/martinrabanser"
+              target="_blank"
+              >rmb Martin Rabanser</a
+            ></b
+          >
+          &amp;
+          <b
+            ><a
+              style="color:rgb(213,61,14)"
+              href="mailto:alex@agon-e.com"
+              target="_blank"
+              >Alex Complojer</a
+            ></b
+          >
+        </v-col>
       </v-row>
       <v-snackbar v-model="snackbar" :timeout="timeout" color="red">
         {{ text }}
         <template v-slot:action="{ attrs }">
-          <v-btn  width="230" color="white" text v-bind="attrs" @click="snackbar = false">
+          <v-btn
+            width="230"
+            color="white"
+            text
+            v-bind="attrs"
+            @click="snackbar = false"
+          >
             Close
           </v-btn>
         </template>
       </v-snackbar>
     </v-container>
-
   </div>
 </template>
 
@@ -477,6 +500,10 @@
 import { mapGetters } from "vuex";
 import headers from "../presets/table_headers";
 import colors from "../presets/colors";
+import tooltips from "../presets/tooltips";
+import _ from "lodash";
+
+import AlienPackage from "../models/AlienPackage";
 
 export default {
   data() {
@@ -506,7 +533,8 @@ export default {
         max: 0
       },
       palette: colors.palette,
-      colors: colors.colors
+      colors: colors.colors,
+      tooltips: tooltips.tips
     };
   },
   mounted: function() {
@@ -519,6 +547,13 @@ export default {
       // preset exclusive mode
       if (this.params.excl == 1) this.filterMode = "exclusive";
     }
+
+    // override table header tooltips
+    for (var a = 0; a < this.headers.length; a++) {
+      this.headers[a].tooltip = this.tooltips.stats.table.headers[
+        this.headers[a].value
+      ];
+    }
   },
   computed: {
     ...mapGetters({
@@ -528,6 +563,8 @@ export default {
       let source = this.json.source_packages || [];
       let res = [];
       let index = 0;
+
+      let variants = {};
 
       let all = {
         known: 0,
@@ -541,28 +578,50 @@ export default {
 
       // TODO: validate input data
       for (let i = 0; i < source.length; i++) {
-        if (source[i].statistics) {
-          const filestats = source[i].statistics.files;
+        source[i] = new AlienPackage(source[i]);
 
-          // TODO: make model
-          if (isNaN(filestats.unknown_provenance))
-            filestats.unknown_provenance = 0;
-          if (isNaN(filestats.known_provenance)) filestats.known_provenance = 0;
-          if (isNaN(filestats.total)) filestats.total = 0;
-          if (isNaN(filestats.audit_total)) filestats.audit_total = 0;
-          if (isNaN(filestats.audit_done)) filestats.audit_done = 0;
-          if (isNaN(filestats.audit_to_do)) filestats.audit_to_do = 0;
-          if (isNaN(filestats.upstream_source_total))
-            filestats.upstream_source_total = 0;
+        var variant_key =
+          source[i].name + "-" + source[i].version + "-" + source[i].revision;
+
+        if (typeof variants[variant_key] == "undefined")
+          variants[variant_key] = [];
+
+        variants[variant_key].push(source[i]);
+
+        res.push(source[i]);
+      }
+
+      // remove all variants from result
+      res = res.filter(value => {
+        return (
+          variants[value.name + "-" + value.version + "-" + value.revision]
+            .length == 1
+        );
+      });
+
+      // remove unique packages from variants
+      variants = _.filter(variants, val => {
+        return val.length > 1;
+      });
+
+      // merge variants, generate diffs and add resulting packages to result
+      var additional_packages = [];
+      additional_packages = this.getVariantDiff(variants);
+
+      res = [...res, ...additional_packages];
+
+      for (let i = 0; i < res.length; i++) {
+        if (res[i].statistics) {
+          const filestats = source[i].statistics.files;
 
           // predefine license colors
           let licenses = [];
-          if (source[i].statistics.licenses) {
+          if (res[i].statistics.licenses) {
             licenses = licenses.concat(
-              source[i].statistics.licenses.license_audit_findings.all_licenses
+              res[i].statistics.licenses.license_audit_findings.all_licenses
             );
             licenses = licenses.concat(
-              source[i].statistics.licenses.license_scanner_findings
+              res[i].statistics.licenses.license_scanner_findings
             );
           }
 
@@ -575,14 +634,21 @@ export default {
           }
 
           // patch table index and single progresses
-          source[i].uid = i;
-          source[i].progress =
+          res[i].uid = i;
+          res[i].progress =
             filestats.audit_total == 0
               ? 100
               : parseInt((filestats.audit_done / filestats.audit_total) * 100);
 
-          source[i].workload = filestats.audit_done;
-          source[i].workload_total = filestats.audit_total;
+          res[i].workload = filestats.audit_done;
+          res[i].workload_total = filestats.audit_total;
+
+          // patch debian match
+          res[i].match = res[i].debian_matching
+            ? (res[i].debian_matching.ip_matching_files /
+                filestats.upstream_source_total) *
+              100
+            : 0;
 
           // patch debian match
           source[i].match = source[i].debian_matching
@@ -608,8 +674,6 @@ export default {
               ? filestats.audit_total
               : all.min;
         }
-
-        res.push(source[i]);
       }
 
       this.progress =
@@ -670,7 +734,7 @@ export default {
         }
       }
 
-      /* 
+      /*
        // test aggregate flag. aggregates must be 0 if active
        res = res.filter(value => {
          return value.statistics && !value.statistics.aggregate;
@@ -699,7 +763,7 @@ export default {
           known_provenance: {
             title: "Files",
             subtitle: "Known provenance",
-            tooltip: "current statistics.files.known_provenance sum",
+            tooltip: this.tooltips.stats.counts.known_provenance,
             value: this.current.reduce((accumulator, currentValue) => {
               if (
                 !currentValue.statistics ||
@@ -715,7 +779,7 @@ export default {
           total: {
             title: "Files",
             subtitle: "total",
-            tooltip: "current statistics.files.total sum",
+            tooltip: this.tooltips.stats.counts.total,
             value: this.current.reduce((accumulator, currentValue) => {
               if (
                 !currentValue.statistics ||
@@ -729,7 +793,7 @@ export default {
           audit_total: {
             title: "Files",
             subtitle: "Audit total",
-            tooltip: "current statistics.files.audit_total sum",
+            tooltip: this.tooltips.stats.counts.audit_total,
             value: this.current.reduce((accumulator, currentValue) => {
               if (
                 !currentValue.statistics ||
@@ -743,7 +807,7 @@ export default {
           unknown_provenance: {
             title: "Files",
             subtitle: "Unknown provenance",
-            tooltip: "current statistics.files.unknown_provenance sum",
+            tooltip: this.tooltips.stats.counts.unknown_provenance,
             value: this.current.reduce((accumulator, currentValue) => {
               if (
                 !currentValue.statistics ||
@@ -759,7 +823,7 @@ export default {
           audit_done: {
             title: "Files",
             subtitle: "Audit done",
-            tooltip: "current statistics.files.audit_done sum",
+            tooltip: this.tooltips.stats.counts.audit_done,
             value: this.current.reduce((accumulator, currentValue) => {
               if (
                 !currentValue.statistics ||
@@ -773,7 +837,7 @@ export default {
           audit_to_do: {
             title: "Files",
             subtitle: "Audit todo",
-            tooltip: "current statistics.files.audit_to_do sum",
+            tooltip: this.tooltips.stats.counts.audit_to_do,
             value: this.current.reduce((accumulator, currentValue) => {
               if (
                 !currentValue.statistics ||
@@ -787,7 +851,7 @@ export default {
           upstream_source_total: {
             title: "Files/Packages",
             subtitle: "upstream_source_total",
-            tooltip: "current statistics.files.upstream_source_total sum",
+            tooltip: this.tooltips.stats.counts.upstream_source_total,
             value: this.current.reduce((accumulator, currentValue) => {
               if (
                 !currentValue.statistics ||
@@ -804,46 +868,45 @@ export default {
           flavours: {
             title: "Distros",
             subtitle: "accumulated",
-            tooltip: "filtered, unique tags.distro + sum",
+            tooltip: this.tooltips.stats.counts.flavours,
             value: this.accumulatedTags("distro")
           },
           images: {
             title: "Images",
             subtitle: "accumulated",
-            tooltip: "filtered, unique tags.image + sum",
+            tooltip: this.tooltips.stats.counts.images,
             value: this.accumulatedTags("image")
           },
           main_licenses: {
             title: "Main Licenses",
             subtitle: "accumulated",
-            tooltip:
-              "filtered, unique statistics.licenses.license_audit_findings.main_licenses + sum",
+            tooltip: this.tooltips.stats.counts.main_licenses,
             value: this.accumulatedMainLicenses()
           },
           machines: {
             title: "Machines",
             subtitle: "accumulated",
-            tooltip: "filtered, unique tags.machine + sum",
+            tooltip: this.tooltips.stats.counts.machines,
             value: this.accumulatedTags("machine")
           },
           buildtags: {
             title: "Releases",
             subtitle: "accumulated",
-            tooltip: "filtered, unique tags.release + sum",
+            tooltip: this.tooltips.stats.counts.buildtags,
             value: this.accumulatedTags("release")
           }
         },
         charts: {
           scan: {
             title: "License types scanned",
-            tooltip: "accumulated license_scanner_findings",
+            tooltip: this.tooltips.stats.charts.scan,
             subtitle:
               "Results from automated scanners such as scancode, monk, nomos, ojo",
             value: this.accumulatedLicenses("license_scanner_findings")
           },
           audit_all: {
             title: "License types audited",
-            tooltip: "accumulated license_audit_findings.all_licenses",
+            tooltip: this.tooltips.stats.charts.audit_all,
             subtitle: "Results by human auditor analysis",
             value: this.accumulatedLicenses(
               "license_audit_findings.all_licenses"
@@ -851,7 +914,7 @@ export default {
           },
           main_licenses: {
             title: "Main license types",
-            tooltip: "accumulated license_audit_findings.main_licenses",
+            tooltip: this.tooltips.stats.charts.main_licenses,
             subtitle: "Accumulated main licenses",
             value: this.accumulatedLicenses(
               "license_audit_findings.main_licenses",
@@ -865,6 +928,179 @@ export default {
     }
   },
   methods: {
+    getVariantDiff(variants) {
+      var new_packages = [];
+
+      // for all packages with variants
+      for (var a = 0; a < variants.length; a++) {
+
+        var skip = false;
+
+        var all_sources = {};
+        var all_binaries = [];
+        var common_sources = [];
+
+        var merged_package = new AlienPackage({
+          name: variants[a][0].name,
+          version: variants[a][0].version,
+          revision: variants[a][0].revision
+        });
+
+        merged_package.id =
+          variants[a][0].name +
+          "-" +
+          variants[a][0].version +
+          "-" +
+          variants[a][0].revision;
+        merged_package.isVariant = true;
+        merged_package.variant_files = {};
+
+        merged_package.debian_matching.ip_matching_files = 0;
+
+
+        // check variants
+        for (var b = 0; b < variants[a].length; b++) {
+          var cur = variants[a][b];
+
+          // if linux-kernel, do nothing, push all variants back to result
+          if(cur.name.indexOf("linux-kernel") != -1) {
+            new_packages.push(cur);
+            skip = true;
+            continue;
+          }
+
+          merged_package.id += " " + cur.variant;
+
+          // merge & unique tags
+          merged_package.tags.project = [
+            ...merged_package.tags.project,
+            ...cur.tags.project
+          ];
+          merged_package.tags.distro = [
+            ...merged_package.tags.distro,
+            ...cur.tags.distro
+          ];
+          merged_package.tags.machine = [
+            ...merged_package.tags.machine,
+            ...cur.tags.machine
+          ];
+          merged_package.tags.image = [
+            ...merged_package.tags.image,
+            ...cur.tags.image
+          ];
+          merged_package.tags.release = [
+            ...merged_package.tags.release,
+            ...cur.tags.release
+          ];
+
+          merged_package.debian_matching = {
+            name: cur.debian_matching.name,
+            version: cur.debian_matching.version,
+            ip_matching_files: Math.max(merged_package.debian_matching.ip_matching_files, cur.debian_matching.ip_matching_files)
+          }
+
+          if (cur.statistics.aggregate) {
+            merged_package.statistics = {
+              aggregate: true,
+              files: {
+                audit_done:
+                  merged_package.statistics.files.audit_done +
+                  cur.statistics.files.audit_done,
+                audit_to_do:
+                  merged_package.statistics.files.audit_to_do +
+                  cur.statistics.files.audit_to_do,
+                audit_total:
+                  merged_package.statistics.files.audit_total +
+                  cur.statistics.files.audit_total,
+                known_provenance:
+                  merged_package.statistics.files.known_provenance +
+                  cur.statistics.files.known_provenance,
+                total:
+                  merged_package.statistics.files.total +
+                  cur.statistics.files.total,
+                unknown_provenance:
+                  merged_package.statistics.files.unknown_provenance +
+                  cur.statistics.files.unknown_provenance,
+                upstream_source_total:
+                  merged_package.statistics.files.upstream_source_total +
+                  cur.statistics.files.upstream_source_total
+              },
+              licenses: {
+                license_audit_findings: {
+                  all_licenses: [
+                    ...merged_package.statistics.licenses.license_audit_findings
+                      .all_licenses,
+                    ...cur.statistics.licenses.license_audit_findings
+                      .all_licenses
+                  ],
+                  main_licenses: [
+                    ...merged_package.statistics.licenses.license_audit_findings
+                      .main_licenses,
+                    ...cur.statistics.licenses.license_audit_findings
+                      .main_licenses
+                  ]
+                },
+                license_scanner_findings: [
+                  ...merged_package.statistics.licenses
+                    .license_scanner_findings,
+                  ...cur.statistics.licenses.license_scanner_findings
+                ]
+              }
+            };
+          }
+
+          merged_package.variant_files[cur.variant] = {
+            source_files: cur.source_files
+          };
+
+          // check sourcefiles
+          for (var i = 0; i < cur.source_files.length; i++) {
+            if (
+              typeof all_sources[cur.source_files[i].sha1_cksum] == "undefined"
+            )
+              all_sources[cur.source_files[i].sha1_cksum] = 1;
+            else all_sources[cur.source_files[i].sha1_cksum]++;
+
+            // all variants have the file
+            if (
+              all_sources[cur.source_files[i].sha1_cksum] == variants[a].length
+            ) {
+              common_sources.push(cur.source_files[i]);
+            }
+          }
+
+          all_binaries = [...all_binaries, ...cur.binary_packages];
+        }
+
+        merged_package.source_files = common_sources;
+        merged_package.binary_packages = all_binaries;
+
+        merged_package.tags.project = _.uniq(merged_package.tags.project);
+        merged_package.tags.distro = _.uniq(merged_package.tags.distro);
+        merged_package.tags.machine = _.uniq(merged_package.tags.machine);
+        merged_package.tags.image = _.uniq(merged_package.tags.image);
+        merged_package.tags.release = _.uniq(merged_package.tags.release);
+        var common_file_index = merged_package.source_files.map(val => {
+          return val.sha1_cksum;
+        });
+
+        // source file diffs
+        for (const [key, value] of Object.entries(
+          merged_package.variant_files
+        )) {
+          var cur = merged_package.variant_files[key];
+          merged_package.variant_files[
+            key
+          ].source_files = cur.source_files.filter(val => {
+            return common_file_index.indexOf(val.sha1_cksum) == -1;
+          });
+        }
+
+        if(!skip) new_packages.push(merged_package);
+      }
+
+      return new_packages;
+    },
     resolve(path, obj = self, separator = ".") {
       var properties = Array.isArray(path) ? path : path.split(separator);
       return properties.reduce((prev, curr) => prev && prev[curr], obj);
