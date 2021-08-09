@@ -21,8 +21,8 @@ pipeline {
 			steps {
 				sh """
 					cp .env.example .env
-					php artisan key:generate
 					composer install
+					php artisan key:generate
 					php artisan test --without-tty
 				"""
 			}
