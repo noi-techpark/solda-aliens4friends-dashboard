@@ -1,10 +1,11 @@
 # For more information: https://laravel.com/docs/sail
-version: '3'
+version: '3.4'
 services:
     laravel.test:
         build:
-            context: ./docker/7.4
-            dockerfile: Dockerfile
+            context: .
+            dockerfile: infrastructure/docker/7.4/Dockerfile
+            target: base
             args:
                 WWWGROUP: '${WWWGROUP}'
         image: sail-7.4/app
@@ -13,8 +14,10 @@ services:
         environment:
             WWWUSER: '${WWWUSER}'
             LARAVEL_SAIL: 1
+        env_file:
+            - .env
         volumes:
-            - '.:/var/www/html'
+            - .:/var/www/html
         networks:
             - sail
         depends_on:
