@@ -3,6 +3,21 @@
     "type": "project",
     "description": "Alien4Friends Dashboard",
     "keywords": [],
+    "authors": [
+        {
+            "name": "Alex Complojer",
+            "email": "alex@agon-e.com",
+            "role": "Developer"
+        },
+        {
+            "name": "Martin Rabanser",
+            "email": "martin.rabanser@rmb-consulting.tech",
+            "role": "Product owner"
+        }
+    ],
+    "license": [
+        "GNU AFFERO GENERAL PUBLIC LICENSE"
+    ],
     "require": {
         "php": "^7.3|^8.0",
         "dominikb/composer-license-checker": "^2.1",
