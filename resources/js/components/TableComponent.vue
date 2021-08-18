@@ -46,7 +46,7 @@
                       <v-list-item>
                         <v-list-item-content>
                           <v-list-item-title>
-                            {{ item.name }}
+                            {{ item.sha1_cksum }}
                             <v-chip small v-if="item.files_in_archive"
                               >{{ item.files_in_archive }} Files</v-chip
                             >
@@ -108,7 +108,7 @@
                     </v-tab-item>
                   </v-tabs-items>
 
-          
+
 
                 </v-col>
                                 <v-col v-if="item.variant_files">
@@ -190,13 +190,96 @@
                   </v-virtual-scroll>
                     </v-tab-item>
                   </v-tabs-items>
+
+
+
+                </v-col>
+                                <v-col v-if="item.variant_files">
+                  <v-tabs v-model="item.varianttab">
+                    <v-tabs-slider color="green"></v-tabs-slider>
+                    <v-tab v-for="(variant, name) in item.variant_files" :key="name">
+                      {{ name }}
+                    </v-tab>
+                  </v-tabs>
+                  <v-tabs-items v-model="item.varianttab">
+                    <v-tab-item v-for="(variant, name) in item.variant_files" :key="name">
+                  <v-virtual-scroll
+                    :items="variant.source_files"
+                    :item-height="30"
+                    height="200"
+                  >
+                    <template v-slot:default="{ item }">
+                      <v-list-item>
+                        <v-list-item-content>
+                          <v-list-item-title>
+                            {{ item.sha1_cksum }}
+                            <v-chip small v-if="item.files_in_archive"
+                              >{{ item.files_in_archive }} Files</v-chip
+                            >
+                            <v-chip
+                              small
+                              v-if="item.src_uri.indexOf('tar.gz') != -1"
+                              >tar.gz</v-chip
+                            >
+                            <v-chip
+                              small
+                              v-if="item.src_uri.indexOf('http://') != -1"
+                              >http</v-chip
+                            >
+                            <v-chip
+                              small
+                              v-if="item.src_uri.indexOf('https://') != -1"
+                              >https</v-chip
+                            >
+                            <v-chip
+                              small
+                              v-if="item.src_uri.indexOf('file://') != -1"
+                              >local</v-chip
+                            >
+                            <v-chip
+                              small
+                              v-if="item.src_uri.indexOf('gnu.org') != -1"
+                              >gnu.org</v-chip
+                            >
+                            <v-chip
+                              small
+                              v-if="item.src_uri.indexOf('patch') != -1"
+                              >patch</v-chip
+                            >
+                                                                     <v-chip
+                                                        color="green"
+                              small
+                              v-if="item.audited || (typeof item.audited == "undefined" && item.src_uri.indexOf('file://') != -1)"
+                              ><v-icon>mdi-check</v-icon></v-chip
+                            > <!-- TODO: Implement item.audited-->
+                          </v-list-item-title>
+                        </v-list-item-content>
+
+                        <v-list-item-action>
+                          <v-btn
+                            depressed
+                            small
+                            :href="item.src_uri"
+                            target="_blank"
+                          >
+                            File
+                            <v-icon color="orange darken-4" right>
+                              mdi-open-in-new
+                            </v-icon>
+                          </v-btn>
+                        </v-list-item-action>
+                      </v-list-item>
+                    </template>
+                  </v-virtual-scroll>
+                    </v-tab-item>
+                  </v-tabs-items>
                 </v-col>
                 <v-col v-if="item.binary_packages">
                                     <v-tabs v-model="item.binarytab">
                     <v-tab>
                       Binary Packages
                     </v-tab>
-                  </v-tabs> 
+                  </v-tabs>
                   <v-tabs-items v-model="item.binarytab">
                     <v-tab-item>
                   <v-virtual-scroll
@@ -219,7 +302,6 @@
                   </v-virtual-scroll>
                     </v-tab-item>
                   </v-tabs-items>
-                
 
                 </v-col>
               </v-row>

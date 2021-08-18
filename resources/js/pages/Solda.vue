@@ -77,6 +77,9 @@
               </v-row>
             </v-card-text>
           </v-card>
+          <v-tooltip>
+            <span>{{stats.counts.audit_done.tooltip}} + {{stats.counts.audit_to_do.tooltip}} + diff</span>
+          </v-tooltip>
         </v-col>
       </v-row>
     </v-container>
@@ -219,7 +222,6 @@
                 :options="getCharts(stats.charts.scan.value).chartOptions"
                 :series="getCharts(stats.charts.scan.value).series[0].data"
               ></apexchart>
-
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
                   <div v-bind="attrs" v-on="on" style="text-align:right">
@@ -640,6 +642,13 @@ export default {
               100
             : 0;
 
+          // patch debian match
+          res[i].match = res[i].debian_matching
+            ? (res[i].debian_matching.ip_matching_files /
+                filestats.upstream_source_total) *
+              100
+            : 0;
+
           // overall progress & normalization params
           all.known += filestats.known_provenance;
           all.audited += filestats.audit_done;
@@ -716,6 +725,13 @@ export default {
           ];
         }
       }
+
+      /*
+       // test aggregate flag. aggregates must be 0 if active
+       res = res.filter(value => {
+         return value.statistics && !value.statistics.aggregate;
+       });
+      */
 
       this.current = res;
 

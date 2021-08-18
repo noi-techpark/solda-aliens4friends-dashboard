@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>solda</title>
+    <title>Aliens4Friends - Dashboard</title>
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet" />
@@ -13,7 +13,7 @@
 
 <body class="antialiased">
     <div id="app">loading...</div>
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ str_replace('http', 'https', asset('js/app.js')) }}"></script>
 </body>
 
 </html>
