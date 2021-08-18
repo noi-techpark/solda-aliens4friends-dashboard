@@ -46,7 +46,7 @@
                       <v-list-item>
                         <v-list-item-content>
                           <v-list-item-title>
-                            {{ item.sha1_cksum }}
+                            {{ item.name }}
                             <v-chip small v-if="item.files_in_archive"
                               >{{ item.files_in_archive }} Files</v-chip
                             >
@@ -129,7 +129,7 @@
                       <v-list-item>
                         <v-list-item-content>
                           <v-list-item-title>
-                            {{ item.sha1_cksum }}
+                            {{ item.name }}
                             <v-chip small v-if="item.files_in_archive"
                               >{{ item.files_in_archive }} Files</v-chip
                             >
@@ -163,12 +163,12 @@
                               v-if="item.src_uri.indexOf('patch') != -1"
                               >patch</v-chip
                             >
-                                                                     <v-chip
+                                                        <v-chip
                                                         color="green"
                               small
-                              v-if="item.audited || (typeof item.audited == "undefined" && item.src_uri.indexOf('file://') != -1)"
+                              v-if="item.audited || item.src_uri.indexOf('file://') != -1"
                               ><v-icon>mdi-check</v-icon></v-chip
-                            > <!-- TODO: Implement item.audited-->
+                            >
                           </v-list-item-title>
                         </v-list-item-content>
 
