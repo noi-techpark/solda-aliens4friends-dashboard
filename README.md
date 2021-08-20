@@ -36,7 +36,7 @@ The IDs of the current user must be provided as WWWUSER & WWWGROUP
 
     ./vendor/bin/sail npm install
     ./vendor/bin/sail artisan key:generate
-    ./vendor/bin/sail npm dev
+    ./vendor/bin/sail npm run dev
 
 ### (optional) add dev-url to your hosts-file
 
@@ -44,7 +44,7 @@ The IDs of the current user must be provided as WWWUSER & WWWGROUP
 
 The app can now be accessed at http://laravel.test. If changes are made to CSS or JS, the frontend files must be recompiled:
 
-    ./vendor/bin/sail npm dev
+    ./vendor/bin/sail npm run dev
 
 ## Testing/Production Deployment
 Deployment to any test or production environments is done manually via Rsync. A build environment with available Composer & Node and corresponding test or production environments are therefore required.

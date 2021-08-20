@@ -8,8 +8,8 @@
         "hot": "mix watch --hot",
         "prod": "npm run production",
         "production": "mix --production"
-	},
-	"version": "0.8.0",
+    },
+    "version": "0.8.1",
     "author": {
         "name": "Alex Complojer",
         "email": "alex@agon-e.com"
