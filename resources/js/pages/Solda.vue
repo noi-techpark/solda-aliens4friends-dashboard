@@ -219,7 +219,6 @@
                 :options="getCharts(stats.charts.scan.value).chartOptions"
                 :series="getCharts(stats.charts.scan.value).series[0].data"
               ></apexchart>
-
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
                   <div v-bind="attrs" v-on="on" style="text-align:right">
@@ -600,9 +599,10 @@ export default {
 
       res = [...res, ...additional_packages];
 
+      // TODO:
       for (let i = 0; i < res.length; i++) {
         if (res[i].statistics) {
-          const filestats = source[i].statistics.files;
+          const filestats = res[i].statistics.files;
 
           // predefine license colors
           let licenses = [];
@@ -623,6 +623,10 @@ export default {
             }
           }
 
+          if(res[i].id.indexOf("xserver") != -1) {
+            console.log(res[i])
+            console.log(filestats)
+          }
           // patch table index and single progresses
           res[i].uid = i;
           res[i].progress =
@@ -716,6 +720,13 @@ export default {
           ];
         }
       }
+
+      /*
+       // test aggregate flag. aggregates must be 0 if active
+       res = res.filter(value => {
+         return value.statistics && !value.statistics.aggregate;
+       });
+      */
 
       this.current = res;
 
