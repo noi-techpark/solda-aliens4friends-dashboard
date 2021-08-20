@@ -599,9 +599,10 @@ export default {
 
       res = [...res, ...additional_packages];
 
+      // TODO:
       for (let i = 0; i < res.length; i++) {
         if (res[i].statistics) {
-          const filestats = source[i].statistics.files;
+          const filestats = res[i].statistics.files;
 
           // predefine license colors
           let licenses = [];
@@ -622,6 +623,10 @@ export default {
             }
           }
 
+          if(res[i].id.indexOf("xserver") != -1) {
+            console.log(res[i])
+            console.log(filestats)
+          }
           // patch table index and single progresses
           res[i].uid = i;
           res[i].progress =
