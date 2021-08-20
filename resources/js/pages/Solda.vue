@@ -77,9 +77,6 @@
               </v-row>
             </v-card-text>
           </v-card>
-          <v-tooltip>
-            <span>{{stats.counts.audit_done.tooltip}} + {{stats.counts.audit_to_do.tooltip}} + diff</span>
-          </v-tooltip>
         </v-col>
       </v-row>
     </v-container>
@@ -634,13 +631,6 @@ export default {
 
           res[i].workload = filestats.audit_done;
           res[i].workload_total = filestats.audit_total;
-
-          // patch debian match
-          res[i].match = res[i].debian_matching
-            ? (res[i].debian_matching.ip_matching_files /
-                filestats.upstream_source_total) *
-              100
-            : 0;
 
           // patch debian match
           res[i].match = res[i].debian_matching
