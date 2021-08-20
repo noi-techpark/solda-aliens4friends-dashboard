@@ -219,7 +219,6 @@
                 :options="getCharts(stats.charts.scan.value).chartOptions"
                 :series="getCharts(stats.charts.scan.value).series[0].data"
               ></apexchart>
-
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
                   <div v-bind="attrs" v-on="on" style="text-align:right">
@@ -716,6 +715,13 @@ export default {
           ];
         }
       }
+
+      /*
+       // test aggregate flag. aggregates must be 0 if active
+       res = res.filter(value => {
+         return value.statistics && !value.statistics.aggregate;
+       });
+      */
 
       this.current = res;
 

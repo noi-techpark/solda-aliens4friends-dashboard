@@ -1,8 +1,8 @@
-FROM ubuntu:20.04
+FROM ubuntu:20.04 as base
 
 LABEL maintainer="Taylor Otwell"
 
-ARG WWWGROUP
+ARG WWWGROUP=1000
 
 WORKDIR /var/www/html
 
@@ -43,14 +43,25 @@ RUN apt-get update \
 
 RUN setcap "cap_net_bind_service=+ep" /usr/bin/php7.4
 
-RUN groupadd --force -g $WWWGROUP sail
-RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
+RUN groupadd --force -g $WWWGROUP sail && \
+    useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
 
-COPY start-container /usr/local/bin/start-container
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY php.ini /etc/php/7.4/cli/conf.d/99-sail.ini
+COPY infrastructure/docker/7.4/start-container /usr/local/bin/start-container
+COPY infrastructure/docker/7.4/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY infrastructure/docker/7.4/php.ini /etc/php/7.4/cli/conf.d/99-sail.ini
 RUN chmod +x /usr/local/bin/start-container
 
-EXPOSE 8000
-
 ENTRYPOINT ["start-container"]
+
+FROM base as jenkinsci
+ARG JENKINS_GROUP_ID=2000
+ARG JENKINS_USER_ID=2000
+RUN groupadd -g $JENKINS_GROUP_ID jenkins && \
+    useradd -ms /bin/bash --no-user-group -g $JENKINS_GROUP_ID -u $JENKINS_USER_ID jenkins
+
+FROM base as build
+# Use the .dockerignore file to exclude files from this COPY command
+COPY . /var/www/html/
+RUN npm install && \
+    composer install --optimize-autoloader --no-dev && \
+    chown -R sail:$WWWGROUP /var/www/html

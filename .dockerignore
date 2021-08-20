@@ -1,0 +1,9 @@
+node_modules
+test
+tests
+.github
+.git
+
+# Keep "storage", because we want to have those folders inside our docker container
+# See LARAVEL docs: "local.ERROR: Please provide a valid cache path" or
+# https://stackoverflow.com/questions/38483837/please-provide-a-valid-cache-path-error-in-laravel

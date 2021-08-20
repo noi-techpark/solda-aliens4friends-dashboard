@@ -108,7 +108,6 @@
                     </v-tab-item>
                   </v-tabs-items>
 
-          
 
                 </v-col>
                                 <v-col v-if="item.variant_files">
@@ -196,7 +195,7 @@
                     <v-tab>
                       Binary Packages
                     </v-tab>
-                  </v-tabs> 
+                  </v-tabs>
                   <v-tabs-items v-model="item.binarytab">
                     <v-tab-item>
                   <v-virtual-scroll
@@ -219,7 +218,6 @@
                   </v-virtual-scroll>
                     </v-tab-item>
                   </v-tabs-items>
-                
 
                 </v-col>
               </v-row>
