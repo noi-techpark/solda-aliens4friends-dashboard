@@ -38,6 +38,7 @@ exports.tips = {
       searchbar: "global match: all space-separated substrings must be present",
       apply_button: "apply new settings",
       exclusive_mode: "match if only selected items are present",
+      show_variant_cve: "reflect cve warnings on main package level",
     },
   },
 };

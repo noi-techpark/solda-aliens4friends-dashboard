@@ -395,6 +395,28 @@
                 v-on="on"
               >
                 <v-switch
+                  v-model="showVariantCve"
+                  label="1. Level variant CVE"
+                  color="red"
+                  class="ma-0"
+                  disabled
+                  value="exclusive"
+                  hide-details
+                  @click="filterChange = true"
+                ></v-switch>
+              </div>
+            </template>
+            <span>{{ tooltips.stats.elements.show_variant_cve }}</span>
+          </v-tooltip>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <div
+                style="display:inline-block"
+                class="mr-4"
+                v-bind="attrs"
+                v-on="on"
+              >
+                <v-switch
                   v-model="filterMode"
                   label="Exclusive selection"
                   color="red"
@@ -405,7 +427,6 @@
                 ></v-switch>
               </div>
             </template>
-
             <span>{{ tooltips.stats.elements.exclusive_mode }}</span>
           </v-tooltip>
           <v-tooltip color="green" top v-model="filterChange">
@@ -1050,9 +1071,7 @@ export default {
             };
           }
 
-          merged_package.variant_files[cur.variant] = {
-            source_files: cur.source_files
-          };
+          merged_package.variant_files[cur.variant] = cur;
 
           merged_package.my_source_files = cur.source_files;
 

@@ -7,19 +7,11 @@
           :key="vkey"
         >
           <v-expansion-panel-header>
-
-
             <div class="ml-2">
               <v-icon v-if="item.isCve" color="red">mdi-security</v-icon>
-              <b>Variant: {{ vkey }}</b> / {{ item.name }} {{ item.version }} {{ item.revision }}
-              <v-chip v-if="item.variant_files[vkey].source_files[0] && item.variant_files[vkey].source_files[0].release" small
-                >{{ item.variant_files[vkey].source_files[0].release }}
-              </v-chip>
-              <v-chip v-if="item.variant_files[vkey].source_files[0] && item.variant_files[vkey].source_files[0].image" small
-                >{{ item.variant_files[vkey].source_files[0].image }}
-              </v-chip>
+              <b>Variant: {{ vkey }}</b> | {{ variant.name }} | {{ variant.version }} | {{ variant.revision }} |
+              <v-chip small color="primary" :key="tag" v-for="tag in item.variant_files[vkey].tags.release">{{tag}}</v-chip><v-chip :key="tag" small color="secondary" class="ml-1" v-for="tag in item.variant_files[vkey].tags.image">{{tag}}</v-chip>
             </div>
-
           </v-expansion-panel-header>
           <v-expansion-panel-content>
             <v-row>
@@ -107,7 +99,7 @@
               <v-col cols="3" v-if="item.meta_source_files && item.isVariant">
                 <v-tabs v-model="item.sourcetab">
                   <v-tab>
-                    Specific sources
+                    Variant specific
                   </v-tab>
                 </v-tabs>
                 <v-tabs-items v-model="item.sourcetab">
@@ -246,13 +238,13 @@
               <v-col v-if="item.binary_packages">
                 <v-tabs v-model="item.binarytab">
                   <v-tab>
-                    Merged Binary Packages
+                    Variant Specific Binaries
                   </v-tab>
                 </v-tabs>
                 <v-tabs-items v-model="item.binarytab">
                   <v-tab-item>
                     <v-virtual-scroll
-                      :items="getBinaries(item.binary_packages)"
+                      :items="getBinaries(variant.binary_packages)"
                       :item-height="30"
                       height="200"
                       style="font-size:80%"
@@ -524,6 +516,9 @@ export default {
   },
   data() {
     return {};
+  },
+  mounted: function() {
+      console.log(this.item)
   },
   methods: {
     machineTabNotEmpty(machine, vkey) {

@@ -182,7 +182,7 @@
 
         <div v-if="head.type == 'flags'" :key="head.value">
           <v-icon v-if="item.isVariant">mdi-link-variant-plus</v-icon>
-          <v-icon v-if="item.isCve && !item.isVariant" color="red">mdi-security</v-icon>
+          <v-icon v-if="item.isCve && (!item.isVariant || showMainCve)" color="red">mdi-security</v-icon>
         </div>
 
         <div v-if="head.type == 'workload'" :key="head.value">
@@ -409,6 +409,7 @@ export default {
       sums: {},
       charts: {},
       expanded: [],
+      showMainCve: false,
       rules: {
         isnumber: value => !isNaN(value) || "numbers only"
       },
