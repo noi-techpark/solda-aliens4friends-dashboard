@@ -6,7 +6,7 @@
       :single-expand="singleExpand"
       :expanded.sync="expanded"
       :footer-props="{ 'items-per-page-options': [10, 20, 50, 100, -1] }"
-      :options="{ page: 1, itemsPerPage: 20 }"
+      :options="{ page: 1, itemsPerPage: 10 }"
       item-key="uid"
       show-expand
       @current-items="getCDef"
@@ -182,7 +182,7 @@
 
         <div v-if="head.type == 'flags'" :key="head.value">
           <v-icon v-if="item.isVariant">mdi-link-variant-plus</v-icon>
-          <v-icon v-if="item.isCve" color="red">mdi-security</v-icon>
+          <v-icon v-if="item.isCve && !item.isVariant" color="red">mdi-security</v-icon>
         </div>
 
         <div v-if="head.type == 'workload'" :key="head.value">
@@ -467,13 +467,11 @@ export default {
     },
     resolve(path, obj = self, separator = ".") {
       var properties = Array.isArray(path) ? path : path.split(separator);
-      const res = properties.reduce((prev, curr) => prev && prev[curr], obj);
       return properties.reduce((prev, curr) => prev && prev[curr], obj) || [];
     },
     emitFiltered(e) {
       this.$emit("filtered-items", e);
     },
-
     normalize(x, faktor = 1) {
       if (isNaN(x)) x = 0;
       let norm =
