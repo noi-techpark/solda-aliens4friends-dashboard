@@ -6,7 +6,7 @@ An expandable dashboard to filter and visualize alien4friends license statistics
 
 ### Basics/Requirements
 
-This project was created based on Laravel 8 & Laravel UI (Vue.js). 
+This project was created based on Laravel 8 & Laravel UI (Vue.js).
 
 https://laravel.com/docs/8.x/
 https://laravel.com/docs/7.x/frontend
@@ -36,7 +36,7 @@ The IDs of the current user must be provided as WWWUSER & WWWGROUP
 
     ./vendor/bin/sail npm install
     ./vendor/bin/sail artisan key:generate
-    ./vendor/bin/sail npm dev
+    ./vendor/bin/sail npm run dev
 
 ### (optional) add dev-url to your hosts-file
 
@@ -44,7 +44,7 @@ The IDs of the current user must be provided as WWWUSER & WWWGROUP
 
 The app can now be accessed at http://laravel.test. If changes are made to CSS or JS, the frontend files must be recompiled:
 
-    ./vendor/bin/sail npm dev
+    ./vendor/bin/sail npm run dev
 
 ## Testing/Production Deployment
 Deployment to any test or production environments is done manually via Rsync. A build environment with available Composer & Node and corresponding test or production environments are therefore required.
@@ -78,7 +78,14 @@ The entire project-base was created by code generators and therefore follows the
 Any dependencies are installed via Composer & Npm. Corresponding dependency source code can be found in the folders /node_modules (JS/Frontend) and /vendor (PHP/Backend).
 
 Individual customisations are mainly, but not exclusively, located in the /resources (JS+CSS) and /app (PHP) folders.
- 
+
+### Https/Ssl
+
+https assets should now be forced as soon as APP_ENV is set to production. if not, the asset() function in the blade templates takes a second parameter [bool|forceSecure].
+
+* https://laravel.com/docs/8.x/requests#configuring-trusted-proxies
+* https://laravel.com/docs/8.x/requests#configuring-trusted-hosts
+
 ### Known issues
 
 The current version of https://www.npmjs.com/package/chartjs-plugin-datalabels (1.0.0) available via NPM is not compatible with the current version of chart.js. A corresponding fix has already been made available by the developer of chartjs-plugin-datalabels as an RC: https://github.com/chartjs/chartjs-plugin-datalabels/tree/v2.0.0-rc.1. Until the definitive release via npm, the fix is located under /resources/js/beta/chartjs-plugin-datalabels.js.

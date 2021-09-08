@@ -13,7 +13,7 @@
 
 <body class="antialiased">
     <div id="app">loading...</div>
-    <script src="{{ str_replace('http', 'https', asset('js/app.js')) }}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 
 </html>

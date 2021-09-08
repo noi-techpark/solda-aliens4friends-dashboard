@@ -1,0 +1,926 @@
+{
+  "tool": {
+    "name": "aliens4friends.commands.harvest",
+    "version": "0.3.1"
+  },
+  "source_packages": [
+   {
+      "id": "xserver-xf86-config-0.1-r33-396dd9a5+a4f",
+      "name": "xserver-xf86-config",
+      "version": "0.1",
+      "revision": "r33",
+      "variant": "396dd9a5",
+      "debian_matching": null,
+      "statistics": {
+        "files": {
+          "audit_total": 0,
+          "audit_done": 0,
+          "audit_to_do": 0,
+          "upstream_source_total": 0,
+          "unknown_provenance": 6,
+          "known_provenance": 0,
+          "total": 6
+        },
+        "licenses": {
+          "license_scanner_findings": [],
+          "license_audit_findings": {
+            "main_licenses": [],
+            "all_licenses": []
+          }
+        },
+        "aggregate": false
+      },
+      "source_files": [
+        {
+          "name": "xorg.conf",
+          "sha1_cksum": "137519d4a444b7301439c311d41d1faa2a4f35bb",
+          "git_sha1": null,
+          "src_uri": "file://xorg.conf",
+          "files_in_archive": false,
+          "paths": [
+            "_tagged/ohos/v0.1.0/allscenarios-linux/qemux86",
+            "_tagged/ohos/v0.1.0/allscenarios-linux/qemux86-64"
+          ]
+        },
+        {
+          "name": "xorg.conf",
+          "sha1_cksum": "50cfb25ed7c150f0c211dfeda1cbbf5d2e5e4614",
+          "git_sha1": null,
+          "src_uri": "file://xorg.conf",
+          "files_in_archive": false,
+          "paths": [
+            "_tagged/ohos/v0.1.0/allscenarios-linux/raspberrypi4-64"
+          ]
+        },
+        {
+          "name": "xorg.conf.d/98-pitft.conf",
+          "sha1_cksum": "613fdc02403becb23c283c32ee131b7365212529",
+          "git_sha1": null,
+          "src_uri": "file://xorg.conf.d/98-pitft.conf",
+          "files_in_archive": false,
+          "paths": [
+            "_tagged/ohos/v0.1.0/allscenarios-linux/raspberrypi4-64"
+          ]
+        },
+        {
+          "name": "xorg.conf.d/99-calibration.conf",
+          "sha1_cksum": "8f4eda97702176dde7f766c8b8feab05bb936e25",
+          "git_sha1": null,
+          "src_uri": "file://xorg.conf.d/99-calibration.conf",
+          "files_in_archive": false,
+          "paths": [
+            "_tagged/ohos/v0.1.0/allscenarios-linux/raspberrypi4-64"
+          ]
+        },
+        {
+          "name": "xorg.conf",
+          "sha1_cksum": "1031f2adfd15845aef09c74aa025d196d6367494",
+          "git_sha1": null,
+          "src_uri": "file://xorg.conf",
+          "files_in_archive": false,
+          "paths": [
+            "_tagged/ohos/v0.1.0/allscenarios-linux/seco-imx8mm-c61"
+          ]
+        },
+        {
+          "name": "xorg.conf",
+          "sha1_cksum": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+          "git_sha1": null,
+          "src_uri": "file://xorg.conf",
+          "files_in_archive": false,
+          "paths": [
+            "_tagged/ohos/v0.1.0/allscenarios-linux/seco-intel-b68",
+            "_tagged/ohos/v0.1.0/allscenarios-linux/stm32mp1-av96"
+          ]
+        }
+      ],
+      "binary_packages": [
+        {
+          "name": "xserver-xf86-config-0.1-r33+ohos_v0.1.0+allscenarios-linux+qemux86",
+          "version": "0.1",
+          "revision": "r33",
+          "tags": {
+            "project": [
+              "allscenarios"
+            ],
+            "release": [
+              "v1.0.0-alpha"
+            ],
+            "distro": [
+              "allscenarios-linux"
+            ],
+            "machine": [
+              "qemux86"
+            ],
+            "image": [
+              "allscenarios-image-extra",
+              "allscenarios-image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "xserver-xf86-config",
+            "base_name": "xserver-xf86-config",
+            "version": "0.1",
+            "revision": "r33",
+            "package_arch": "qemux86",
+            "recipe_name": "xserver-xf86-config",
+            "recipe_version": "0.1",
+            "recipe_revision": "r33",
+            "license": "MIT-X",
+            "summary": "X.Org X server configuration file",
+            "description": "X.Org X server configuration file.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "xserver-xf86-config-0.1-r33+ohos_v0.1.0+allscenarios-linux+qemux86-64",
+          "version": "0.1",
+          "revision": "r33",
+          "tags": {
+            "project": [
+              "allscenarios"
+            ],
+            "release": [
+              "v1.0.0-alpha"
+            ],
+            "distro": [
+              "allscenarios-linux"
+            ],
+            "machine": [
+              "qemux86-64"
+            ],
+            "image": [
+              "allscenarios-image-extra",
+              "allscenarios-image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "xserver-xf86-config",
+            "base_name": "xserver-xf86-config",
+            "version": "0.1",
+            "revision": "r33",
+            "package_arch": "qemux86_64",
+            "recipe_name": "xserver-xf86-config",
+            "recipe_version": "0.1",
+            "recipe_revision": "r33",
+            "license": "MIT-X",
+            "summary": "X.Org X server configuration file",
+            "description": "X.Org X server configuration file.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "xserver-xf86-config-0.1-r33+ohos_v0.1.0+allscenarios-linux+raspberrypi4-64",
+          "version": "0.1",
+          "revision": "r33",
+          "tags": {
+            "project": [
+              "allscenarios"
+            ],
+            "release": [
+              "v1.0.0-alpha"
+            ],
+            "distro": [
+              "allscenarios-linux"
+            ],
+            "machine": [
+              "raspberrypi4-64"
+            ],
+            "image": [
+              "allscenarios-image-extra",
+              "allscenarios-image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "xserver-xf86-config",
+            "base_name": "xserver-xf86-config",
+            "version": "0.1",
+            "revision": "r33",
+            "package_arch": "raspberrypi4_64",
+            "recipe_name": "xserver-xf86-config",
+            "recipe_version": "0.1",
+            "recipe_revision": "r33",
+            "license": "MIT-X",
+            "summary": "X.Org X server configuration file",
+            "description": "X.Org X server configuration file.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "xserver-xf86-config-0.1-r33+ohos_v0.1.0+allscenarios-linux+seco-imx8mm-c61",
+          "version": "0.1",
+          "revision": "r33",
+          "tags": {
+            "project": [
+              "allscenarios"
+            ],
+            "release": [
+              "v1.0.0-alpha"
+            ],
+            "distro": [
+              "allscenarios-linux"
+            ],
+            "machine": [
+              "seco-imx8mm-c61"
+            ],
+            "image": [
+              "allscenarios-image-extra",
+              "allscenarios-image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "xserver-xf86-config",
+            "base_name": "xserver-xf86-config",
+            "version": "0.1",
+            "revision": "r33",
+            "package_arch": "seco_imx8mm_c61",
+            "recipe_name": "xserver-xf86-config",
+            "recipe_version": "0.1",
+            "recipe_revision": "r33",
+            "license": "MIT-X",
+            "summary": "X.Org X server configuration file",
+            "description": "X.Org X server configuration file.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "xserver-xf86-config-0.1-r33+ohos_v0.1.0+allscenarios-linux+seco-intel-b68",
+          "version": "0.1",
+          "revision": "r33",
+          "tags": {
+            "project": [
+              "allscenarios"
+            ],
+            "release": [
+              "v1.0.0-alpha"
+            ],
+            "distro": [
+              "allscenarios-linux"
+            ],
+            "machine": [
+              "seco-intel-b68"
+            ],
+            "image": [
+              "allscenarios-image-extra",
+              "allscenarios-image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "xserver-xf86-config",
+            "base_name": "xserver-xf86-config",
+            "version": "0.1",
+            "revision": "r33",
+            "package_arch": "seco_intel_b68",
+            "recipe_name": "xserver-xf86-config",
+            "recipe_version": "0.1",
+            "recipe_revision": "r33",
+            "license": "MIT-X",
+            "summary": "X.Org X server configuration file",
+            "description": "X.Org X server configuration file.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "xserver-xf86-config-0.1-r33+ohos_v0.1.0+allscenarios-linux+stm32mp1-av96",
+          "version": "0.1",
+          "revision": "r33",
+          "tags": {
+            "project": [
+              "allscenarios"
+            ],
+            "release": [
+              "v1.0.0-alpha"
+            ],
+            "distro": [
+              "allscenarios-linux"
+            ],
+            "machine": [
+              "stm32mp1-av96"
+            ],
+            "image": [
+              "allscenarios-image-extra",
+              "allscenarios-image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "xserver-xf86-config",
+            "base_name": "xserver-xf86-config",
+            "version": "0.1",
+            "revision": "r33",
+            "package_arch": "stm32mp1_av96",
+            "recipe_name": "xserver-xf86-config",
+            "recipe_version": "0.1",
+            "recipe_revision": "r33",
+            "license": "MIT-X",
+            "summary": "X.Org X server configuration file",
+            "description": "X.Org X server configuration file.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        }
+      ],
+      "tags": {
+        "project": [
+          "allscenarios"
+        ],
+        "release": [
+          "v1.0.0-alpha"
+        ],
+        "distro": [
+          "allscenarios-linux"
+        ],
+        "machine": [
+          "stm32mp1-av96",
+          "qemux86-64",
+          "seco-intel-b68",
+          "qemux86",
+          "seco-imx8mm-c61",
+          "raspberrypi4-64"
+        ],
+        "image": [
+          "allscenarios-image-extra",
+          "allscenarios-image-extra-tests"
+        ]
+      },
+      "metadata": {
+        "name": "xserver-xf86-config",
+        "base_name": "xserver-xf86-config",
+        "version": "0.1",
+        "revision": "r33",
+        "variant": "396dd9a5",
+        "author": null,
+        "homepage": "http://www.x.org",
+        "summary": "X.Org X server configuration file",
+        "description": "X.Org X server configuration file.",
+        "license": "MIT-X",
+        "depends_provides": {
+          "qemux86": {
+            "depends": [
+              "virtual/i686-poky-linux-musl-compilerlibs",
+              "virtual/i686-poky-linux-musl-gcc",
+              "virtual/libc"
+            ],
+            "provides": [
+              "xserver-xf86-config"
+            ]
+          },
+          "qemux86-64": {
+            "depends": [
+              "virtual/libc",
+              "virtual/x86_64-poky-linux-musl-compilerlibs",
+              "virtual/x86_64-poky-linux-musl-gcc"
+            ],
+            "provides": [
+              "xserver-xf86-config"
+            ]
+          },
+          "raspberrypi4-64": {
+            "depends": [
+              "virtual/aarch64-poky-linux-musl-compilerlibs",
+              "virtual/aarch64-poky-linux-musl-gcc",
+              "virtual/libc"
+            ],
+            "provides": [
+              "xserver-xf86-config"
+            ]
+          },
+          "seco-imx8mm-c61": {
+            "depends": [
+              "virtual/aarch64-poky-linux-musl-compilerlibs",
+              "virtual/aarch64-poky-linux-musl-gcc",
+              "virtual/libc"
+            ],
+            "provides": [
+              "xserver-xf86-config"
+            ]
+          },
+          "seco-intel-b68": {
+            "depends": [
+              "virtual/libc",
+              "virtual/x86_64-poky-linux-musl-compilerlibs",
+              "virtual/x86_64-poky-linux-musl-gcc"
+            ],
+            "provides": [
+              "xserver-xf86-config"
+            ]
+          },
+          "stm32mp1-av96": {
+            "depends": [
+              "virtual/arm-poky-linux-musleabi-compilerlibs",
+              "virtual/arm-poky-linux-musleabi-gcc",
+              "virtual/libc"
+            ],
+            "provides": [
+              "xserver-xf86-config"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "xserver-xf86-config-0.1-r33-6fd29cd1+a4f",
+      "name": "xserver-xf86-config",
+      "version": "0.1",
+      "revision": "r33",
+      "variant": "6fd29cd1",
+      "debian_matching": null,
+      "statistics": {
+        "files": {
+          "audit_total": 0,
+          "audit_done": 0,
+          "audit_to_do": 0,
+          "upstream_source_total": 0,
+          "unknown_provenance": 4,
+          "known_provenance": 0,
+          "total": 4
+        },
+        "licenses": {
+          "license_scanner_findings": [],
+          "license_audit_findings": {
+            "main_licenses": [],
+            "all_licenses": []
+          }
+        },
+        "aggregate": false
+      },
+      "source_files": [
+        {
+          "name": "xorg.conf",
+          "sha1_cksum": "4860c412ac0873af399e1bc03dd92e13d063c550",
+          "git_sha1": null,
+          "src_uri": "file://xorg.conf",
+          "files_in_archive": false,
+          "paths": [
+            "_tagged/ohos/v0.1.0/openharmony-linux/qemuarm"
+          ]
+        },
+        {
+          "name": "xorg.conf",
+          "sha1_cksum": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+          "git_sha1": null,
+          "src_uri": "file://xorg.conf",
+          "files_in_archive": false,
+          "paths": [
+            "_tagged/ohos/v0.1.0/openharmony-linux/qemuarm64",
+            "_tagged/ohos/v0.1.0/openharmony-linux/seco-intel-b68",
+            "_tagged/ohos/v0.1.0/openharmony-linux/stm32mp1-av96"
+          ]
+        },
+        {
+          "name": "xorg.conf",
+          "sha1_cksum": "137519d4a444b7301439c311d41d1faa2a4f35bb",
+          "git_sha1": null,
+          "src_uri": "file://xorg.conf",
+          "files_in_archive": false,
+          "paths": [
+            "_tagged/ohos/v0.1.0/openharmony-linux/qemux86",
+            "_tagged/ohos/v0.1.0/openharmony-linux/qemux86-64"
+          ]
+        },
+        {
+          "name": "xorg.conf",
+          "sha1_cksum": "1031f2adfd15845aef09c74aa025d196d6367494",
+          "git_sha1": null,
+          "src_uri": "file://xorg.conf",
+          "files_in_archive": false,
+          "paths": [
+            "_tagged/ohos/v0.1.0/openharmony-linux/seco-imx8mm-c61"
+          ]
+        }
+      ],
+      "binary_packages": [
+        {
+          "name": "xserver-xf86-config-0.1-r33+ohos_v0.1.0+openharmony-linux+qemuarm",
+          "version": "0.1",
+          "revision": "r33",
+          "tags": {
+            "project": [
+              "ohos"
+            ],
+            "release": [
+              "v0.1.0"
+            ],
+            "distro": [
+              "openharmony-linux"
+            ],
+            "machine": [
+              "qemuarm"
+            ],
+            "image": [
+              "openharmony-image-extra",
+              "openharmony-image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "xserver-xf86-config",
+            "base_name": "xserver-xf86-config",
+            "version": "0.1",
+            "revision": "r33",
+            "package_arch": "qemuarm",
+            "recipe_name": "xserver-xf86-config",
+            "recipe_version": "0.1",
+            "recipe_revision": "r33",
+            "license": "MIT-X",
+            "summary": "X.Org X server configuration file",
+            "description": "X.Org X server configuration file.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "xserver-xf86-config-0.1-r33+ohos_v0.1.0+openharmony-linux+qemuarm64",
+          "version": "0.1",
+          "revision": "r33",
+          "tags": {
+            "project": [
+              "ohos"
+            ],
+            "release": [
+              "v0.1.0"
+            ],
+            "distro": [
+              "openharmony-linux"
+            ],
+            "machine": [
+              "qemuarm64"
+            ],
+            "image": [
+              "openharmony-image-extra",
+              "openharmony-image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "xserver-xf86-config",
+            "base_name": "xserver-xf86-config",
+            "version": "0.1",
+            "revision": "r33",
+            "package_arch": "qemuarm64",
+            "recipe_name": "xserver-xf86-config",
+            "recipe_version": "0.1",
+            "recipe_revision": "r33",
+            "license": "MIT-X",
+            "summary": "X.Org X server configuration file",
+            "description": "X.Org X server configuration file.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "xserver-xf86-config-0.1-r33+ohos_v0.1.0+openharmony-linux+qemux86",
+          "version": "0.1",
+          "revision": "r33",
+          "tags": {
+            "project": [
+              "ohos"
+            ],
+            "release": [
+              "v0.1.0"
+            ],
+            "distro": [
+              "openharmony-linux"
+            ],
+            "machine": [
+              "qemux86"
+            ],
+            "image": [
+              "openharmony-image-extra",
+              "openharmony-image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "xserver-xf86-config",
+            "base_name": "xserver-xf86-config",
+            "version": "0.1",
+            "revision": "r33",
+            "package_arch": "qemux86",
+            "recipe_name": "xserver-xf86-config",
+            "recipe_version": "0.1",
+            "recipe_revision": "r33",
+            "license": "MIT-X",
+            "summary": "X.Org X server configuration file",
+            "description": "X.Org X server configuration file.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "xserver-xf86-config-0.1-r33+ohos_v0.1.0+openharmony-linux+qemux86-64",
+          "version": "0.1",
+          "revision": "r33",
+          "tags": {
+            "project": [
+              "ohos"
+            ],
+            "release": [
+              "v0.1.0"
+            ],
+            "distro": [
+              "openharmony-linux"
+            ],
+            "machine": [
+              "qemux86-64"
+            ],
+            "image": [
+              "openharmony-image-extra",
+              "openharmony-image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "xserver-xf86-config",
+            "base_name": "xserver-xf86-config",
+            "version": "0.1",
+            "revision": "r33",
+            "package_arch": "qemux86_64",
+            "recipe_name": "xserver-xf86-config",
+            "recipe_version": "0.1",
+            "recipe_revision": "r33",
+            "license": "MIT-X",
+            "summary": "X.Org X server configuration file",
+            "description": "X.Org X server configuration file.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "xserver-xf86-config-0.1-r33+ohos_v0.1.0+openharmony-linux+seco-imx8mm-c61",
+          "version": "0.1",
+          "revision": "r33",
+          "tags": {
+            "project": [
+              "ohos"
+            ],
+            "release": [
+              "v0.1.0"
+            ],
+            "distro": [
+              "openharmony-linux"
+            ],
+            "machine": [
+              "seco-imx8mm-c61"
+            ],
+            "image": [
+              "openharmony-image-extra",
+              "openharmony-image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "xserver-xf86-config",
+            "base_name": "xserver-xf86-config",
+            "version": "0.1",
+            "revision": "r33",
+            "package_arch": "seco_imx8mm_c61",
+            "recipe_name": "xserver-xf86-config",
+            "recipe_version": "0.1",
+            "recipe_revision": "r33",
+            "license": "MIT-X",
+            "summary": "X.Org X server configuration file",
+            "description": "X.Org X server configuration file.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "xserver-xf86-config-0.1-r33+ohos_v0.1.0+openharmony-linux+seco-intel-b68",
+          "version": "0.1",
+          "revision": "r33",
+          "tags": {
+            "project": [
+              "ohos"
+            ],
+            "release": [
+              "v0.1.0"
+            ],
+            "distro": [
+              "openharmony-linux"
+            ],
+            "machine": [
+              "seco-intel-b68"
+            ],
+            "image": [
+              "openharmony-image-extra",
+              "openharmony-image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "xserver-xf86-config",
+            "base_name": "xserver-xf86-config",
+            "version": "0.1",
+            "revision": "r33",
+            "package_arch": "seco_intel_b68",
+            "recipe_name": "xserver-xf86-config",
+            "recipe_version": "0.1",
+            "recipe_revision": "r33",
+            "license": "MIT-X",
+            "summary": "X.Org X server configuration file",
+            "description": "X.Org X server configuration file.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "xserver-xf86-config-0.1-r33+ohos_v0.1.0+openharmony-linux+stm32mp1-av96",
+          "version": "0.1",
+          "revision": "r33",
+          "tags": {
+            "project": [
+              "ohos"
+            ],
+            "release": [
+              "v0.1.0"
+            ],
+            "distro": [
+              "openharmony-linux"
+            ],
+            "machine": [
+              "stm32mp1-av96"
+            ],
+            "image": [
+              "openharmony-image-extra",
+              "openharmony-image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "xserver-xf86-config",
+            "base_name": "xserver-xf86-config",
+            "version": "0.1",
+            "revision": "r33",
+            "package_arch": "stm32mp1_av96",
+            "recipe_name": "xserver-xf86-config",
+            "recipe_version": "0.1",
+            "recipe_revision": "r33",
+            "license": "MIT-X",
+            "summary": "X.Org X server configuration file",
+            "description": "X.Org X server configuration file.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        }
+      ],
+      "tags": {
+        "project": [
+          "ohos"
+        ],
+        "release": [
+          "v0.1.0"
+        ],
+        "distro": [
+          "openharmony-linux"
+        ],
+        "machine": [
+          "stm32mp1-av96",
+          "qemuarm64",
+          "qemux86-64",
+          "qemuarm",
+          "seco-intel-b68",
+          "qemux86",
+          "seco-imx8mm-c61"
+        ],
+        "image": [
+          "openharmony-image-extra",
+          "openharmony-image-extra-tests"
+        ]
+      },
+      "metadata": {
+        "name": "xserver-xf86-config",
+        "base_name": "xserver-xf86-config",
+        "version": "0.1",
+        "revision": "r33",
+        "variant": "6fd29cd1",
+        "author": null,
+        "homepage": "http://www.x.org",
+        "summary": "X.Org X server configuration file",
+        "description": "X.Org X server configuration file.",
+        "license": "MIT-X",
+        "depends_provides": {
+          "qemuarm": {
+            "depends": [
+              "virtual/arm-poky-linux-musleabi-compilerlibs",
+              "virtual/arm-poky-linux-musleabi-gcc",
+              "virtual/libc"
+            ],
+            "provides": [
+              "xserver-xf86-config"
+            ]
+          },
+          "qemuarm64": {
+            "depends": [
+              "virtual/aarch64-poky-linux-musl-compilerlibs",
+              "virtual/aarch64-poky-linux-musl-gcc",
+              "virtual/libc"
+            ],
+            "provides": [
+              "xserver-xf86-config"
+            ]
+          },
+          "qemux86": {
+            "depends": [
+              "virtual/i686-poky-linux-musl-compilerlibs",
+              "virtual/i686-poky-linux-musl-gcc",
+              "virtual/libc"
+            ],
+            "provides": [
+              "xserver-xf86-config"
+            ]
+          },
+          "qemux86-64": {
+            "depends": [
+              "virtual/libc",
+              "virtual/x86_64-poky-linux-musl-compilerlibs",
+              "virtual/x86_64-poky-linux-musl-gcc"
+            ],
+            "provides": [
+              "xserver-xf86-config"
+            ]
+          },
+          "seco-imx8mm-c61": {
+            "depends": [
+              "virtual/aarch64-poky-linux-musl-compilerlibs",
+              "virtual/aarch64-poky-linux-musl-gcc",
+              "virtual/libc"
+            ],
+            "provides": [
+              "xserver-xf86-config"
+            ]
+          },
+          "seco-intel-b68": {
+            "depends": [
+              "virtual/libc",
+              "virtual/x86_64-poky-linux-musl-compilerlibs",
+              "virtual/x86_64-poky-linux-musl-gcc"
+            ],
+            "provides": [
+              "xserver-xf86-config"
+            ]
+          },
+          "stm32mp1-av96": {
+            "depends": [
+              "virtual/arm-poky-linux-musleabi-compilerlibs",
+              "virtual/arm-poky-linux-musleabi-gcc",
+              "virtual/libc"
+            ],
+            "provides": [
+              "xserver-xf86-config"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

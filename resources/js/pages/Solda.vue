@@ -77,9 +77,6 @@
               </v-row>
             </v-card-text>
           </v-card>
-          <v-tooltip>
-            <span>{{stats.counts.audit_done.tooltip}} + {{stats.counts.audit_to_do.tooltip}} + diff</span>
-          </v-tooltip>
         </v-col>
       </v-row>
     </v-container>
@@ -552,6 +549,9 @@ export default {
       json: "file/json"
     }),
     entries: function() {
+      console.warn("entry recalc");
+
+
       let source = this.json.source_packages || [];
       let res = [];
       let index = 0;
@@ -571,6 +571,8 @@ export default {
       // TODO: validate input data
       for (let i = 0; i < source.length; i++) {
         source[i] = new AlienPackage(source[i]);
+
+
 
         var variant_key =
           source[i].name + "-" + source[i].version + "-" + source[i].revision;
@@ -602,27 +604,23 @@ export default {
 
       res = [...res, ...additional_packages];
 
+      let licenses = [];
+
       for (let i = 0; i < res.length; i++) {
         if (res[i].statistics) {
-          const filestats = source[i].statistics.files;
+          const filestats = res[i].statistics.files;
 
           // predefine license colors
-          let licenses = [];
           if (res[i].statistics.licenses) {
+
             licenses = licenses.concat(
               res[i].statistics.licenses.license_audit_findings.all_licenses
             );
+
             licenses = licenses.concat(
               res[i].statistics.licenses.license_scanner_findings
             );
-          }
 
-          for (let a = 0; a < licenses.length; a++) {
-            if (!this.palette[index]) index = 0;
-            if (!this.colors[licenses[a].shortname]) {
-              this.colors[licenses[a].shortname] = this.palette[index];
-              index++;
-            }
           }
 
           // patch table index and single progresses
@@ -638,13 +636,6 @@ export default {
           // patch debian match
           res[i].match = res[i].debian_matching
             ? (res[i].debian_matching.ip_matching_files /
-                filestats.upstream_source_total) *
-              100
-            : 0;
-
-          // patch debian match
-          source[i].match = source[i].debian_matching
-            ? (source[i].debian_matching.ip_matching_files /
                 filestats.upstream_source_total) *
               100
             : 0;
@@ -665,6 +656,14 @@ export default {
             all.min == 0 || filestats.audit_total < all.min
               ? filestats.audit_total
               : all.min;
+        }
+      }
+
+      for (let a = 0; a < licenses.length; a++) {
+        if (!this.palette[index]) index = 0;
+        if (!this.colors[licenses[a].shortname]) {
+          this.colors[licenses[a].shortname] = this.palette[index];
+          index++;
         }
       }
 
@@ -923,19 +922,21 @@ export default {
     getVariantDiff(variants) {
       var new_packages = [];
 
-      // for all packages with variants
-      for (var a = 0; a < variants.length; a++) {
 
+      // for all variant candidates...
+      for (var a = 0; a < variants.length; a++) {
         var skip = false;
 
         var all_sources = {};
+        var all_source_files = [];
         var all_binaries = [];
         var common_sources = [];
 
         var merged_package = new AlienPackage({
           name: variants[a][0].name,
           version: variants[a][0].version,
-          revision: variants[a][0].revision
+          revision: variants[a][0].revision,
+          variant: true
         });
 
         merged_package.id =
@@ -944,18 +945,23 @@ export default {
           variants[a][0].version +
           "-" +
           variants[a][0].revision;
+
+        // obsolete, remove if no dependency left
         merged_package.isVariant = true;
+
+        merged_package.hasVariants = true;
+
         merged_package.variant_files = {};
 
         merged_package.debian_matching.ip_matching_files = 0;
 
-
-        // check variants
+        // ...check all variants
         for (var b = 0; b < variants[a].length; b++) {
           var cur = variants[a][b];
 
           // if linux-kernel, do nothing, push all variants back to result
-          if(cur.name.indexOf("linux-kernel") != -1) {
+          if (cur.name.indexOf("linux-kernel") != -1) {
+            console.warn("ignoring package: name contains 'linux-kernel'")
             new_packages.push(cur);
             skip = true;
             continue;
@@ -988,8 +994,11 @@ export default {
           merged_package.debian_matching = {
             name: cur.debian_matching.name,
             version: cur.debian_matching.version,
-            ip_matching_files: Math.max(merged_package.debian_matching.ip_matching_files, cur.debian_matching.ip_matching_files)
-          }
+            ip_matching_files: Math.max(
+              merged_package.debian_matching.ip_matching_files,
+              cur.debian_matching.ip_matching_files
+            )
+          };
 
           if (cur.statistics.aggregate) {
             merged_package.statistics = {
@@ -1045,6 +1054,8 @@ export default {
             source_files: cur.source_files
           };
 
+          merged_package.my_source_files = cur.source_files;
+
           // check sourcefiles
           for (var i = 0; i < cur.source_files.length; i++) {
             if (
@@ -1059,12 +1070,18 @@ export default {
             ) {
               common_sources.push(cur.source_files[i]);
             }
-          }
 
-          all_binaries = [...all_binaries, ...cur.binary_packages];
+            if( all_sources[cur.source_files[i].sha1_cksum] == 1) {
+              cur.source_files[i].variant = ""
+              all_source_files.push(cur.source_files[i])
+            }
+            all_binaries = [...all_binaries, ...cur.binary_packages];
+          }
         }
 
         merged_package.source_files = common_sources;
+
+        merged_package.meta_source_files = all_source_files;
         merged_package.binary_packages = all_binaries;
 
         merged_package.tags.project = _.uniq(merged_package.tags.project);
@@ -1080,15 +1097,16 @@ export default {
         for (const [key, value] of Object.entries(
           merged_package.variant_files
         )) {
-          var cur = merged_package.variant_files[key];
-          merged_package.variant_files[
-            key
-          ].source_files = cur.source_files.filter(val => {
+          var vcur = merged_package.variant_files[key];
+          vcur.source_files = vcur.source_files.filter(val => {
             return common_file_index.indexOf(val.sha1_cksum) == -1;
           });
+
         }
 
-        if(!skip) new_packages.push(merged_package);
+        merged_package.setVariantTags();
+
+        if (!skip) new_packages.push(merged_package);
       }
 
       return new_packages;
