@@ -54,7 +54,7 @@ exports.headers = [
     tooltip: "license_audit_findings.main_licenses",
   },
   {
-    text: "Distro",
+    text: "Distros",
     value: "tags.distro",
     type: "implode",
     fixed: true,
@@ -63,7 +63,7 @@ exports.headers = [
     tooltip: "tags.distro",
   },
   {
-    text: "Image",
+    text: "Images",
     value: "tags.image",
     type: "implode",
     fixed: true,
@@ -72,7 +72,7 @@ exports.headers = [
     tooltip: "tags.image",
   },
   {
-    text: "Machine",
+    text: "Machines",
     width: "100px",
     value: "tags.machine",
     type: "implode",
@@ -83,7 +83,7 @@ exports.headers = [
     tooltip: "tags.machin",
   },
   {
-    text: "Release",
+    text: "Releases",
     value: "tags.release",
     type: "implode",
     width: "100px",

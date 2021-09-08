@@ -131,20 +131,10 @@ export default {
           private_token: this.$route.query.private_token
         })
         .then(response => {
-          const supported_tools = ["aliens4friends.harvest", "fossywrapper"];
-          if (
-            response.data.data.tool &&
-            supported_tools.includes(response.data.data.tool.name)
-          ) {
-            this.$store.dispatch("file/saveFile", { json: response.data.data });
-            this.$emit("data-complete");
-            this.loading = false;
-            this.loaded = true;
-          } else {
-            this.snackbar.text = "Invalid JSON-Feed";
-            this.snackbar.status = true;
-            this.loading = false;
-          }
+          this.$store.dispatch("file/saveFile", { json: response.data.data });
+          this.$emit("data-complete");
+          this.loading = false;
+          this.loaded = true;
         })
         .catch(error => {
           this.snackbar.text = "Data could not be retrieved";
