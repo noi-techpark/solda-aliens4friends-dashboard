@@ -12,7 +12,7 @@ pipeline {
 		ANSIBLE_LIMIT = "test"
 
 		APP_NAME = "Aliens4Friends"
-		APP_ENV = "local"
+		APP_ENV = "production"
 		APP_DEBUG = true
 		APP_URL = "https://dashboard.solda.testingmachine.eu"
 		SERVER_PORT = 1077
