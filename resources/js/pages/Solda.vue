@@ -84,231 +84,74 @@
     <v-container fluid v-if="entries.length > 0">
       <v-row align="stretch">
         <v-col cols="6" :class="{ filtered: isFiltered }">
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
-              <v-card flat tile v-bind="attrs" v-on="on">
-                <v-card-title>FOSSology audit progress</v-card-title>
-                <v-card-subtitle>Total audit files </v-card-subtitle>
-                <v-card-text class="pa-0">
-                  <apexchart
-                    v-if="entries.length > 0 && current.length > 0"
-                    height="110px"
-                    type="bar"
-                    :options="
-                      getCharts(
-                        [
-                          stats.counts.audit_done.value,
-                          stats.counts.audit_to_do.value,
-                          auditdiff.value
-                        ],
-                        [
-                          stats.counts.audit_done.subtitle,
-                          stats.counts.audit_to_do.subtitle,
-                          auditdiff.subtitle
-                        ],
-                        false,
-                        true,
-                        false,
-                        '100%'
-                      ).chartOptions
-                    "
-                    :series="
-                      getCharts(
-                        [
-                          stats.counts.audit_done.value,
-                          stats.counts.audit_to_do.value,
-                          auditdiff.value
-                        ],
-                        [
-                          stats.counts.audit_done.subtitle,
-                          stats.counts.audit_to_do.subtitle,
-                          auditdiff.subtitle
-                        ],
-                        false,
-                        true,
-                        false,
-                        '100%'
-                      ).series
-                    "
-                  ></apexchart>
-                </v-card-text>
-              </v-card>
-            </template>
-
-            <span
-              >{{ stats.counts.audit_done.tooltip }} +
-              {{ stats.counts.audit_to_do.tooltip }} + diff</span
-            >
-          </v-tooltip>
+          <chart-component
+            v-if="entries.length > 0 && current.length > 0"
+            :tooltip="stats.counts.total.tooltip"
+            :series="total_charts.series"
+            :options="total_charts.chartOptions"
+            title="FOSSology audit progress"
+            subtitle="Total audit files"
+            height="110px"
+            type="bar"
+          ></chart-component>
         </v-col>
         <v-col cols="6" :class="{ filtered: isFiltered }">
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
-              <v-card flat tile v-bind="attrs" v-on="on">
-                <v-card-title>Provenance</v-card-title>
-                <v-card-subtitle
-                  >Upstream source total:
-                  <b>{{
-                    stats.counts.upstream_source_total.value
-                  }}</b></v-card-subtitle
-                >
-                <v-card-text class="pa-0">
-                  <apexchart
-                    v-if="entries.length > 0 && current.length > 0"
-                    height="110px"
-                    type="bar"
-                    :options="
-                      getCharts(
-                        [
-                          stats.counts.known_provenance.value,
-                          stats.counts.unknown_provenance.value
-                        ],
-                        [
-                          stats.counts.known_provenance.subtitle,
-                          stats.counts.unknown_provenance.subtitle
-                        ],
-                        false,
-                        true,
-                        false
-                      ).chartOptions
-                    "
-                    :series="
-                      getCharts(
-                        [
-                          stats.counts.known_provenance.value,
-                          stats.counts.unknown_provenance.value
-                        ],
-                        [
-                          stats.counts.known_provenance.subtitle,
-                          stats.counts.unknown_provenance.subtitle
-                        ],
-                        false,
-                        true,
-                        false
-                      ).series
-                    "
-                  ></apexchart>
-                </v-card-text>
-              </v-card>
-            </template>
-
-            <span
-              >{{ stats.counts.known_provenance.tooltip }} +
-              {{ stats.counts.unknown_provenance.tooltip }}</span
-            >
-          </v-tooltip>
+          <chart-component
+            v-if="entries.length > 0 && current.length > 0"
+            :tooltip="stats.counts.known_provenance.tooltip"
+            :series="provenance_charts.series"
+            :options="provenance_charts.chartOptions"
+            title="Provenance"
+            :subtitle="
+              'Upstream source total: ' +
+                stats.counts.upstream_source_total.value
+            "
+            height="110px"
+            type="bar"
+          ></chart-component>
         </v-col>
 
         <v-col cols="4" :class="{ filtered: isFiltered }">
-          <v-card flat tile>
-            <v-card-title>
-              <v-row no-gutters>
-                <v-col cols="8">{{ stats.charts.scan.title }}</v-col>
-                <v-spacer></v-spacer>
-                <v-col class="text-right">{{
-                  Object.keys(stats.charts.scan.value).length
-                }}</v-col>
-              </v-row>
-            </v-card-title>
-            <v-card-subtitle>{{ stats.charts.scan.subtitle }}</v-card-subtitle>
-            <v-card-text v-if="Object.keys(stats.charts.scan.value).length > 0">
-              <apexchart
-                v-if="entries.length > 0 && current.length > 0"
-                height="300px"
-                type="pie"
-                :options="getCharts(stats.charts.scan.value).chartOptions"
-                :series="getCharts(stats.charts.scan.value).series[0].data"
-              ></apexchart>
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <div v-bind="attrs" v-on="on" style="text-align:right">
-                    <v-spacer />
-                    <v-icon>mdi-information</v-icon>
-                  </div>
-                </template>
-
-                <span>{{ stats.charts.scan.tooltip }}</span>
-              </v-tooltip>
-            </v-card-text>
-          </v-card>
+          <chart-component
+            v-if="entries.length > 0 && current.length > 0"
+            :tooltip="stats.charts.scan.tooltip"
+            :tableview="true"
+            :series="getCharts(stats.charts.scan.value).series[0].data"
+            :options="getCharts(stats.charts.scan.value).chartOptions"
+            :tabledata="getCharts(stats.charts.scan.value).raw"
+            :title="stats.charts.scan.title"
+            :subtitle="stats.charts.scan.subtitle"
+            height="300px"
+            type="pie"
+          ></chart-component>
         </v-col>
         <v-col cols="4" :class="{ filtered: isFiltered }">
-          <v-card flat tile>
-            <v-card-title>
-              <v-row no-gutters>
-                <v-col cols="8">{{ stats.charts.main_licenses.title }}</v-col>
-                <v-spacer></v-spacer>
-                <v-col class="text-right">{{
-                  stats.counts.main_licenses.value.length
-                }}</v-col>
-              </v-row>
-            </v-card-title>
-            <v-card-subtitle>{{
-              stats.charts.main_licenses.subtitle
-            }}</v-card-subtitle>
-            <v-card-text v-if="stats.counts.main_licenses.value.length > 0">
-              <apexchart
-                v-if="entries.length > 0 && current.length > 0"
-                height="300px"
-                type="pie"
-                :options="
-                  getCharts(stats.charts.main_licenses.value).chartOptions
-                "
-                :series="
-                  getCharts(stats.charts.main_licenses.value).series[0].data
-                "
-              ></apexchart>
-
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <div v-bind="attrs" v-on="on" style="text-align:right">
-                    <v-spacer />
-                    <v-icon>mdi-information</v-icon>
-                  </div>
-                </template>
-
-                <span>{{ stats.charts.main_licenses.tooltip }}</span>
-              </v-tooltip>
-            </v-card-text>
-          </v-card>
+          <chart-component
+            v-if="entries.length > 0 && current.length > 0"
+            :tooltip="stats.charts.main_licenses.tooltip"
+            :tableview="true"
+            :series="getCharts(stats.charts.main_licenses.value).series[0].data"
+            :options="getCharts(stats.charts.main_licenses.value).chartOptions"
+            :tabledata="getCharts(stats.charts.main_licenses.value).raw"
+            :title="stats.charts.main_licenses.title"
+            :subtitle="stats.charts.main_licenses.subtitle"
+            height="300px"
+            type="pie"
+          ></chart-component>
         </v-col>
         <v-col cols="4" :class="{ filtered: isFiltered }">
-          <v-card flat tile>
-            <v-card-title>
-              <v-row no-gutters>
-                <v-col cols="8">{{ stats.charts.audit_all.title }}</v-col>
-                <v-spacer></v-spacer>
-                <v-col class="text-right">{{
-                  Object.keys(stats.charts.audit_all.value).length
-                }}</v-col>
-              </v-row>
-            </v-card-title>
-            <v-card-subtitle>{{
-              stats.charts.audit_all.subtitle
-            }}</v-card-subtitle>
-            <v-card-text
-              v-if="Object.keys(stats.charts.audit_all.value).length > 0"
-            >
-              <apexchart
-                v-if="entries.length > 0 && current.length > 0"
-                height="300px"
-                type="pie"
-                :options="getCharts(stats.charts.audit_all.value).chartOptions"
-                :series="getCharts(stats.charts.audit_all.value).series[0].data"
-              ></apexchart>
-
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <div v-bind="attrs" v-on="on" style="text-align:right">
-                    <v-spacer />
-                    <v-icon>mdi-information</v-icon>
-                  </div>
-                </template>
-
-                <span>{{ stats.charts.audit_all.tooltip }}</span>
-              </v-tooltip>
-            </v-card-text>
-          </v-card>
+          <chart-component
+            v-if="entries.length > 0 && current.length > 0"
+            :tooltip="stats.charts.audit_all.tooltip"
+            :tableview="true"
+            :series="getCharts(stats.charts.audit_all.value).series[0].data"
+            :options="getCharts(stats.charts.audit_all.value).chartOptions"
+            :tabledata="getCharts(stats.charts.audit_all.value).raw"
+            :title="stats.charts.audit_all.title"
+            :subtitle="stats.charts.audit_all.subtitle"
+            height="300px"
+            type="pie"
+          ></chart-component>
         </v-col>
         <v-col>
           <v-row fill-height>
@@ -395,6 +238,27 @@
                 v-on="on"
               >
                 <v-switch
+                  v-model="showVariantCve"
+                  label="1. Level variant CVE"
+                  color="red"
+                  class="ma-0"
+                  value="exclusive"
+                  hide-details
+                  @click="filterChange = true"
+                ></v-switch>
+              </div>
+            </template>
+            <span>{{ tooltips.stats.elements.show_variant_cve }}</span>
+          </v-tooltip>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <div
+                style="display:inline-block"
+                class="mr-4"
+                v-bind="attrs"
+                v-on="on"
+              >
+                <v-switch
                   v-model="filterMode"
                   label="Exclusive selection"
                   color="red"
@@ -405,7 +269,6 @@
                 ></v-switch>
               </div>
             </template>
-
             <span>{{ tooltips.stats.elements.exclusive_mode }}</span>
           </v-tooltip>
           <v-tooltip color="green" top v-model="filterChange">
@@ -439,6 +302,7 @@
             :stats="total_stats"
             :palette="palette"
             :colors="colors"
+            :showMainCve="showVariantCve"
             @filter-clicked="triggerSearch"
             @filter-change="filterChange = true"
             ident="Meta"
@@ -497,6 +361,7 @@ import AlienPackage from "../models/AlienPackage";
 export default {
   data() {
     return {
+      showVariantCve: false,
       needle: "",
       params: {
         needle: "",
@@ -551,7 +416,6 @@ export default {
     entries: function() {
       console.warn("entry recalc");
 
-
       let source = this.json.source_packages || [];
       let res = [];
       let index = 0;
@@ -571,8 +435,6 @@ export default {
       // TODO: validate input data
       for (let i = 0; i < source.length; i++) {
         source[i] = new AlienPackage(source[i]);
-
-
 
         var variant_key =
           source[i].name + "-" + source[i].version + "-" + source[i].revision;
@@ -612,7 +474,6 @@ export default {
 
           // predefine license colors
           if (res[i].statistics.licenses) {
-
             licenses = licenses.concat(
               res[i].statistics.licenses.license_audit_findings.all_licenses
             );
@@ -620,7 +481,6 @@ export default {
             licenses = licenses.concat(
               res[i].statistics.licenses.license_scanner_findings
             );
-
           }
 
           // patch table index and single progresses
@@ -747,6 +607,39 @@ export default {
     },
     isFiltered: function() {
       return this.filtered;
+    },
+    provenance_charts: function() {
+      return this.getCharts(
+        [
+          this.stats.counts.known_provenance.value,
+          this.stats.counts.unknown_provenance.value
+        ],
+        [
+          this.stats.counts.known_provenance.subtitle,
+          this.stats.counts.unknown_provenance.subtitle
+        ],
+        false,
+        true,
+        false
+      );
+    },
+    total_charts: function() {
+      return this.getCharts(
+        [
+          this.stats.counts.audit_done.value,
+          this.stats.counts.audit_to_do.value,
+          this.auditdiff.value
+        ],
+        [
+          this.stats.counts.audit_done.subtitle,
+          this.stats.counts.audit_to_do.subtitle,
+          this.auditdiff.subtitle
+        ],
+        false,
+        true,
+        false,
+        "100%"
+      );
     },
     stats: function() {
       let res = {
@@ -922,7 +815,6 @@ export default {
     getVariantDiff(variants) {
       var new_packages = [];
 
-
       // for all variant candidates...
       for (var a = 0; a < variants.length; a++) {
         var skip = false;
@@ -961,7 +853,7 @@ export default {
 
           // if linux-kernel, do nothing, push all variants back to result
           if (cur.name.indexOf("linux-kernel") != -1) {
-            console.warn("ignoring package: name contains 'linux-kernel'")
+            console.warn("ignoring package: name contains 'linux-kernel'");
             new_packages.push(cur);
             skip = true;
             continue;
@@ -1050,9 +942,7 @@ export default {
             };
           }
 
-          merged_package.variant_files[cur.variant] = {
-            source_files: cur.source_files
-          };
+          merged_package.variant_files[cur.variant] = cur;
 
           merged_package.my_source_files = cur.source_files;
 
@@ -1071,9 +961,9 @@ export default {
               common_sources.push(cur.source_files[i]);
             }
 
-            if( all_sources[cur.source_files[i].sha1_cksum] == 1) {
-              cur.source_files[i].variant = ""
-              all_source_files.push(cur.source_files[i])
+            if (all_sources[cur.source_files[i].sha1_cksum] == 1) {
+              cur.source_files[i].variant = "";
+              all_source_files.push(cur.source_files[i]);
             }
             all_binaries = [...all_binaries, ...cur.binary_packages];
           }
@@ -1101,7 +991,6 @@ export default {
           vcur.source_files = vcur.source_files.filter(val => {
             return common_file_index.indexOf(val.sha1_cksum) == -1;
           });
-
         }
 
         merged_package.setVariantTags();
@@ -1376,6 +1265,7 @@ export default {
         values: values
       };
     },
+    // TODO: Move to Chart-Component
     getCharts(
       data = [],
       labels = [],
@@ -1405,6 +1295,9 @@ export default {
         labels = sorted.names;
         data = sorted.values;
       }
+
+      var raw_labels = labels;
+      var raw_data = data;
 
       // grouping
       if (grouping) {
@@ -1477,7 +1370,11 @@ export default {
             }
           }
         },
-        series: series
+        series: series,
+        raw: {
+          labels: raw_labels,
+          data: raw_data
+        }
       };
 
       return res;
