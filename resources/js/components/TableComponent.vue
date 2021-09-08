@@ -400,7 +400,11 @@ export default {
       default: () => {
         return {};
       }
-    }
+    },
+    showMainCve: {
+      type: Boolean,
+      default: false
+    },
   },
   data() {
     return {
@@ -409,7 +413,6 @@ export default {
       sums: {},
       charts: {},
       expanded: [],
-      showMainCve: false,
       rules: {
         isnumber: value => !isNaN(value) || "numbers only"
       },

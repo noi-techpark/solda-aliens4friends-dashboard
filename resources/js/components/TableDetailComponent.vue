@@ -1,27 +1,43 @@
 <template>
   <div>
-    <v-card flat tile v-if="item.isVariant">
-      <v-expansion-panels accordion multiple >
+    <v-card flat tile v-if="item.isVariant" color="transparent">
+      <v-expansion-panels accordion multiple flat color="transparent">
         <v-expansion-panel
           v-for="(variant, vkey) in item.variant_files"
           :key="vkey"
+          color="transparent"
         >
           <v-expansion-panel-header>
             <div class="ml-2">
               <v-icon v-if="item.isCve" color="red">mdi-security</v-icon>
-              <b>Variant: {{ vkey }}</b> | {{ variant.name }} | {{ variant.version }} | {{ variant.revision }} |
-              <v-chip small color="primary" :key="tag" v-for="tag in item.variant_files[vkey].tags.release">{{tag}}</v-chip><v-chip :key="tag" small color="secondary" class="ml-1" v-for="tag in item.variant_files[vkey].tags.image">{{tag}}</v-chip>
+              <b>Variant: {{ vkey }}</b> | {{ variant.name }} |
+              {{ variant.version }} | {{ variant.revision }} |
+              <v-chip
+                small
+                color="primary"
+                :key="tag"
+                v-for="tag in item.variant_files[vkey].tags.release"
+                >{{ tag }}</v-chip
+              ><v-chip
+                :key="tag"
+                small
+                color="secondary"
+                class="ml-1"
+                v-for="tag in item.variant_files[vkey].tags.image"
+                >{{ tag }}</v-chip
+              >
             </div>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
             <v-row>
+              <!-- TODO: source_files = common_files for variants -->
               <v-col cols="3" v-if="item.source_files">
-                <v-tabs v-model="item.sourcetab">
+                <v-tabs v-model="item.sourcetab" class="rounded">
                   <v-tab>
                     Common Sources
                   </v-tab>
                 </v-tabs>
-                <v-tabs-items v-model="item.sourcetab">
+                <v-tabs-items v-model="item.sourcetab" class="rounded">
                   <v-tab-item>
                     <v-virtual-scroll
                       :items="item.source_files"
@@ -35,6 +51,12 @@
                               {{ item.name }}
                               <v-chip small v-if="item.files_in_archive"
                                 >{{ item.files_in_archive }} Files</v-chip
+                              >
+                              <v-chip
+                                small
+                                color="primary"
+                                v-if="getSourceFileRelease(item) != ''"
+                                >{{ getSourceFileRelease(item) }}</v-chip
                               >
                               <v-chip
                                 small
@@ -66,12 +88,7 @@
                                 v-if="item.src_uri.indexOf('patch') != -1"
                                 >patch</v-chip
                               >
-                              <v-chip
-                                color="green"
-                                small
-                                v-if="
-                                  item.audited
-                                "
+                              <v-chip color="green" small v-if="item.audited"
                                 ><v-icon>mdi-check</v-icon></v-chip
                               >
                             </v-list-item-title>
@@ -97,12 +114,12 @@
                 </v-tabs-items>
               </v-col>
               <v-col cols="3" v-if="item.meta_source_files && item.isVariant">
-                <v-tabs v-model="item.sourcetab">
+                <v-tabs v-model="item.sourcetab" class="rounded">
                   <v-tab>
                     Variant specific
                   </v-tab>
                 </v-tabs>
-                <v-tabs-items v-model="item.sourcetab">
+                <v-tabs-items v-model="item.sourcetab" class="rounded">
                   <v-tab-item>
                     <v-virtual-scroll
                       :items="item.variant_files[vkey].source_files"
@@ -116,6 +133,12 @@
                               {{ item.name }}
                               <v-chip small v-if="item.files_in_archive"
                                 >{{ item.files_in_archive }} Files</v-chip
+                              >
+                              <v-chip
+                                small
+                                color="primary"
+                                v-if="getSourceFileRelease(item) != ''"
+                                >{{ getSourceFileRelease(item) }}</v-chip
                               >
                               <v-chip
                                 small
@@ -147,12 +170,7 @@
                                 v-if="item.src_uri.indexOf('patch') != -1"
                                 >patch</v-chip
                               >
-                              <v-chip
-                                color="green"
-                                small
-                                v-if="
-                                  item.audited
-                                "
+                              <v-chip color="green" small v-if="item.audited"
                                 ><v-icon>mdi-check</v-icon></v-chip
                               >
                             </v-list-item-title>
@@ -177,8 +195,15 @@
                   </v-tab-item>
                 </v-tabs-items>
               </v-col>
-              <v-col cols="3" v-if="fileSpecificMachines && item.isVariant">
-                <v-tabs v-model="item.varianttab">
+              <v-col
+                cols="3"
+                v-if="
+                  fileSpecificMachines.length > 0 &&
+                    fileSpecificMachines[0] != 'all' &&
+                    item.isVariant
+                "
+              >
+                <v-tabs v-model="item.varianttab" class="rounded">
                   <v-tabs-slider color="green"></v-tabs-slider>
                   <v-tab
                     v-for="(machine, name) in fileSpecificMachines"
@@ -190,7 +215,7 @@
                     {{ machine }} specific
                   </v-tab>
                 </v-tabs>
-                <v-tabs-items v-model="item.varianttab">
+                <v-tabs-items v-model="item.varianttab" class="rounded">
                   <v-tab-item
                     v-for="(variant, name) in fileSpecificMachines"
                     :key="name"
@@ -236,12 +261,12 @@
                 </v-tabs-items>
               </v-col>
               <v-col v-if="item.binary_packages">
-                <v-tabs v-model="item.binarytab">
+                <v-tabs v-model="item.binarytab" class="rounded">
                   <v-tab>
                     Variant Specific Binaries
                   </v-tab>
                 </v-tabs>
-                <v-tabs-items v-model="item.binarytab">
+                <v-tabs-items v-model="item.binarytab" class="rounded">
                   <v-tab-item>
                     <v-virtual-scroll
                       :items="getBinaries(variant.binary_packages)"
@@ -269,8 +294,8 @@
         </v-expansion-panel>
       </v-expansion-panels>
     </v-card>
-
-    <v-card flat tile v-if="!item.isVariant">
+    <!-- TODO: Same view for Variants & Non-Variants, source file chips should be a component  -->
+    <v-card flat tile v-if="!item.isVariant" color="transparent">
       <v-card-title>{{ item.name || "Missing name" }}</v-card-title>
       <v-card-subtitle
         >{{ item.version || "0.0.0" }} |
@@ -278,13 +303,13 @@
       >
       <v-card-text>
         <v-row>
-          <v-col v-if="item.source_files">
-            <v-tabs v-model="item.sourcetab">
+          <v-col v-if="item.source_files" class="rounded">
+            <v-tabs v-model="item.sourcetab" class="rounded">
               <v-tab>
                 Common Source Files
               </v-tab>
             </v-tabs>
-            <v-tabs-items v-model="item.sourcetab">
+            <v-tabs-items v-model="item.sourcetab" class="rounded">
               <v-tab-item>
                 <v-virtual-scroll
                   :items="item.source_files"
@@ -301,89 +326,9 @@
                           >
                           <v-chip
                             small
-                            v-if="item.src_uri.indexOf('tar.gz') != -1"
-                            >tar.gz</v-chip
-                          >
-                          <v-chip
-                            small
-                            v-if="item.src_uri.indexOf('http://') != -1"
-                            >http</v-chip
-                          >
-                          <v-chip
-                            small
-                            v-if="item.src_uri.indexOf('https://') != -1"
-                            >https</v-chip
-                          >
-                          <v-chip
-                            small
-                            v-if="item.src_uri.indexOf('file://') != -1"
-                            >local</v-chip
-                          >
-                          <v-chip
-                            small
-                            v-if="item.src_uri.indexOf('gnu.org') != -1"
-                            >gnu.org</v-chip
-                          >
-                          <v-chip
-                            small
-                            v-if="item.src_uri.indexOf('patch') != -1"
-                            >patch</v-chip
-                          >
-                          <v-chip
-                            color="green"
-                            small
-                            v-if="
-                              item.audited ||
-                                item.src_uri.indexOf('file://') != -1
-                            "
-                            ><v-icon>mdi-check</v-icon></v-chip
-                          >
-                        </v-list-item-title>
-                      </v-list-item-content>
-
-                      <v-list-item-action>
-                        <v-btn
-                          depressed
-                          small
-                          :href="item.src_uri"
-                          target="_blank"
-                        >
-                          File
-                          <v-icon color="orange darken-4" right>
-                            mdi-open-in-new
-                          </v-icon>
-                        </v-btn>
-                      </v-list-item-action>
-                    </v-list-item>
-                  </template>
-                </v-virtual-scroll>
-              </v-tab-item>
-            </v-tabs-items>
-          </v-col>
-          <v-col v-if="item.variant_files">
-            <v-tabs v-model="item.varianttab">
-              <v-tabs-slider color="green"></v-tabs-slider>
-              <v-tab v-for="(variant, name) in item.variant_files" :key="name">
-                {{ name }}
-              </v-tab>
-            </v-tabs>
-            <v-tabs-items v-model="item.varianttab">
-              <v-tab-item
-                v-for="(variant, name) in item.variant_files"
-                :key="name"
-              >
-                <v-virtual-scroll
-                  :items="variant.source_files"
-                  :item-height="30"
-                  height="200"
-                >
-                  <template v-slot:default="{ item }">
-                    <v-list-item>
-                      <v-list-item-content>
-                        <v-list-item-title>
-                          {{ item.name }}
-                          <v-chip small v-if="item.files_in_archive"
-                            >{{ item.files_in_archive }} Files</v-chip
+                            color="primary"
+                            v-if="getSourceFileRelease(item) != ''"
+                            >{{ getSourceFileRelease(item) }}</v-chip
                           >
                           <v-chip
                             small
@@ -447,12 +392,12 @@
             </v-tabs-items>
           </v-col>
           <v-col v-if="item.binary_packages">
-            <v-tabs v-model="item.binarytab">
+            <v-tabs v-model="item.binarytab" class="rounded">
               <v-tab>
                 Binary Packages
               </v-tab>
             </v-tabs>
-            <v-tabs-items v-model="item.binarytab">
+            <v-tabs-items v-model="item.binarytab" class="rounded">
               <v-tab-item>
                 <v-virtual-scroll
                   :items="getBinaries(item.binary_packages)"
@@ -511,14 +456,11 @@ export default {
         }
       }
 
-      return _.uniq(machines);
+      return machines.length > 0 ? _.uniq(machines) : false;
     }
   },
   data() {
     return {};
-  },
-  mounted: function() {
-      console.log(this.item)
   },
   methods: {
     machineTabNotEmpty(machine, vkey) {
@@ -536,6 +478,16 @@ export default {
       if (item.length > 0 && typeof item[0].name == "undefined") {
         return item[0];
       } else return item;
+    },
+    getSourceFileRelease(source_file) {
+      var release = "";
+      for (var a = 0; a < source_file.paths.length; a++) {
+        const tags = source_file.paths[a].split("/");
+        if (tags.length >= 2) {
+          release = tags[2];
+        }
+      }
+      return release;
     },
     fileIsMachineSpecific(machines) {
       // if no machines, it is valid for all machines
