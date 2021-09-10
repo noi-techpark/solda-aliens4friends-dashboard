@@ -9,7 +9,7 @@
     </v-card-title>
     <v-card-subtitle>{{ subtitle }}</v-card-subtitle>
     <v-card-text>
-      <apexchart v-if="!showTable"
+      <apexchart v-show="!showTable"
         :height="height"
         :type="type"
         :options="options"

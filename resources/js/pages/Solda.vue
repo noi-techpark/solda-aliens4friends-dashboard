@@ -432,7 +432,7 @@ export default {
         max: 0
       };
 
-      // TODO: validate input data
+      // TODO: virtual properties should be calculated directly inside AlienPackage
       for (let i = 0; i < source.length; i++) {
         source[i] = new AlienPackage(source[i]);
 
@@ -534,63 +534,56 @@ export default {
       this.total_stats = all;
 
       // generate column filter values
-      for (var i = 0; i < this.headers.length; i++) {
-        if (this.headers[i].autofilter) {
-          this.headers[i].filterVals = [];
-          this.headers[i].activeVals = {};
+      for (let e = 0; e < this.headers.length; e++) {
+        if (this.headers[e].autofilter) {
+          this.headers[e].filterVals = [];
+          this.headers[e].activeVals = {};
 
-          for (var a = 0; a < res.length; a++) {
-            let vals = this.resolve(this.headers[i].value, res[a]);
+          for (let f = 0; f < res.length; f++) {
+            let vals = this.resolve(this.headers[e].value, res[f]);
 
             if (vals) {
-              if (this.headers[i].type == "chart") {
+              if (this.headers[e].type == "chart") {
                 vals = vals.map(o => {
                   return o.shortname;
                 });
               }
 
-              this.headers[i].filterVals = [
-                ...new Set([...this.headers[i].filterVals, ...vals])
+              this.headers[e].filterVals = [
+                ...new Set([...this.headers[e].filterVals, ...vals])
               ];
             }
           }
 
-          this.headers[i].filterVals.sort();
+          this.headers[e].filterVals.sort();
 
           let active = false;
-          for (var a = 0; a < this.headers[i].filterVals.length; a++) {
-            this.headers[i].activeVals[this.headers[i].filterVals[a]] =
-              this.params.cols[this.headers[i].value] &&
-              this.params.cols[this.headers[i].value][
-                this.headers[i].filterVals[a]
+          for (let g = 0; g < this.headers[e].filterVals.length; g++) {
+            this.headers[e].activeVals[this.headers[e].filterVals[g]] =
+              this.params.cols[this.headers[e].value] &&
+              this.params.cols[this.headers[e].value][
+                this.headers[e].filterVals[g]
               ];
-            if (this.headers[i].activeVals[this.headers[i].filterVals[a]])
+            if (this.headers[e].activeVals[this.headers[e].filterVals[g]])
               active = true;
           }
 
           if (active)
             this.triggerSearch({
-              col: this.headers[i].value,
-              active: this.headers[i].activeVals
+              col: this.headers[e].value,
+              active: this.headers[e].activeVals
             });
         }
 
         if (
-          this.headers[i].valueFilter &&
-          this.params.filters[this.headers[i].value]
+          this.headers[e].valueFilter &&
+          this.params.filters[this.headers[e].value]
         ) {
-          this.headers[i].valueFilter = this.params.filters[
-            this.headers[i].value
+          this.headers[e].valueFilter = this.params.filters[
+            this.headers[e].value
           ];
         }
       }
-
-      /*
-       // test aggregate flag. aggregates must be 0 if active
-       res = res.filter(value => {
-         return value.statistics && !value.statistics.aggregate;
-       });
-      */
 
       this.current = res;
 
@@ -1346,6 +1339,9 @@ export default {
           colors: colors,
           labels: labels,
           chart: {
+            animations: {
+              enabled: false
+            },
             toolbar: {
               show: false
             },
