@@ -436,8 +436,6 @@ export default {
       for (let i = 0; i < source.length; i++) {
         source[i] = new AlienPackage(source[i]);
 
-
-
         var variant_key =
           source[i].name + "-" + source[i].version + "-" + source[i].revision;
 
@@ -476,7 +474,6 @@ export default {
 
           // predefine license colors
           if (res[i].statistics.licenses) {
-
             licenses = licenses.concat(
               res[i].statistics.licenses.license_audit_findings.all_licenses
             );
@@ -484,6 +481,7 @@ export default {
             licenses = licenses.concat(
               res[i].statistics.licenses.license_scanner_findings
             );
+          }
 
           // patch table index and single progresses
           res[i].uid = i;
@@ -941,8 +939,6 @@ export default {
 
           merged_package.my_source_files = cur.source_files;
 
-          merged_package.my_source_files = cur.source_files;
-
           // check sourcefiles
           for (var i = 0; i < cur.source_files.length; i++) {
             if (
@@ -988,7 +984,6 @@ export default {
           vcur.source_files = vcur.source_files.filter(val => {
             return common_file_index.indexOf(val.sha1_cksum) == -1;
           });
-
         }
 
         merged_package.setVariantTags();
