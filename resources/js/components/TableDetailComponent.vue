@@ -11,17 +11,34 @@
             <div class="ml-2">
               <v-icon v-if="item.isCve" color="red">mdi-security</v-icon>
               <b>Variant: {{ vkey }}</b> | {{ variant.name }} |
-              {{ variant.version }} | {{ variant.revision }} |
+              {{ variant.version }} | {{ variant.revision }}
               <v-chip
-                small
+                x-small
                 color="primary"
                 :key="tag"
                 v-for="tag in item.variant_files[vkey].tags.release"
                 >{{ tag }}</v-chip
-              ><v-chip
+              >
+              <v-chip
                 :key="tag"
-                small
+                x-small
                 color="secondary"
+                class="ml-1"
+                v-for="tag in item.variant_files[vkey].tags.distro"
+                >{{ tag }}</v-chip
+              >
+              <v-chip
+                :key="tag"
+                x-small
+                color="teritary"
+                class="ml-1"
+                v-for="tag in item.variant_files[vkey].tags.machine"
+                >{{ tag }}</v-chip
+              >
+              <v-chip
+                :key="tag"
+                x-small
+                color="#FFDD33"
                 class="ml-1"
                 v-for="tag in item.variant_files[vkey].tags.image"
                 >{{ tag }}</v-chip
@@ -41,7 +58,7 @@
                   <v-tab-item>
                     <v-virtual-scroll
                       :items="item.source_files"
-                      :item-height="30"
+                      :item-height="40"
                       height="200"
                     >
                       <template v-slot:default="{ item }">
@@ -49,49 +66,59 @@
                           <v-list-item-content>
                             <v-list-item-title>
                               {{ item.name }}
-                              <v-chip small v-if="item.files_in_archive"
+                            </v-list-item-title>
+                            <v-list-item-subtitle>
+                              <v-chip x-small v-if="item.files_in_archive"
                                 >{{ item.files_in_archive }} Files</v-chip
                               >
                               <v-chip
-                                small
+                                x-small
                                 color="primary"
-                                v-if="getSourceFileRelease(item) != ''"
-                                >{{ getSourceFileRelease(item) }}</v-chip
+                                :key="tag"
+                                v-for="tag in getVariantReleases(vkey)"
+                                >{{ tag }}</v-chip
                               >
                               <v-chip
-                                small
+                                x-small
+                                color="secondary"
+                                :key="tag"
+                                v-for="tag in getVariantDistros(vkey)"
+                                >{{ tag }}</v-chip
+                              >
+                              <v-chip
+                                x-small
                                 v-if="item.src_uri.indexOf('tar.gz') != -1"
                                 >tar.gz</v-chip
                               >
                               <v-chip
-                                small
+                                x-small
                                 v-if="item.src_uri.indexOf('http://') != -1"
                                 >http</v-chip
                               >
                               <v-chip
-                                small
+                                x-small
                                 v-if="item.src_uri.indexOf('https://') != -1"
                                 >https</v-chip
                               >
                               <v-chip
-                                small
+                                x-small
                                 v-if="item.src_uri.indexOf('file://') != -1"
                                 >local</v-chip
                               >
                               <v-chip
-                                small
+                                x-small
                                 v-if="item.src_uri.indexOf('gnu.org') != -1"
                                 >gnu.org</v-chip
                               >
                               <v-chip
-                                small
+                                x-small
                                 v-if="item.src_uri.indexOf('patch') != -1"
                                 >patch</v-chip
                               >
                               <v-chip color="green" small v-if="item.audited"
                                 ><v-icon>mdi-check</v-icon></v-chip
                               >
-                            </v-list-item-title>
+                            </v-list-item-subtitle>
                           </v-list-item-content>
 
                           <v-list-item-action>
@@ -123,7 +150,7 @@
                   <v-tab-item>
                     <v-virtual-scroll
                       :items="item.variant_files[vkey].source_files"
-                      :item-height="30"
+                      :item-height="40"
                       height="200"
                     >
                       <template v-slot:default="{ item }">
@@ -131,49 +158,66 @@
                           <v-list-item-content>
                             <v-list-item-title>
                               {{ item.name }}
-                              <v-chip small v-if="item.files_in_archive"
+                            </v-list-item-title>
+                            <v-list-item-subtitle>
+                              <v-chip x-small v-if="item.files_in_archive"
                                 >{{ item.files_in_archive }} Files</v-chip
                               >
                               <v-chip
-                                small
+                                x-small
                                 color="primary"
                                 v-if="getSourceFileRelease(item) != ''"
                                 >{{ getSourceFileRelease(item) }}</v-chip
                               >
                               <v-chip
-                                small
+                                x-small
+                                color="primary"
+                                :key="tag"
+                                v-if="getSourceFileRelease(item) == ''"
+                                v-for="tag in getVariantReleases(vkey)"
+                                >{{ tag }}</v-chip
+                              >
+                              <v-chip
+                                x-small
+                                color="secondary"
+                                :key="tag"
+                                v-for="tag in getVariantDistros(vkey)"
+                                >{{ tag }}</v-chip
+                              >
+                              <v-chip
+                                x-small
                                 v-if="item.src_uri.indexOf('tar.gz') != -1"
                                 >tar.gz</v-chip
                               >
                               <v-chip
-                                small
+                                x-small
                                 v-if="item.src_uri.indexOf('http://') != -1"
                                 >http</v-chip
                               >
                               <v-chip
-                                small
+                                x-small
                                 v-if="item.src_uri.indexOf('https://') != -1"
                                 >https</v-chip
                               >
                               <v-chip
-                                small
+                                x-small
                                 v-if="item.src_uri.indexOf('file://') != -1"
                                 >local</v-chip
                               >
                               <v-chip
-                                small
+                                x-small
                                 v-if="item.src_uri.indexOf('gnu.org') != -1"
                                 >gnu.org</v-chip
                               >
                               <v-chip
-                                small
+                                x-small
                                 v-if="item.src_uri.indexOf('patch') != -1"
                                 >patch</v-chip
                               >
-                              <v-chip color="green" small v-if="item.audited"
+                              <v-chip color="green" x-small v-if="item.audited"
                                 ><v-icon>mdi-check</v-icon></v-chip
                               >
-                            </v-list-item-title>
+                            </v-list-item-subtitle>
                           </v-list-item-content>
 
                           <v-list-item-action>
@@ -463,6 +507,12 @@ export default {
     return {};
   },
   methods: {
+    getVariantReleases(vkey) {
+      return this.item.variant_files[vkey].tags.release;
+    },
+    getVariantDistros(vkey) {
+      return this.item.variant_files[vkey].tags.distro;
+    },
     machineTabNotEmpty(machine, vkey) {
       var res = true;
 
