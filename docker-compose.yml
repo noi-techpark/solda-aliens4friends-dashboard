@@ -4,7 +4,7 @@ services:
     laravel.test:
         build:
             context: .
-            dockerfile: infrastructure/docker/7.4/Dockerfile
+            dockerfile: infrastructure/docker/Dockerfile
             target: base
             args:
                 WWWGROUP: '${WWWGROUP}'

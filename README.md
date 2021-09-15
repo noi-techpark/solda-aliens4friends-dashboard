@@ -26,8 +26,14 @@ Sail requires a running installation of Docker.
 
 ###  adapt .env file to your needs
 
-The IDs of the current user must be provided as WWWUSER & WWWGROUP
+APP_NAME=String | used as application name by many external Laravel libraries.
+APP_ENV=production | currently only possible setting with corresponding effect on code. See "Useful Information/Https".
+APP_KEY=App-Key | secret key used for encryption. Will be generated automatically by php artisan key:generate.
+APP_DEBUG=Boolean | always false in production to avoid debug output including sensitive data.
+APP_URL=http://laravel.test | current base-url. Used e.g. for mail dispatch, external libraries or by console commands as base-url.
 
+WWWGROUP=1000 | laravel sail group
+WWWUSER=1000 | laravel sail user
 ### start dev-environment
 
     ./vendor/bin/sail up

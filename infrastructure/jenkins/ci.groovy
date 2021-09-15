@@ -11,7 +11,7 @@ pipeline {
 		// entrypoint consistency requirements). Alternatively you can force
 		// image entrypoint to be disabled by adding option `--entrypoint=''`.
 		dockerfile {
-			filename 'infrastructure/docker/7.4/Dockerfile'
+			filename 'infrastructure/docker/Dockerfile'
 			additionalBuildArgs '--target jenkinsci --build-arg JENKINS_USER_ID=$(id -u jenkins) --build-arg JENKINS_GROUP_ID=$(id -g jenkins)'
 			args '--entrypoint=""'
 		}

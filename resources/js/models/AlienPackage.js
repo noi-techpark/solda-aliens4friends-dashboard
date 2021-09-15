@@ -93,7 +93,7 @@ export default class AlienPackage {
 		if (data.binary_packages) this.binary_packages = data.binary_packages;
 
 		// TODO: Yocto => Harvest.json => Dashboard
-		if (Math.random() > 0.7) this.isCve = true;
+		if (Math.random() > 1) this.isCve = true;
 	}
 
 	setVariantTags() {
