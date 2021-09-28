@@ -1,9 +1,13 @@
+import SourceFile from "./SourceFile";
+import BinaryPackage from "./BinaryPackage";
 export default class AlienPackage {
 	id = null;
 	name = null;
 	version = null;
 	revision = null;
 	variant = null;
+	uploaded_reason = "missing";
+	selected_reason = "missing";
 
 	tags = {
 		project: [],
@@ -40,45 +44,7 @@ export default class AlienPackage {
 	};
 
 	source_files = [];
-
-	source_file = {
-		name: "",
-		sha1_cksum: "",
-		git_sha1: null,
-		src_uri: "",
-		files_in_archive: 0,
-		paths: []
-	};
-
 	binary_packages = [];
-
-	binary_package = {
-		name: "",
-		version: "",
-		revision: "",
-		tags: {
-			project: [],
-			release: [],
-			distro: [],
-			machine: [],
-			image: []
-		},
-		metadata: {
-			name: "",
-			base_name: "",
-			version: "",
-			revision: "",
-			package_arch: "",
-			recipe_name: "",
-			recipe_version: "",
-			recipe_revision: "",
-			license: "",
-			summary: "",
-			description: "",
-			depends: [],
-			provides: []
-		}
-	};
 
 	constructor(data = {}) {
 		if (data.id) this.id = data.id;
@@ -92,19 +58,39 @@ export default class AlienPackage {
 		if (data.source_files) this.source_files = data.source_files;
 		if (data.binary_packages) this.binary_packages = data.binary_packages;
 
-		// TODO: Yocto => Harvest.json => Dashboard
-		if (Math.random() > 1) this.isCve = true;
+		var filestats = this.statistics.files;
+
+		this.progress =
+			filestats.audit_total == 0
+				? 100
+				: parseInt(
+						(filestats.audit_done / filestats.audit_total) * 100
+				  );
+		this.workload = filestats.audit_done;
+		this.workload_total = filestats.audit_total;
+		this.match = this.debian_matching
+			? (this.debian_matching.ip_matching_files /
+					filestats.upstream_source_total) *
+			  100
+			: 0;
+
+		this.uploaded = true;
+		this.selected = false;
 	}
 
 	setVariantTags() {
 		if (!this.isVariant) return;
 
-		let variant_machines = {}
+		let variant_machines = {};
 		// 	"it is assumed that there is only 1 release and 1 image in paths. thus these two infos are overwritten."
 		for (var a = 0; a < this.meta_source_files.length; a++) {
 			if (this.meta_source_files[a].paths.length > 0) {
 				this.meta_source_files[a].machines = [];
-				for (var i = 0; i < this.meta_source_files[a].paths.length; i++) {
+				for (
+					var i = 0;
+					i < this.meta_source_files[a].paths.length;
+					i++
+				) {
 					const tags = this.meta_source_files[a].paths[i].split("/");
 					if (tags.length >= 4) {
 						this.meta_source_files[a].release = tags[2];

@@ -414,14 +414,10 @@ export default {
       json: "file/json"
     }),
     entries: function() {
-      console.warn("entry recalc");
-
       let source = this.json.source_packages || [];
       let res = [];
       let index = 0;
-
       let variants = {};
-
       let all = {
         known: 0,
         audited: 0,
@@ -432,7 +428,7 @@ export default {
         max: 0
       };
 
-      // TODO: virtual properties should be calculated directly inside AlienPackage
+      // group all packages by variant key
       for (let i = 0; i < source.length; i++) {
         source[i] = new AlienPackage(source[i]);
 
@@ -468,7 +464,10 @@ export default {
 
       let licenses = [];
 
+      // iterate all packages and calc overall stats
       for (let i = 0; i < res.length; i++) {
+        res[i].uid = i;
+
         if (res[i].statistics) {
           const filestats = res[i].statistics.files;
 
@@ -483,30 +482,12 @@ export default {
             );
           }
 
-          // patch table index and single progresses
-          res[i].uid = i;
-          res[i].progress =
-            filestats.audit_total == 0
-              ? 100
-              : parseInt((filestats.audit_done / filestats.audit_total) * 100);
-
-          res[i].workload = filestats.audit_done;
-          res[i].workload_total = filestats.audit_total;
-
-          // patch debian match
-          res[i].match = res[i].debian_matching
-            ? (res[i].debian_matching.ip_matching_files /
-                filestats.upstream_source_total) *
-              100
-            : 0;
-
           // overall progress & normalization params
           all.known += filestats.known_provenance;
           all.audited += filestats.audit_done;
           all.not_audited += filestats.audit_to_do;
           all.audit_total += filestats.audit_total;
           all.total += filestats.total;
-
           all.max =
             all.max == 0 || filestats.audit_total > all.max
               ? filestats.audit_total
@@ -519,6 +500,7 @@ export default {
         }
       }
 
+      // assign license colors
       for (let a = 0; a < licenses.length; a++) {
         if (!this.palette[index]) index = 0;
         if (!this.colors[licenses[a].shortname]) {
@@ -527,10 +509,6 @@ export default {
         }
       }
 
-      this.progress =
-        all.audit_total == 0
-          ? 100
-          : parseInt((all.audited / all.audit_total) * 100);
       this.total_stats = all;
 
       // generate column filter values

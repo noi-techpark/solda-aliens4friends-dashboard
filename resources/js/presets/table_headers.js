@@ -56,7 +56,7 @@ exports.headers = [
   {
     text: "Distros",
     value: "tags.distro",
-    type: "implode",
+    type: "implode_tag",
     fixed: true,
     autofilter: true,
     sortable: false,
@@ -65,7 +65,7 @@ exports.headers = [
   {
     text: "Images",
     value: "tags.image",
-    type: "implode",
+    type: "implode_tag",
     fixed: true,
     autofilter: true,
     sortable: false,
@@ -75,7 +75,7 @@ exports.headers = [
     text: "Machines",
     width: "100px",
     value: "tags.machine",
-    type: "implode",
+    type: "implode_tag",
     fixed: true,
     filtered: true,
     autofilter: true,
@@ -85,7 +85,7 @@ exports.headers = [
   {
     text: "Releases",
     value: "tags.release",
-    type: "implode",
+    type: "implode_tag",
     width: "100px",
     fixed: true,
     autofilter: true,
