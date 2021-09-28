@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <v-card flat tile v-if="item.isVariant" color="transparent">
       <v-expansion-panels accordion multiple flat color="transparent">
         <v-expansion-panel
@@ -8,7 +9,12 @@
           color="transparent"
         >
           <v-expansion-panel-header>
-            <div class="ml-2">
+            <div
+              class="ml-2"
+              :class="{
+                'variant_disabled': !isHighlighted(item.variant_files[vkey])
+              }"
+            >
               <v-icon v-if="item.isCve" color="red">mdi-security</v-icon>
               <b>Variant: {{ vkey }}</b> | {{ variant.name }} |
               {{ variant.version }} | {{ variant.revision }}
@@ -480,6 +486,12 @@ export default {
       default: () => {
         return {};
       }
+    },
+    filtered: {
+      type: Array,
+      default: () => {
+        return [];
+      }
     }
   },
   computed: {
@@ -507,6 +519,14 @@ export default {
     return {};
   },
   methods: {
+    isHighlighted(item) {
+      for(var a=0; a < this.filtered.length; a++) {
+        if(item.tags.release.indexOf(this.filtered[a]) != -1) {
+                return true;
+        }
+      }
+      return false
+    },
     getVariantReleases(vkey) {
       return this.item.variant_files[vkey].tags.release;
     },

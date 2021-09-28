@@ -34,6 +34,7 @@ APP_URL=http://laravel.test | current base-url. Used e.g. for mail dispatch, ext
 
 WWWGROUP=1000 | laravel sail group
 WWWUSER=1000 | laravel sail user
+
 ### start dev-environment
 
     ./vendor/bin/sail up
@@ -91,7 +92,3 @@ https assets should now be forced as soon as APP_ENV is set to production. if no
 
 * https://laravel.com/docs/8.x/requests#configuring-trusted-proxies
 * https://laravel.com/docs/8.x/requests#configuring-trusted-hosts
-
-### Known issues
-
-The current version of https://www.npmjs.com/package/chartjs-plugin-datalabels (1.0.0) available via NPM is not compatible with the current version of chart.js. A corresponding fix has already been made available by the developer of chartjs-plugin-datalabels as an RC: https://github.com/chartjs/chartjs-plugin-datalabels/tree/v2.0.0-rc.1. Until the definitive release via npm, the fix is located under /resources/js/beta/chartjs-plugin-datalabels.js.

@@ -21,7 +21,10 @@
 
       <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length" style="padding:0">
-          <table-detail-component :item="item"></table-detail-component>
+          <table-detail-component
+            :item="item"
+            :filtered="filteredTags()"
+          ></table-detail-component>
         </td>
       </template>
 
@@ -161,7 +164,14 @@
             style="font-size:11px"
             :key="text"
           >
-            <v-chip small class="mb-1">{{ text }}</v-chip>
+            <v-chip
+              x-small
+              class="mb-1"
+              color="primary"
+              v-if="head.activeVals[text] == true"
+              >{{ text }}</v-chip
+            >
+            <v-chip x-small class="mb-1" v-else>{{ text }}</v-chip>
           </div>
         </div>
 
@@ -182,7 +192,59 @@
 
         <div v-if="head.type == 'flags'" :key="head.value">
           <v-icon v-if="item.isVariant">mdi-link-variant-plus</v-icon>
-          <v-icon v-if="item.isCve && (!item.isVariant || showMainCve)" color="red">mdi-security</v-icon>
+          <v-icon
+            v-if="item.isCve && (!item.isVariant || showMainCve)"
+            color="red"
+            >mdi-security</v-icon
+          >
+
+          <v-tooltip top>
+            <template v-slot:activator="{ on }">
+              <v-icon
+                color="green"
+                v-on="on"
+                v-if="typeof item.uploaded == 'boolean' && item.uploaded"
+                >mdi-upload</v-icon
+              >
+              <v-icon
+                color="grey"
+                v-on="on"
+                v-if="typeof item.uploaded == 'boolean' && !item.uploaded"
+                >mdi-upload</v-icon
+              >
+              <v-icon
+                color="red"
+                v-on="on"
+                v-if="
+                  typeof item.uploaded != 'undefined' && item.uploaded === null
+                "
+                >mdi-upload</v-icon
+              >
+            </template>
+            <span>
+              {{ item.uploaded_reason }}
+            </span>
+          </v-tooltip>
+
+          <v-tooltip top>
+            <template v-slot:activator="{ on }">
+              <v-icon
+                color="green"
+                v-on="on"
+                v-if="typeof item.selected == 'boolean' && item.selected"
+                >mdi-select-all</v-icon
+              >
+              <v-icon
+                color="grey"
+                v-on="on"
+                v-if="typeof item.selected == 'boolean' && !item.selected"
+                >mdi-select-all</v-icon
+              >
+            </template>
+            <span>
+              {{ item.selected_reason }}
+            </span>
+          </v-tooltip>
         </div>
 
         <div v-if="head.type == 'workload'" :key="head.value">
@@ -357,7 +419,8 @@
 
 <script>
 import Chart from "chart.js/auto";
-import ChartDataLabels from "../beta/chartjs-plugin-datalabels";
+import ChartDataLabels from "chartjs-plugin-datalabels";
+import _ from "lodash";
 
 export default {
   props: {
@@ -404,7 +467,7 @@ export default {
     showMainCve: {
       type: Boolean,
       default: false
-    },
+    }
   },
   data() {
     return {
@@ -419,7 +482,17 @@ export default {
       singleExpand: false
     };
   },
+  computed: {},
   methods: {
+    filteredTags() {
+      var activeTags = [];
+      for (var a = 0; a < this.headers.length; a++) {
+        for (var val in this.headers[a].activeVals) {
+          if (this.headers[a].activeVals[val] === true) activeTags.push(val);
+        }
+      }
+      return activeTags;
+    },
     getBinaries(item) {
       // input file array inconsistencies
       if (item.length > 0 && typeof item[0].name == "undefined") {
@@ -473,6 +546,7 @@ export default {
       var properties = Array.isArray(path) ? path : path.split(separator);
       return properties.reduce((prev, curr) => prev && prev[curr], obj) || [];
     },
+
     emitFiltered(e) {
       this.$emit("filtered-items", e);
     },
