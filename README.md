@@ -32,9 +32,6 @@ APP_KEY=App-Key | secret key used for encryption. Will be generated automaticall
 APP_DEBUG=Boolean | always false in production to avoid debug output including sensitive data.
 APP_URL=http://laravel.test | current base-url. Used e.g. for mail dispatch, external libraries or by console commands as base-url.
 
-WWWGROUP=1000 | laravel sail group
-WWWUSER=1000 | laravel sail user
-
 ### start dev-environment
 
     ./vendor/bin/sail up
