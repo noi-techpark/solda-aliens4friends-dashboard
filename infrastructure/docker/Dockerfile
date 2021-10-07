@@ -1,4 +1,5 @@
 FROM webdevops/php-nginx:7.4-alpine
+ARG APP_ENV=production
 
 # restore intermediate mess
 USER root
@@ -20,29 +21,29 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN apk add --update npm
 
 ENV WEB_DOCUMENT_ROOT /app/public
+ENV APP_ENV $APP_ENV
 
 WORKDIR /app
 
 # copy with chown to prevent slow chown bug (also known as 'now i finally survive until deployment ends' fix)
 COPY --chown=application:application . .
-COPY infrastructure/nginx/a4f.conf /opt/docker/etc/nginx/a4f.conf
+COPY ./infrastructure/nginx/a4f.conf /opt/docker/etc/nginx/conf.d
 
 # do not exec composer and npm as root
 USER application
 
 # install backend & frontend dependencies & compile
-RUN composer install --no-interaction --optimize-autoloader
+RUN composer install --no-interaction --optimize-autoloader --no-dev
 RUN npm install
 RUN npm run prod
 
-RUN cp .env.example .env
+RUN cp .env.default .env
 
 # reload new .env
 RUN php artisan config:clear
 
-# sessions will be invalidated @ every deployment. This should work as long we don't need to use encrypt() inside our app
+# sessions will be invalidated @ every deployment. for our purposes this is ok.
 RUN php artisan key:generate --force
-RUN php artisan jwt:secret
 
 # reload new .env
 RUN php artisan config:clear
