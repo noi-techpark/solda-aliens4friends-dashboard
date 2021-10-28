@@ -1,57 +1,65 @@
-FROM ubuntu:20.04 as base
+FROM webdevops/php-nginx:7.4-alpine as base
+ARG APP_ENV=production
 
-LABEL maintainer="Taylor Otwell"
+# restore intermediate mess
+USER root
 
-ARG WWWGROUP=1000
+RUN apk add oniguruma-dev postgresql-dev libxml2-dev
+RUN docker-php-ext-install \
+        bcmath \
+        ctype \
+        fileinfo \
+        json \
+        mbstring \
+        pdo_mysql \
+        pdo_pgsql \
+        tokenizer \
+        xml
 
-WORKDIR /var/www/html
+# install build systems
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN apk add --update npm
 
-ENV DEBIAN_FRONTEND noninteractive
-ENV TZ=UTC
+ENV WEB_DOCUMENT_ROOT /app/public
+ENV APP_ENV $APP_ENV
 
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+WORKDIR /app
 
-RUN apt-get update \
-    && apt-get install -y gnupg gosu curl ca-certificates zip unzip git supervisor sqlite3 libcap2-bin libpng-dev python2 \
-    && mkdir -p ~/.gnupg \
-    && chmod 600 ~/.gnupg \
-    && echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf \
-    && apt-key adv --homedir ~/.gnupg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E5267A6C \
-    && apt-key adv --homedir ~/.gnupg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C300EE8C \
-    && echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu focal main" > /etc/apt/sources.list.d/ppa_ondrej_php.list \
-    && apt-get update \
-    && apt-get install -y php7.4-cli php7.4-dev \
-       php7.4-pgsql php7.4-sqlite3 php7.4-gd \
-       php7.4-curl php7.4-memcached \
-       php7.4-imap php7.4-mysql php7.4-mbstring \
-       php7.4-xml php7.4-zip php7.4-bcmath php7.4-soap \
-       php7.4-intl php7.4-readline php7.4-pcov \
-       php7.4-msgpack php7.4-igbinary php7.4-ldap \
-       php7.4-redis \
-    && php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer \
-    && curl -sL https://deb.nodesource.com/setup_14.x | bash - \
-    && apt-get install -y nodejs \
-    && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
-    && echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list \
-    && apt-get update \
-    && apt-get install -y yarn \
-    && apt-get install -y mysql-client \
-    && apt-get install -y postgresql-client \
-    && apt-get -y autoremove \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+# copy with chown to prevent slow chown bug (also known as 'now i finally survive until deployment ends' fix)
+COPY --chown=application:application . .
+COPY ./infrastructure/nginx/a4f.conf /opt/docker/etc/nginx/conf.d
 
-RUN setcap "cap_net_bind_service=+ep" /usr/bin/php7.4
+# do not exec composer and npm as root
+USER application
 
-RUN groupadd --force -g $WWWGROUP sail && \
-    useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
+# install backend & frontend dependencies & compile
+RUN composer install --no-interaction --optimize-autoloader --no-dev
+RUN npm install
+RUN npm run prod
 
-COPY infrastructure/docker/start-container /usr/local/bin/start-container
-COPY infrastructure/docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY infrastructure/docker/php.ini /etc/php/7.4/cli/conf.d/99-sail.ini
-RUN chmod +x /usr/local/bin/start-container
+RUN cp .env.default .env
 
-ENTRYPOINT ["start-container"]
+# reload new .env
+RUN php artisan config:clear
+
+# sessions will be invalidated @ every deployment. for our purposes this is ok.
+RUN php artisan key:generate --force
+
+# reload new .env
+RUN php artisan config:clear
+
+# optimizations
+RUN php artisan config:cache
+RUN php artisan route:cache
+RUN php artisan view:cache
+
+# restore bash user
+USER root
+
+# reload new .env
+RUN php artisan config:clear
+
+EXPOSE 5000
 
 FROM base as jenkinsci
 ARG JENKINS_GROUP_ID=2000
@@ -59,9 +67,10 @@ ARG JENKINS_USER_ID=2000
 RUN groupadd -g $JENKINS_GROUP_ID jenkins && \
     useradd -ms /bin/bash --no-user-group -g $JENKINS_GROUP_ID -u $JENKINS_USER_ID jenkins
 
-FROM base as build
-# Use the .dockerignore file to exclude files from this COPY command
-COPY . /var/www/html/
-RUN npm install && \
-    composer install --optimize-autoloader --no-dev && \
-    chown -R sail:$WWWGROUP /var/www/html
+#FROM base as build
+## Use the .dockerignore file to exclude files from this COPY command
+#COPY . /var/www/html/
+#RUN npm install && \
+#    composer install --optimize-autoloader --no-dev && \
+#    chown -R sail:$WWWGROUP /var/www/html
+
