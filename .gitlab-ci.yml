@@ -8,6 +8,7 @@ variables:
   DAST_DISABLED: "true"
   CODE_INTELLIGENCE_DISABLED: "TRUE"
   POSTGRES_ENABLED: "false"
+  DOCKERFILE_PATH: "infrastructure/docker/Dockerfile"
 
 production:
   environment:
