@@ -20,7 +20,7 @@ pipeline {
 		stage('Backend - Test') {
 			steps {
 				sh """
-					cp .env.example .env
+					cp .env.default .env
 					composer install
 					php artisan key:generate
 					php artisan test --without-tty
