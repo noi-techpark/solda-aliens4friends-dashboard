@@ -1,0 +1,14 @@
+include:
+  - template: Auto-DevOps.gitlab-ci.yml
+
+variables:
+  TEST_DISABLED: "true"
+  CODE_QUALITY_DISABLED: "true"
+  SAST_DISABLED: "true"
+  DAST_DISABLED: "true"
+  CODE_INTELLIGENCE_DISABLED: "TRUE"
+  POSTGRES_ENABLED: "false"
+
+production:
+  environment:
+    url: https://solda.rmbdev.cloud
