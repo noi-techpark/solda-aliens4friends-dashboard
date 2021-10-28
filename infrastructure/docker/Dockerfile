@@ -1,4 +1,4 @@
-FROM webdevops/php-nginx:7.4-alpine
+FROM webdevops/php-nginx:7.4-alpine as base
 ARG APP_ENV=production
 
 # restore intermediate mess
@@ -60,3 +60,13 @@ USER root
 RUN php artisan config:clear
 
 EXPOSE 5000
+
+FROM base as jenkinsci
+ARG JENKINS_GROUP_ID=2000
+ARG JENKINS_USER_ID=2000
+RUN groupadd -g $JENKINS_GROUP_ID jenkins && \
+    useradd -ms /bin/bash --no-user-group -g $JENKINS_GROUP_ID -u $JENKINS_USER_ID jenkins
+
+FROM base as build
+# Use the .dockerignore file to exclude files from this COPY command
+COPY . /var/www/html/
