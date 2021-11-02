@@ -20,14 +20,14 @@ pipeline {
 		stage('Backend - Test') {
 			steps {
 				sh """
-					php artisan test --without-tty
+
 				"""
 			}
 		}
 		stage('Frontend - Test') {
 			steps {
 				sh '''
-					npm run prod
+
 				'''
 			}
 		}
