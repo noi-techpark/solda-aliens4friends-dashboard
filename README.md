@@ -2,9 +2,7 @@
 #  Aliens4friends Dashboard
 An expandable dashboard to filter and visualize alien4friends license statistics
 
-##  Local development environment
-
-### Basics/Requirements
+## Basics/Requirements
 
 This project was created based on Laravel 8 & Laravel UI (Vue.js).
 
@@ -12,69 +10,44 @@ https://laravel.com/docs/8.x/
 https://laravel.com/docs/7.x/frontend
 
 Vuetify is mainly used as frontend components: https://vuetifyjs.com/
-Sail is used for local development: https://laravel.com/docs/8.x/sail
 
-Sail requires a running installation of Docker.
+## install & run app (dev & production)
 
-### install app & backend dependencies
+	sudo docker build . -t af4d -f infrastructure/docker/Dockerfile
+	sudo docker run -d -p [PORT]:5000 --env APP_ENV=[production|local]
 
-    cd ~
-    git clone [repo-url] solda-app
-    cd ~/solda-app
-    docker run --rm -v $(pwd):/app composer install
-    cp .env.example .env
+if 'production' is passed as APP_ENV, the app will automatically force ssl/https for all requests. This prevents delivery of resources over http if the app is running behind a load balancer that resolves the certificates itself. use 'local' to develop or use the app without valid https. default is 'production'.
 
-###  adapt .env file to your needs
+the app is internally accessible via port 5000. Port mapping is done according to individual requirements.
+
+after docker run the app is reachable via hostname:[PORT].
+
+Local development with Docker Compose (preconfigured without SSL @ port 8085):
+
+	sudo docker-compose up
+
+### further configuration
+
+Docker container is based on https://hub.docker.com/r/webdevops/php-nginx
+
+Container & configuration details can be found @ https://dockerfile.readthedocs.io/en/latest/content/DockerImages/dockerfiles/php-nginx.html
+
+the configuration of the internal nginx server can be customized @ infrastructure/nginx/a4f.conf.
+
+### run/dev without shipped Dockerfile
+
+feel free to use https://laravel.com/docs/8.x/homestead or https://laravel.com/docs/8.x/sail as alternative dev-environments
+
+### .env variables
+
+the app runs in docker out of the box without any additional configuration / change of these variables.
+currently no access data or other sensitive data is required to operate the app.
 
 APP_NAME=String | used as application name by many external Laravel libraries.
-APP_ENV=production | currently only possible setting with corresponding effect on code. See "Useful Information/Https".
+APP_ENV=production | currently only possible setting with corresponding effect on code.
 APP_KEY=App-Key | secret key used for encryption. Will be generated automatically by php artisan key:generate.
 APP_DEBUG=Boolean | always false in production to avoid debug output including sensitive data.
-APP_URL=http://laravel.test | current base-url. Used e.g. for mail dispatch, external libraries or by console commands as base-url.
-
-WWWGROUP=1000 | laravel sail group
-WWWUSER=1000 | laravel sail user
-
-### start dev-environment
-
-    ./vendor/bin/sail up
-
-### install & compile frontend dependencies
-
-    ./vendor/bin/sail npm install
-    ./vendor/bin/sail artisan key:generate
-    ./vendor/bin/sail npm run dev
-
-### (optional) add dev-url to your hosts-file
-
-    127.0.0.1 laravel.test
-
-The app can now be accessed at http://laravel.test. If changes are made to CSS or JS, the frontend files must be recompiled:
-
-    ./vendor/bin/sail npm run dev
-
-## Testing/Production Deployment
-Deployment to any test or production environments is done manually via Rsync. A build environment with available Composer & Node and corresponding test or production environments are therefore required.
-
-### Server-Requirements
-https://laravel.com/docs/8.x/deployment
-
-/public must be specified as the document root. It is assumed that the necessary .env files have already been configured once on the target systems.
-
-### Backend build
-    git clone [repo-url] solda-app
-    cd ~/solda-app
-    composer install --optimize-autoloader --no-dev
-
-### Frontend build
-     npm install
-     npm run prod
-
-### Publish
-    rsync -vzrS --exclude=".*" --exclude="node_modules" --exclude="storage" /solda-app/* [user]@[ip]:[html_path]
-    ssh [user]@[ip]
-    cd [html_path]
-    php artisan cache:clear
+APP_URL=http://laravel.test | current base-url. Used e.g. for mail dispatch, external libraries or by console commands as base-url. atm there is no use for this.
 
 ## Useful information
 
@@ -85,10 +58,3 @@ The entire project-base was created by code generators and therefore follows the
 Any dependencies are installed via Composer & Npm. Corresponding dependency source code can be found in the folders /node_modules (JS/Frontend) and /vendor (PHP/Backend).
 
 Individual customisations are mainly, but not exclusively, located in the /resources (JS+CSS) and /app (PHP) folders.
-
-### Https/Ssl
-
-https assets should now be forced as soon as APP_ENV is set to production. if not, the asset() function in the blade templates takes a second parameter [bool|forceSecure].
-
-* https://laravel.com/docs/8.x/requests#configuring-trusted-proxies
-* https://laravel.com/docs/8.x/requests#configuring-trusted-hosts

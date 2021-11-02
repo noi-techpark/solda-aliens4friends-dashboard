@@ -19,13 +19,6 @@ pipeline {
 
         // Generate a new one with 'php artisan key:generate'
         APP_KEY = credentials('eu.testingmachine.aliens4friends.dashboard.appkey')
-
-		DB_DATABASE = "a4f"
-		DB_USERNAME = "a4f"
-		DB_PASSWORD = credentials('eu.testingmachine.aliens4friends.dashboard.dbpassword')
-
-		WWWGROUP = 0
-		WWWUSER = 0
     }
 
     stages {
@@ -43,11 +36,6 @@ pipeline {
 					echo 'APP_URL=${APP_URL}' >> .env
 					echo 'SERVER_PORT=${SERVER_PORT}' >> .env
                     echo 'APP_KEY=${APP_KEY}' >> .env
-					echo 'DB_DATABASE=${DB_DATABASE}' >> .env
-					echo 'DB_USERNAME=${DB_USERNAME}' >> .env
-					echo 'DB_PASSWORD=${DB_PASSWORD}' >> .env
-					echo 'WWWGROUP=${WWWGROUP}' >> .env
-					echo 'WWWUSER=${WWWUSER}' >> .env
 				"""
 			}
 		}
@@ -55,13 +43,12 @@ pipeline {
             steps {
                 sh '''
                     docker network create authentication || true
-					docker-compose --no-ansi build --pull --build-arg WWWGROUP=$(id -g jenkins)
+					docker-compose --no-ansi build --pull
                     docker-compose --no-ansi run --rm --no-deps \
-                        -e WWWUSER=$(id -u jenkins) \
                         -u $(id -u jenkins):$(id -g jenkins) \
                         --entrypoint 'bash -c' \
-                        laravel.test \
-                            'composer install && php artisan test'
+                        app \
+                            'php artisan test'
                 '''
             }
         }

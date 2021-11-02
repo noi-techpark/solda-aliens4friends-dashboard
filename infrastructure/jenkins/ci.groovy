@@ -20,9 +20,6 @@ pipeline {
 		stage('Backend - Test') {
 			steps {
 				sh """
-					cp .env.example .env
-					composer install
-					php artisan key:generate
 					php artisan test --without-tty
 				"""
 			}
@@ -30,7 +27,6 @@ pipeline {
 		stage('Frontend - Test') {
 			steps {
 				sh '''
-					npm install
 					npm run prod
 				'''
 			}

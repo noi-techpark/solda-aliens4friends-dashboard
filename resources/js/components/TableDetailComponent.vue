@@ -551,6 +551,7 @@ export default {
     },
     getSourceFileRelease(source_file) {
       var release = "";
+      if(source_file.paths)
       for (var a = 0; a < source_file.paths.length; a++) {
         const tags = source_file.paths[a].split("/");
         if (tags.length >= 2) {
