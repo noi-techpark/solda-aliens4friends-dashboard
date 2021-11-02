@@ -1,0 +1,14 @@
+version: "3.4"
+
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: infrastructure/docker/Dockerfile
+      target: build
+    restart: unless-stopped
+    environment:
+      - APP_DEBUG=true
+      - APP_ENV=local
+    ports:
+      - ${SERVER_PORT:-8085}:5000

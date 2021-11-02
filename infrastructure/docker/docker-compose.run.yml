@@ -2,9 +2,9 @@ version: "3.4"
 
 services:
   app:
-    image: ${DOCKER_IMAGE}:${DOCKER_TAG}
+    image: ${DOCKER_IMAGE:-a4fd}:${DOCKER_TAG:-prod}
     restart: unless-stopped
     env_file:
       - .env
     ports:
-      - ${SERVER_PORT}:5000
+      - ${SERVER_PORT:-443}:5000
