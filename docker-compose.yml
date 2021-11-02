@@ -1,0 +1,13 @@
+version: "3.4"
+
+services:
+  app:
+    build:
+      context: ../../
+      dockerfile: infrastructure/docker/Dockerfile
+      target: build
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - ${SERVER_PORT:-443}:5000

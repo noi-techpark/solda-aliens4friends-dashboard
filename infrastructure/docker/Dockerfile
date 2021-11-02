@@ -4,7 +4,7 @@ ARG APP_ENV=production
 # restore intermediate mess
 USER root
 
-RUN apk add oniguruma-dev postgresql-dev libxml2-dev
+RUN apk add oniguruma-dev libxml2-dev
 RUN docker-php-ext-install \
         bcmath \
         ctype \
@@ -37,7 +37,7 @@ RUN composer install --no-interaction --optimize-autoloader --no-dev
 RUN npm install
 RUN npm run prod
 
-RUN cp .env.default .env
+RUN cp .env.example .env
 
 # reload new .env
 RUN php artisan config:clear
