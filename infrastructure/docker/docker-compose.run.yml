@@ -4,7 +4,8 @@ services:
   app:
     image: ${DOCKER_IMAGE:-a4fd}:${DOCKER_TAG:-prod}
     restart: unless-stopped
-    env_file:
-      - .env
+    environment:
+      - APP_ENV=production
+	  - APP_URL=https://dashboard.solda.testingmachine.eu
     ports:
-      - ${SERVER_PORT:-443}:5000
+      - ${SERVER_PORT:-1077}:5000

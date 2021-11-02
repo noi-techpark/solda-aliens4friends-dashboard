@@ -10,15 +10,7 @@ pipeline {
         DOCKER_IMAGE = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/solda-dashboard'
         DOCKER_TAG = "test-$BUILD_NUMBER"
 		ANSIBLE_LIMIT = "test"
-
-		APP_NAME = "Aliens4Friends"
-		APP_ENV = "production"
-		APP_DEBUG = true
-		APP_URL = "https://dashboard.solda.testingmachine.eu"
 		SERVER_PORT = 1077
-
-        // Generate a new one with 'php artisan key:generate'
-        APP_KEY = credentials('eu.testingmachine.aliens4friends.dashboard.appkey')
     }
 
     stages {
@@ -29,13 +21,7 @@ pipeline {
                     echo 'COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME}' >> .env
                     echo 'DOCKER_IMAGE=${DOCKER_IMAGE}' >> .env
                     echo 'DOCKER_TAG=${DOCKER_TAG}' >> .env
-
-					echo 'APP_NAME=${APP_NAME}' >> .env
-					echo 'APP_ENV=${APP_ENV}' >> .env
-					echo 'APP_DEBUG=${APP_DEBUG}' >> .env
-					echo 'APP_URL=${APP_URL}' >> .env
 					echo 'SERVER_PORT=${SERVER_PORT}' >> .env
-                    echo 'APP_KEY=${APP_KEY}' >> .env
 				"""
 			}
 		}
