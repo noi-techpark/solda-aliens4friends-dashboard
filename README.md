@@ -22,6 +22,10 @@ the app is internally accessible via port 5000. Port mapping is done according t
 
 after docker run the app is reachable via hostname:[PORT].
 
+Local development with Docker Compose (preconfigured without SSL @ port 8085):
+
+	sudo docker-compose up
+
 ### further configuration
 
 Docker container is based on https://hub.docker.com/r/webdevops/php-nginx

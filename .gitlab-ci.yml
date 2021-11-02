@@ -9,7 +9,3 @@ variables:
   CODE_INTELLIGENCE_DISABLED: "TRUE"
   POSTGRES_ENABLED: "false"
   DOCKERFILE_PATH: "infrastructure/docker/Dockerfile"
-
-production:
-  environment:
-    url: https://solda.rmbdev.cloud
