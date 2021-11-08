@@ -203,23 +203,18 @@
               <v-icon
                 color="green"
                 v-on="on"
-                v-if="typeof item.uploaded == 'boolean' && item.uploaded"
-                >mdi-upload</v-icon
-              >
-              <v-icon
-                color="grey"
-                v-on="on"
-                v-if="typeof item.uploaded == 'boolean' && !item.uploaded"
+                v-if="item.uploaded"
                 >mdi-upload</v-icon
               >
               <v-icon
                 color="red"
                 v-on="on"
                 v-if="
-                  typeof item.uploaded != 'undefined' && item.uploaded === null
+                  typeof item.uploaded != 'boolean' || !item.uploaded
                 "
                 >mdi-upload</v-icon
               >
+
             </template>
             <span>
               {{ item.uploaded_reason }}
@@ -231,13 +226,13 @@
               <v-icon
                 color="green"
                 v-on="on"
-                v-if="typeof item.selected == 'boolean' && item.selected"
+                v-if="item.selected"
                 >mdi-select-all</v-icon
               >
               <v-icon
-                color="grey"
+                color="red"
                 v-on="on"
-                v-if="typeof item.selected == 'boolean' && !item.selected"
+                v-if="typeof item.selected != 'boolean' || !item.selected"
                 >mdi-select-all</v-icon
               >
             </template>

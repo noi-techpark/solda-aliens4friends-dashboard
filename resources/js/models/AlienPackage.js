@@ -6,8 +6,9 @@ export default class AlienPackage {
 	version = null;
 	revision = null;
 	variant = null;
-	uploaded_reason = "missing";
-	selected_reason = "missing";
+
+	uploaded_reason = "missing reason";
+	selected_reason = "missing reason";
 
 	tags = {
 		project: [],
@@ -57,6 +58,10 @@ export default class AlienPackage {
 		if (data.statistics) this.statistics = data.statistics;
 		if (data.source_files) this.source_files = data.source_files;
 		if (data.binary_packages) this.binary_packages = data.binary_packages;
+		if (data.uploaded) this.uploaded = data.uploaded;
+		if (data.selected) this.selected = data.selected;
+		if (data.uploaded_reason) this.uploaded_reason = data.uploaded_reason;
+		if (data.selected_reason) this.selected_reason = data.selected_reason;
 
 		var filestats = this.statistics.files;
 
@@ -74,8 +79,6 @@ export default class AlienPackage {
 			  100
 			: 0;
 
-		this.uploaded = true;
-		this.selected = false;
 	}
 
 	setVariantTags() {
