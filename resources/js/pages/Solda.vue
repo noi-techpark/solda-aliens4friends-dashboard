@@ -309,28 +309,7 @@
           ></table-component>
         </v-col>
       </v-row>
-      <v-row class="mt-0">
-        <v-col class="text-right" style="font-size:11px">
-          powered by
-          <b
-            ><a
-              style="color:rgb(213,61,14)"
-              href="https://www.linkedin.com/in/martinrabanser"
-              target="_blank"
-              >rmb Martin Rabanser</a
-            ></b
-          >
-          &amp;
-          <b
-            ><a
-              style="color:rgb(213,61,14)"
-              href="mailto:alex@agon-e.com"
-              target="_blank"
-              >Alex Complojer</a
-            ></b
-          >
-        </v-col>
-      </v-row>
+
       <v-snackbar v-model="snackbar" :timeout="timeout" color="red">
         {{ text }}
         <template v-slot:action="{ attrs }">
@@ -345,14 +324,65 @@
           </v-btn>
         </template>
       </v-snackbar>
+
+
     </v-container>
+          <v-footer app elevation="12">
+        <v-row class="mt-0" no-gutters>
+          <v-col class="text-right" style="font-size:11px">
+            <v-bottom-sheet v-model="showAbout">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn text v-bind="attrs" v-on="on">
+                  about this tool
+                </v-btn>
+              </template>
+              <v-sheet class="text-center">
+                <v-btn
+                  class="mt-2 mr-2 float-right"
+                  text
+                  icon
+                  @click="showAbout = !showAbout"
+                >
+                  <v-icon>mdi-close</v-icon>
+                </v-btn>
+                <div>
+                  <v-row>
+
+                    <v-col v-for="(company,index) in partner" :cols="company.size" :key="index">
+                        <a :href="company.link" target="_blank" style="text-decoration:none">
+                      <v-card class="justify-center ma-4" tile flat>
+                        <v-card-title v-if="company.title && company.title != ''" class="text-center justify-center">{{company.title}}</v-card-title>
+                        <img
+                          :height="(company.size * 20 / (partner.length - 2) + 30) +'px'"
+                          width="auto"
+                          class="justify-center"
+                          :src="company.logo_url"
+                          :title="company.name"
+                          :alt="company.alt"
+                          style="max-width:100%"
+                        ></img>
+
+                      </v-card>
+                           </a>
+                    </v-col>
+
+                  </v-row>
+                </div>
+              </v-sheet>
+            </v-bottom-sheet>
+          </v-col>
+        </v-row>
+      </v-footer>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+
 import headers from "../presets/table_headers";
+import partner from "../presets/partner";
 import colors from "../presets/colors";
+
 import tooltips from "../presets/tooltips";
 import _ from "lodash";
 
@@ -370,6 +400,7 @@ export default {
         excl: 0
       },
       filterChange: false,
+      showAbout: false,
       filtered: false,
       filterMode: "inclusive",
       columnFilter: {},
@@ -388,6 +419,7 @@ export default {
       },
       palette: colors.palette,
       colors: colors.colors,
+      partner: partner.companies,
       tooltips: tooltips.tips
     };
   },
@@ -799,7 +831,11 @@ export default {
           name: variants[a][0].name,
           version: variants[a][0].version,
           revision: variants[a][0].revision,
-          variant: true
+          variant: true,
+          uploaded_reason: variants[a][0].uploaded_reason,
+          uploaded: variants[a][0].uploaded,
+          selected: variants[a][0].selected,
+          selected_reason: variants[a][0].selected_reason,
         });
 
         merged_package.id =

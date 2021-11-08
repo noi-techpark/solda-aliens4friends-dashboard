@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <v-card flat tile v-if="item.isVariant" color="transparent">
       <v-expansion-panels accordion multiple flat color="transparent">
         <v-expansion-panel
@@ -12,7 +11,7 @@
             <div
               class="ml-2"
               :class="{
-                'variant_disabled': !isHighlighted(item.variant_files[vkey])
+                variant_disabled: !isHighlighted(item.variant_files[vkey])
               }"
             >
               <v-icon v-if="item.isCve" color="red">mdi-security</v-icon>
@@ -520,12 +519,12 @@ export default {
   },
   methods: {
     isHighlighted(item) {
-      for(var a=0; a < this.filtered.length; a++) {
-        if(item.tags.release.indexOf(this.filtered[a]) != -1) {
-                return true;
+      for (var a = 0; a < this.filtered.length; a++) {
+        if (item.tags.release.indexOf(this.filtered[a]) != -1) {
+          return true;
         }
       }
-      return false
+      return false;
     },
     getVariantReleases(vkey) {
       return this.item.variant_files[vkey].tags.release;
@@ -551,13 +550,13 @@ export default {
     },
     getSourceFileRelease(source_file) {
       var release = "";
-      if(source_file.paths)
-      for (var a = 0; a < source_file.paths.length; a++) {
-        const tags = source_file.paths[a].split("/");
-        if (tags.length >= 2) {
-          release = tags[2];
+      if (source_file.paths)
+        for (var a = 0; a < source_file.paths.length; a++) {
+          const tags = source_file.paths[a].split("/");
+          if (tags.length >= 2) {
+            release = tags[2];
+          }
         }
-      }
       return release;
     },
     fileIsMachineSpecific(machines) {

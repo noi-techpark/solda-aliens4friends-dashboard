@@ -9,6 +9,10 @@
       "name": "xserver-xf86-config",
       "version": "0.1",
       "revision": "r33",
+      "uploaded": true,
+      "uploaded_reason": "really long reason to check if tooltips fit really long reason to check if tooltips fit really long reason to check if tooltips fit",
+      "selected": false,
+      "selected_reason": "",
       "variant": "396dd9a5",
       "debian_matching": null,
       "statistics": {
@@ -451,6 +455,10 @@
       "name": "xserver-xf86-config",
       "version": "0.1",
       "revision": "r33",
+	  "uploaded": true,
+      "uploaded_reason": "Reason",
+      "selected": true,
+      "selected_reason": "",
       "variant": "6fd29cd1",
       "debian_matching": null,
       "statistics": {
@@ -924,3 +932,6 @@
     }
   ]
 }
+
+
+

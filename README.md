@@ -57,4 +57,4 @@ The entire project-base was created by code generators and therefore follows the
 
 Any dependencies are installed via Composer & Npm. Corresponding dependency source code can be found in the folders /node_modules (JS/Frontend) and /vendor (PHP/Backend).
 
-Individual customisations are mainly, but not exclusively, located in the /resources (JS+CSS) and /app (PHP) folders.
+Individual customizations are mainly, but not exclusively, located in the /resources (JS+CSS) and /app (PHP) folders.
