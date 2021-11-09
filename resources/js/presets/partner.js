@@ -4,7 +4,7 @@ exports.companies = [
 		title : "ONIRO",
 		alt: "ONIRO",
 		size: "4",
-		logo_url: "img/ONIRO-Masterbrand-vertical.svg",
+		logo_url: "img/ONIRO-Masterbrand-horizontal.svg",
 		link: "https://oniroproject.org/"
 	},
 	{
