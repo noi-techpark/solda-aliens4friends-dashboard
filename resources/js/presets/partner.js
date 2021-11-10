@@ -23,6 +23,7 @@ exports.companies = [
 		logo_url: "img/logo_NOI_bn.svg",
 		link: "https://freesoftwarelab.noi.bz.it"
 	},
+/*
 	{
 		name : "Europäischer Fonds für regionale Entwicklung",
 		title : "Europäischer Fonds für regionale Entwicklung",
@@ -31,8 +32,7 @@ exports.companies = [
 		logo_url: "https://noi.bz.it/sites/default/files/inline-images/efre-fesr.jpg",
 		link: "https://noi.bz.it/"
 	},
-
-/*	{
+	{
 		name : "NOI Techpark Südtirol / Alto Adige",
 		title : "",
 		alt: "NOI",
