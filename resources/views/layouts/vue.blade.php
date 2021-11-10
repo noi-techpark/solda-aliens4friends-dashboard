@@ -11,8 +11,8 @@
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet" />
 </head>
 
-<body class="antialiased">
-    <div id="app">loading...</div>
+<body class="antialiased"  style="background:black">
+    <div id="app"></div>
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
 
