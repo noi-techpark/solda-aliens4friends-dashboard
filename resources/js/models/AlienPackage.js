@@ -7,8 +7,12 @@ export default class AlienPackage {
 	revision = null;
 	variant = null;
 
-	uploaded_reason = "missing reason";
-	selected_reason = "missing reason";
+	session_state = {
+		selected: false,
+		selected_reason: "missing reason",
+		uploaded: null,
+		uploaded_reason: "missing reason"
+	}
 
 	tags = {
 		project: [],
@@ -58,10 +62,7 @@ export default class AlienPackage {
 		if (data.statistics) this.statistics = data.statistics;
 		if (data.source_files) this.source_files = data.source_files;
 		if (data.binary_packages) this.binary_packages = data.binary_packages;
-		if (data.uploaded) this.uploaded = data.uploaded;
-		if (data.selected) this.selected = data.selected;
-		if (data.uploaded_reason) this.uploaded_reason = data.uploaded_reason;
-		if (data.selected_reason) this.selected_reason = data.selected_reason;
+		if (data.session_state) this.session_state = data.session_state
 
 		var filestats = this.statistics.files;
 

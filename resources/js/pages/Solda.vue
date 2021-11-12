@@ -869,10 +869,7 @@ export default {
           version: variants[a][0].version,
           revision: variants[a][0].revision,
           variant: true,
-          uploaded_reason: variants[a][0].uploaded_reason,
-          uploaded: variants[a][0].uploaded,
-          selected: variants[a][0].selected,
-          selected_reason: variants[a][0].selected_reason
+          session_state: variants[a][0].session_state
         });
 
         merged_package.id =

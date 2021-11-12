@@ -203,21 +203,21 @@
               <v-icon
                 color="green"
                 v-on="on"
-                v-if="item.uploaded"
+                v-if="item.session_state.uploaded"
                 >mdi-upload</v-icon
               >
               <v-icon
                 color="red"
                 v-on="on"
                 v-if="
-                  typeof item.uploaded != 'boolean' || !item.uploaded
+                  typeof item.session_state.uploaded != 'boolean' || !item.session_state.uploaded
                 "
                 >mdi-upload</v-icon
               >
 
             </template>
             <span>
-              {{ item.uploaded_reason }}
+              {{ item.session_state.uploaded_reason }}
             </span>
           </v-tooltip>
 
@@ -226,18 +226,18 @@
               <v-icon
                 color="green"
                 v-on="on"
-                v-if="item.selected"
+                v-if="item.session_state.selected"
                 >mdi-select-all</v-icon
               >
               <v-icon
                 color="red"
                 v-on="on"
-                v-if="typeof item.selected != 'boolean' || !item.selected"
+                v-if="typeof item.session_state.selected != 'boolean' || !item.session_state.selected"
                 >mdi-select-all</v-icon
               >
             </template>
             <span>
-              {{ item.selected_reason }}
+              {{ item.session_state.selected_reason }}
             </span>
           </v-tooltip>
         </div>
