@@ -242,7 +242,7 @@
                   label="1. Level variant CVE"
                   color="red"
                   class="ma-0"
-                  value="exclusive"
+                  :value="true"
                   hide-details
                   @click="filterChange = true"
                 ></v-switch>
@@ -265,7 +265,9 @@
                   class="ma-0"
                   value="exclusive"
                   hide-details
-                  @click="filterChange = true"
+                  @click="
+                    filterChange = true;
+                  "
                 ></v-switch>
               </div>
             </template>
@@ -323,8 +325,6 @@
           </v-btn>
         </template>
       </v-snackbar>
-
-
     </v-container>
     <v-footer app elevation="12">
       <v-row class="mt-0" no-gutters>
@@ -468,7 +468,9 @@ export default {
       this.needle = this.params.needle;
 
       // preset exclusive mode
+      // TODO: @ next occurrence, make declarative
       if (this.params.excl == 1) this.filterMode = "exclusive";
+      if (this.params.cve == 1) this.showVariantCve = true;
     }
 
     // override table header tooltips
@@ -476,6 +478,14 @@ export default {
       this.headers[a].tooltip = this.tooltips.stats.table.headers[
         this.headers[a].value
       ];
+    }
+  },
+  watch: {
+    filterMode: function(val) {
+      this.params.excl = val == 'exclusive' ? 1 : 0;
+    },
+    showVariantCve: function(val) {
+      this.params.cve = val ? 1 : 0;
     }
   },
   computed: {

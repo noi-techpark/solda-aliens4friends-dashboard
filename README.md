@@ -1,6 +1,6 @@
 
 #  Aliens4friends Dashboard
-An expandable dashboard to filter and visualize alien4friends license statistics
+An expandable dashboard to filter and visualize Aliens4Friends license statistics
 
 ## Basics/Requirements
 

@@ -192,29 +192,45 @@
 
         <div v-if="head.type == 'flags'" :key="head.value">
           <v-icon v-if="item.isVariant">mdi-link-variant-plus</v-icon>
-          <v-icon
-            v-if="item.isCve && (!item.isVariant || showMainCve)"
-            color="red"
-            >mdi-security</v-icon
+          <v-tooltip
+            top
+            v-if="
+              item.cveStatus && item.isCve && (!item.isVariant || showMainCve)
+            "
           >
-
+            <template v-slot:activator="{ on }">
+              <v-icon v-if="item.cveStatus.open > 0" color="red" v-on="on"
+                >mdi-security</v-icon
+              >
+              <v-icon
+                v-else-if="item.cveStatus.audit_necessary > 0"
+                color="orange"
+                v-on="on"
+                >mdi-security</v-icon
+              >
+              <v-icon v-else color="green" v-on="on">mdi-security</v-icon>
+            </template>
+            <span>
+              {{ item.cveStatus.open }} applicable <br />
+              {{ item.cveStatus.whitelisted }} whitelisted <br />
+              {{ item.cveStatus.patched }} patched <br />
+              {{ item.cveStatus.audit_necessary }} uncertain <br />
+            </span>
+          </v-tooltip>
           <v-tooltip top>
             <template v-slot:activator="{ on }">
-              <v-icon
-                color="green"
-                v-on="on"
-                v-if="item.session_state.uploaded"
+              <v-icon color="green" v-on="on" v-if="item.session_state.uploaded"
                 >mdi-upload</v-icon
               >
               <v-icon
                 color="red"
                 v-on="on"
                 v-if="
-                  typeof item.session_state.uploaded != 'boolean' || !item.session_state.uploaded
+                  typeof item.session_state.uploaded != 'boolean' ||
+                    !item.session_state.uploaded
                 "
                 >mdi-upload</v-icon
               >
-
             </template>
             <span>
               {{ item.session_state.uploaded_reason }}
@@ -223,16 +239,16 @@
 
           <v-tooltip top>
             <template v-slot:activator="{ on }">
-              <v-icon
-                color="green"
-                v-on="on"
-                v-if="item.session_state.selected"
+              <v-icon color="green" v-on="on" v-if="item.session_state.selected"
                 >mdi-select-all</v-icon
               >
               <v-icon
                 color="red"
                 v-on="on"
-                v-if="typeof item.session_state.selected != 'boolean' || !item.session_state.selected"
+                v-if="
+                  typeof item.session_state.selected != 'boolean' ||
+                    !item.session_state.selected
+                "
                 >mdi-select-all</v-icon
               >
             </template>

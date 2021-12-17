@@ -87,7 +87,6 @@ export default {
       return typeof this.tabledata.labels != "undefined";
     },
     chartTableItems: function() {
-      console.log(this.tabledata);
       var res = [];
       for (var a = 0; a < this.tabledata.labels.length; a++) {
         res.push({
