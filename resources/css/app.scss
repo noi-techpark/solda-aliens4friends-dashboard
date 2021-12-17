@@ -70,3 +70,7 @@ background-color:transparent
 .variant_disabled {
 	opacity:0.2
 }
+
+table tr td, table tr th {
+ page-break-inside: avoid;
+}

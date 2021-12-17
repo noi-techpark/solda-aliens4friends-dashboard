@@ -1,5 +1,8 @@
+// TODO
 import SourceFile from "./SourceFile";
 import BinaryPackage from "./BinaryPackage";
+import _ from "lodash";
+
 export default class AlienPackage {
 	id = null;
 	name = null;
@@ -51,6 +54,9 @@ export default class AlienPackage {
 	source_files = [];
 	binary_packages = [];
 
+	metadata = false;
+	cve_metadata = false;
+
 	constructor(data = {}) {
 		if (data.id) this.id = data.id;
 		if (data.tags) this.tags = data.tags;
@@ -63,6 +69,10 @@ export default class AlienPackage {
 		if (data.source_files) this.source_files = data.source_files;
 		if (data.binary_packages) this.binary_packages = data.binary_packages;
 		if (data.session_state) this.session_state = data.session_state
+		if (data.cve_metadata && data.cve_metadata.result) {
+			this.cve_metadata = data.cve_metadata
+			this.collectCves();
+		}
 
 		var filestats = this.statistics.files;
 
@@ -80,6 +90,54 @@ export default class AlienPackage {
 			  100
 			: 0;
 
+	}
+
+	collectCves() {
+		this.isCve = true
+
+		this.cveStatus = {
+			open : 0,
+			patched : 0,
+			whitelisted : 0,
+			audit_necessary: this.cve_metadata.result.review.length,
+			data : []
+		}
+
+		for (var a = 0; a < this.cve_metadata.result.identified.length; a++) {
+			var val = this.cve_metadata.result.identified[a]
+			var res = {
+				id : val.id,
+				references : val.data.cve.references.reference_data,
+				impact : val.data.impact.baseMetricV3.cvssV3
+			}
+
+			for (var i = 0; i < this.source_files.length; i++) {
+				// TODO: Regex / respect filename variations
+				if(this.source_files[i].name.toUpperCase().indexOf(res.id.toUpperCase()) != -1) {
+					res.patched = true
+					console.warn("patched! ", this.source_files[a].name)
+					this.cveStatus.patched++;
+				}
+			}
+
+			for (var i = 0; i < this.cve_metadata.cve_check_whitelist.length; i++) {
+				let whitelisted = this.cve_metadata.cve_check_whitelist[i]
+				if(whitelisted.toUpperCase().indexOf(res.id.toUpperCase()) != -1) {
+					res.whitelist = true
+					console.warn("whitelist! ", whitelisted)
+					this.cveStatus.whitelisted++;
+				}
+			}
+
+			if(!res.whitelist && !res.patched) this.cveStatus.open++;
+
+			this.cveStatus.data.push(res);
+		}
+	}
+
+	// all cves without whitelisted and patched
+	getOpenCves() {
+		return this.isCve ? data.cve_metadata.result.identified : []
 	}
 
 	setVariantTags() {

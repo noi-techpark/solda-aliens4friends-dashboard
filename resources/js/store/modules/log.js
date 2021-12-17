@@ -6,7 +6,6 @@ export const getters = {}
 export const mutations = {
   ["ADD_NOTIFICATION"] (state, { message, color }) {
     state.notifications.push(message);
-    console.log(message);
   }
 }
 
