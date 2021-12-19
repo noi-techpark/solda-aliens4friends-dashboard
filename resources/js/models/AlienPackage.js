@@ -105,17 +105,20 @@ export default class AlienPackage {
 
 		for (var a = 0; a < this.cve_metadata.result.identified.length; a++) {
 			var val = this.cve_metadata.result.identified[a]
+
+			var impact = val.data.impact.baseMetricV3 ? val.data.impact.baseMetricV3.cvssV3 : false
+			impact = impact === false && val.data.impact.baseMetricV2 ? val.data.impact.baseMetricV2.cvssV2 : impact
+
 			var res = {
 				id : val.id,
 				references : val.data.cve.references.reference_data,
-				impact : val.data.impact.baseMetricV3.cvssV3
+				impact : impact
 			}
 
 			for (var i = 0; i < this.source_files.length; i++) {
 				// TODO: Regex / respect filename variations
 				if(this.source_files[i].name.toUpperCase().indexOf(res.id.toUpperCase()) != -1) {
 					res.patched = true
-					console.warn("patched! ", this.source_files[a].name)
 					this.cveStatus.patched++;
 				}
 			}
@@ -124,7 +127,6 @@ export default class AlienPackage {
 				let whitelisted = this.cve_metadata.cve_check_whitelist[i]
 				if(whitelisted.toUpperCase().indexOf(res.id.toUpperCase()) != -1) {
 					res.whitelist = true
-					console.warn("whitelist! ", whitelisted)
 					this.cveStatus.whitelisted++;
 				}
 			}
