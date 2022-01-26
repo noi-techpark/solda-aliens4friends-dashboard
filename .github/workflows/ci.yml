@@ -1,20 +1,10 @@
 name: ci aliens4friends-dashboard
 
-on:
-  push:
-    branches: [ main, development ]
-    paths:
-      - "!README.md"
-  pull_request:
-    branches: [ main, development ]
-    paths:
-      - "!README.md"
-      
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+on: push
+
 
 jobs:
-  build:
+  test_backend:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
@@ -23,10 +13,15 @@ jobs:
         run: php artisan test --without-tty
       
 
+  test_frontend:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '12'
+          node-version: '14.x'
           cache: 'npm'
+      
       - name: test frontend
         run: |
          npm install
