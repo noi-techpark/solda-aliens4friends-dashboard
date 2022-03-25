@@ -1,2 +1,2 @@
 [test]
-solda.testingmachine.eu ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+solda.testingmachine.eu ansible_user='noi-techpark-bot' ansible_ssh_common_args='-o StrictHostKeyChecking=no'
