@@ -1,6 +1,6 @@
 import Tags from "./Tags";
 
-export default class AlienPackage {
+export default class BinaryPackage {
 	name = "";
 	version = "";
 	revision = "";
