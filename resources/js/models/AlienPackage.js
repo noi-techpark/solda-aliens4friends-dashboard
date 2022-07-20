@@ -73,9 +73,11 @@ export default class AlienPackage {
 			this.cve_metadata = data.cve_metadata
 			this.collectCves();
 		}
+		this.processStats();
+	}
 
+	processStats() {
 		var filestats = this.statistics.files;
-
 		this.progress =
 			filestats.audit_total == 0
 				? 100
@@ -89,7 +91,6 @@ export default class AlienPackage {
 					filestats.upstream_source_total) *
 			  100
 			: 0;
-
 	}
 
 	collectCves() {
