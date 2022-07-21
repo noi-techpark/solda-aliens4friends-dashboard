@@ -1,6 +1,6 @@
 name: CI/CD
 
-on: 
+on:
   push:
   pull_request:
 
@@ -15,10 +15,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
-      
-      - name: test backend
-        run: php artisan test --without-tty
-      
+
+    #   - name: test backend
+    #     run: php artisan test --without-tty
+
       - uses: noi-techpark/github-actions/npm-build@v2
         with:
           build-command: npm run prod
@@ -45,7 +45,7 @@ jobs:
           X_APP_URL: "https://dashboard.solda.testingmachine.eu"
           X_SERVER_PORT: 1077
 
-      - name: Build and push 
+      - name: Build and push
         uses: noi-techpark/github-actions/docker-build-and-push@v2
         with:
           docker-username: ${{ github.actor }}
