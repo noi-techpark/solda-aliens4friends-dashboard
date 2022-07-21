@@ -1045,6 +1045,7 @@ export default {
         }
 
         merged_package.setVariantTags();
+        merged_package.processStats();
 
         if (!skip) new_packages.push(merged_package);
       }

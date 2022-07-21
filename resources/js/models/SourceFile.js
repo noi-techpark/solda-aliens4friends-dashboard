@@ -1,4 +1,4 @@
-export default class AlienPackage {
+export default class SourceFile {
 	name = "";
 	sha1_cksum = "";
 	git_sha1 = null;
