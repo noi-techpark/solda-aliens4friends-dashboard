@@ -13,8 +13,8 @@ Vuetify is mainly used as frontend components: https://vuetifyjs.com/
 
 ## install & run app (dev & production)
 
-	sudo docker build . -t af4d -f infrastructure/docker/Dockerfile
-	sudo docker run -d -p [PORT]:5000 --env APP_ENV=[production|local]
+	sudo docker build . -t a4fd -f infrastructure/docker/Dockerfile
+	sudo docker run -d -p [PORT]:5000 --env APP_ENV=[production|local] a4fd:local
 
 if 'production' is passed as APP_ENV, the app will automatically force ssl/https for all requests. This prevents delivery of resources over http if the app is running behind a load balancer that resolves the certificates itself. use 'local' to develop or use the app without valid https. default is 'production'.
 
