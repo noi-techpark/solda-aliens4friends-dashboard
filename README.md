@@ -49,6 +49,31 @@ APP_KEY=App-Key | secret key used for encryption. Will be generated automaticall
 APP_DEBUG=Boolean | always false in production to avoid debug output including sensitive data.
 APP_URL=http://laravel.test | current base-url. Used e.g. for mail dispatch, external libraries or by console commands as base-url. atm there is no use for this.
 
+### Adding company logos, trademarks, etc. in the bottom bar
+
+If one wants to add one or more logos in the bottom bar of the dashboard, they just have to add their image files in `public/img` (or made them available from the Internet) and list them in `resources/js/presets/partner.js`, like in the following example:
+
+```js
+exports.companies = [
+	{
+		name : "ACME Inc.",
+		title : "A Company Making Everything Inc.",
+		alt: "ACME",
+		size: "3",
+		logo_url: "https://example.com/acme/acme.png",
+		link: "https://example.com/acme"
+	},
+	{
+		name : "ACME2 Inc.",
+		title : "Another Company Making Everything Inc.",
+		alt: "ACME2",
+		size: "3",
+		logo_url: "img/acme.png",
+		link: "https://example.com/acme2"
+	}
+]
+```
+
 ## Useful information
 
 ### Structure
