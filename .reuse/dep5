@@ -18,7 +18,6 @@ Comment: Laravel Framework v8.5.15 https://github.com/laravel/laravel
 
 Files: app/Http/JsonProxy.php
        infrastructure/*
-       LICENSES/*
        public/css/app.css
        public/img/alien.png
        public/mix-manifest.json
@@ -38,7 +37,6 @@ Files: app/Http/JsonProxy.php
        resources/views/*
        testfiles/*
        .*
-       LICENSE
        README.md
        composer.*
        docker-compose.yml
