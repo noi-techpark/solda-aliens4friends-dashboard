@@ -1,0 +1,49 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+
+Files: app/*
+       bootstrap/*
+       config/*
+       database/*
+       public/*
+       resources/*
+       routes/*
+       storage/*
+       tests/*
+       artisan
+       phpunit.xml
+       server.php
+Copyright: Taylor Otwell
+License: MIT
+Comment: Laravel Framework v8.5.15 https://github.com/laravel/laravel
+
+Files: app/Http/JsonProxy.php
+       infrastructure/*
+       LICENSES/*
+       public/css/app.css
+       public/img/alien.png
+       public/mix-manifest.json
+       resources/css/app.css
+       resources/js/colors/*
+       resources/js/components/*
+       resources/js/layouts/*
+       resources/js/models/*
+       resources/js/pages/*
+       resources/js/plugins/*
+       resources/js/presets/*
+       resources/js/store/modules/*
+       resources/js/store/mutation-types.js
+       resources/js/app.js
+       resources/js/router.js
+       resources/sass/*
+       resources/views/*
+       testfiles/*
+       .*
+       LICENSE
+       README.md
+       composer.*
+       docker-compose.yml
+       package*
+       webpack.mix.js
+Copyright: NOI Techpark SpA
+License: Apache-2.0
+Comment: Developed on Laravel Framework by Alex Complojer <alex@agon-e.com> and Martin Rabanser <martin.rabanser@rmb-consulting.tech>
