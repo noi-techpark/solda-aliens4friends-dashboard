@@ -1,5 +1,3 @@
-# SPDX-FileCopyrightText: 2021 NOI Spa <digital@noi.bz.it>
-# SPDX-License-Identifier: AGPL-3.0-or-later
 # Compiled class file
 *.class
 
@@ -37,3 +35,6 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+
+public/js/*
+public/css/*
