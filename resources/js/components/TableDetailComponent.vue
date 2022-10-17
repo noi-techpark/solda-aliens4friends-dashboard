@@ -11,16 +11,18 @@
             <div
               class="ml-2"
               :class="{
-                variant_disabled: !isHighlighted(item.variant_files[vkey])
+                variant_disabled: !item.variant_files[vkey].is_main_variant
               }"
             >
-              <v-icon v-if="item.isCve" color="red">mdi-security</v-icon>
-              <b>Variant: {{ vkey }}</b> | {{ variant.name }} |
-              {{ variant.version }} | {{ variant.revision }}
+              <badge-component :item="item.variant_files[vkey]"></badge-component>
+              <b>Variant: {{ vkey }}</b> | {{ variant.name }} | {{ variant.version }} |
+              {{ variant.revision }} <br />
+              <br />
               <v-chip
                 x-small
                 color="primary"
                 :key="tag"
+                class="ml-1 mb-1"
                 v-for="tag in item.variant_files[vkey].tags.release"
                 >{{ tag }}</v-chip
               >
@@ -28,26 +30,39 @@
                 :key="tag"
                 x-small
                 color="secondary"
-                class="ml-1"
+                class="ml-1 mb-1"
                 v-for="tag in item.variant_files[vkey].tags.distro"
+                v-if="!item.variant_files[vkey].is_main_variant"
                 >{{ tag }}</v-chip
               >
               <v-chip
                 :key="tag"
                 x-small
                 color="teritary"
-                class="ml-1"
+                class="ml-1 mb-1"
                 v-for="tag in item.variant_files[vkey].tags.machine"
+                v-if="!item.variant_files[vkey].is_main_variant"
                 >{{ tag }}</v-chip
               >
               <v-chip
                 :key="tag"
                 x-small
                 color="#FFDD33"
-                class="ml-1"
+                class="ml-1 mb-1"
                 v-for="tag in item.variant_files[vkey].tags.image"
+                v-if="!item.variant_files[vkey].is_main_variant"
                 >{{ tag }}</v-chip
               >
+
+              <v-tooltip top max-width="500px">
+                <template v-slot:activator="{ on }">
+                  <v-chip x-small class="ml-1 mb-1" v-on="on">{{
+                    item.variant_files[vkey].layer.layer_path
+                  }}</v-chip>
+                </template>
+                {{ item.variant_files[vkey].layer.remote }} <br />
+                {{ item.variant_files[vkey].layer.revision }}
+              </v-tooltip>
             </div>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
@@ -55,17 +70,11 @@
               <!-- TODO: source_files = common_files for variants -->
               <v-col cols="3" v-if="item.source_files">
                 <v-tabs v-model="item.sourcetab" class="rounded">
-                  <v-tab>
-                    Common Sources
-                  </v-tab>
+                  <v-tab> Common Sources </v-tab>
                 </v-tabs>
                 <v-tabs-items v-model="item.sourcetab" class="rounded">
                   <v-tab-item>
-                    <v-virtual-scroll
-                      :items="item.source_files"
-                      :item-height="40"
-                      height="200"
-                    >
+                    <v-virtual-scroll :items="item.source_files" :item-height="40" height="200">
                       <template v-slot:default="{ item }">
                         <v-list-item>
                           <v-list-item-content>
@@ -90,34 +99,22 @@
                                 v-for="tag in getVariantDistros(vkey)"
                                 >{{ tag }}</v-chip
                               >
-                              <v-chip
-                                x-small
-                                v-if="item.src_uri.indexOf('tar.gz') != -1"
+                              <v-chip x-small v-if="item.src_uri.indexOf('tar.gz') != -1"
                                 >tar.gz</v-chip
                               >
-                              <v-chip
-                                x-small
-                                v-if="item.src_uri.indexOf('http://') != -1"
+                              <v-chip x-small v-if="item.src_uri.indexOf('http://') != -1"
                                 >http</v-chip
                               >
-                              <v-chip
-                                x-small
-                                v-if="item.src_uri.indexOf('https://') != -1"
+                              <v-chip x-small v-if="item.src_uri.indexOf('https://') != -1"
                                 >https</v-chip
                               >
-                              <v-chip
-                                x-small
-                                v-if="item.src_uri.indexOf('file://') != -1"
+                              <v-chip x-small v-if="item.src_uri.indexOf('file://') != -1"
                                 >local</v-chip
                               >
-                              <v-chip
-                                x-small
-                                v-if="item.src_uri.indexOf('gnu.org') != -1"
+                              <v-chip x-small v-if="item.src_uri.indexOf('gnu.org') != -1"
                                 >gnu.org</v-chip
                               >
-                              <v-chip
-                                x-small
-                                v-if="item.src_uri.indexOf('patch') != -1"
+                              <v-chip x-small v-if="item.src_uri.indexOf('patch') != -1"
                                 >patch</v-chip
                               >
                               <v-chip color="green" small v-if="item.audited"
@@ -127,16 +124,9 @@
                           </v-list-item-content>
 
                           <v-list-item-action>
-                            <v-btn
-                              depressed
-                              small
-                              :href="item.src_uri"
-                              target="_blank"
-                            >
+                            <v-btn depressed small :href="item.src_uri" target="_blank">
                               File
-                              <v-icon color="orange darken-4" right>
-                                mdi-open-in-new
-                              </v-icon>
+                              <v-icon color="orange darken-4" right> mdi-open-in-new </v-icon>
                             </v-btn>
                           </v-list-item-action>
                         </v-list-item>
@@ -147,9 +137,7 @@
               </v-col>
               <v-col cols="3" v-if="item.meta_source_files && item.isVariant">
                 <v-tabs v-model="item.sourcetab" class="rounded">
-                  <v-tab>
-                    Variant specific
-                  </v-tab>
+                  <v-tab> Variant specific </v-tab>
                 </v-tabs>
                 <v-tabs-items v-model="item.sourcetab" class="rounded">
                   <v-tab-item>
@@ -189,34 +177,22 @@
                                 v-for="tag in getVariantDistros(vkey)"
                                 >{{ tag }}</v-chip
                               >
-                              <v-chip
-                                x-small
-                                v-if="item.src_uri.indexOf('tar.gz') != -1"
+                              <v-chip x-small v-if="item.src_uri.indexOf('tar.gz') != -1"
                                 >tar.gz</v-chip
                               >
-                              <v-chip
-                                x-small
-                                v-if="item.src_uri.indexOf('http://') != -1"
+                              <v-chip x-small v-if="item.src_uri.indexOf('http://') != -1"
                                 >http</v-chip
                               >
-                              <v-chip
-                                x-small
-                                v-if="item.src_uri.indexOf('https://') != -1"
+                              <v-chip x-small v-if="item.src_uri.indexOf('https://') != -1"
                                 >https</v-chip
                               >
-                              <v-chip
-                                x-small
-                                v-if="item.src_uri.indexOf('file://') != -1"
+                              <v-chip x-small v-if="item.src_uri.indexOf('file://') != -1"
                                 >local</v-chip
                               >
-                              <v-chip
-                                x-small
-                                v-if="item.src_uri.indexOf('gnu.org') != -1"
+                              <v-chip x-small v-if="item.src_uri.indexOf('gnu.org') != -1"
                                 >gnu.org</v-chip
                               >
-                              <v-chip
-                                x-small
-                                v-if="item.src_uri.indexOf('patch') != -1"
+                              <v-chip x-small v-if="item.src_uri.indexOf('patch') != -1"
                                 >patch</v-chip
                               >
                               <v-chip color="green" x-small v-if="item.audited"
@@ -226,16 +202,9 @@
                           </v-list-item-content>
 
                           <v-list-item-action>
-                            <v-btn
-                              depressed
-                              small
-                              :href="item.src_uri"
-                              target="_blank"
-                            >
+                            <v-btn depressed small :href="item.src_uri" target="_blank">
                               File
-                              <v-icon color="orange darken-4" right>
-                                mdi-open-in-new
-                              </v-icon>
+                              <v-icon color="orange darken-4" right> mdi-open-in-new </v-icon>
                             </v-btn>
                           </v-list-item-action>
                         </v-list-item>
@@ -248,59 +217,42 @@
                 cols="3"
                 v-if="
                   fileSpecificMachines.length > 0 &&
-                    fileSpecificMachines[0] != 'all' &&
-                    item.isVariant
+                  fileSpecificMachines[0] != 'all' &&
+                  item.isVariant
                 "
               >
                 <v-tabs v-model="item.varianttab" class="rounded">
                   <v-tabs-slider color="green"></v-tabs-slider>
                   <v-tab
                     v-for="(machine, name) in fileSpecificMachines"
-                    v-if="
-                      !machineTabNotEmpty(machine, vkey) && machine != 'all'
-                    "
+                    v-if="!machineTabNotEmpty(machine, vkey) && machine != 'all'"
                     :key="name"
                   >
                     {{ machine }} specific
                   </v-tab>
                 </v-tabs>
                 <v-tabs-items v-model="item.varianttab" class="rounded">
-                  <v-tab-item
-                    v-for="(variant, name) in fileSpecificMachines"
-                    :key="name"
-                  >
+                  <v-tab-item v-for="(variant, name) in fileSpecificMachines" :key="name">
                     <v-virtual-scroll
                       :items="item.variant_files[vkey].source_files"
                       :item-height="30"
                       height="200"
                     >
                       <template v-slot:default="{ item }">
-                        <v-list-item
-                          v-if="fileIsMachineSpecific(item.machines)"
-                        >
+                        <v-list-item v-if="fileIsMachineSpecific(item.machines)">
                           <v-list-item-content>
                             <v-list-item-title>
                               {{ item.name }}
-                              <v-chip
-                                small
-                                v-for="machine in item.machines"
-                                :key="machine"
+                              <v-chip small v-for="machine in item.machines" :key="machine"
                                 >{{ machine }}
                               </v-chip>
                             </v-list-item-title>
                           </v-list-item-content>
 
                           <v-list-item-action>
-                            <v-btn
-                              depressed
-                              small
-                              :href="item.src_uri"
-                              target="_blank"
-                            >
+                            <v-btn depressed small :href="item.src_uri" target="_blank">
                               File
-                              <v-icon color="orange darken-4" right>
-                                mdi-open-in-new
-                              </v-icon>
+                              <v-icon color="orange darken-4" right> mdi-open-in-new </v-icon>
                             </v-btn>
                           </v-list-item-action>
                         </v-list-item>
@@ -309,11 +261,52 @@
                   </v-tab-item>
                 </v-tabs-items>
               </v-col>
+
+              <v-col v-if="item.isCve && item.variant_files[vkey].is_main_variant">
+                {{ item.is_main_variant }}
+                <v-tabs v-model="item.cvetab" class="rounded">
+                  <v-tab> CVE Status </v-tab>
+                </v-tabs>
+                <v-tabs-items v-model="item.cvetab" class="rounded">
+                  <v-tab-item>
+                    <v-virtual-scroll
+                      :items="item.cve_metadata.issue"
+                      :item-height="30"
+                      height="200"
+                      style="font-size: 80%"
+                    >
+                      <template v-slot:default="{ item }">
+                        <v-list-item>
+                          <v-list-item-content>
+                            <v-list-item-title>
+                              <v-btn x-small elevation="0" :href="item.link">{{ item.id }}</v-btn>
+                              <v-chip small>{{ item.scorev2 }} / {{ item.scorev3 }}</v-chip>
+                              <v-chip small>{{ item.vector }}</v-chip>
+                              <v-chip small>{{ item.status }}</v-chip>
+
+                              <v-tooltip top left max-width="400px">
+                                <template v-slot:activator="{ on }">
+                                  <v-icon v-on="on">mdi-information</v-icon>
+                                </template>
+                                <div>{{ item.summary }}</div>
+                                <b class="mt-4" style="display: block">Used scan aliases:</b>
+                                <ul>
+                                  <li v-for="alias in $props.item.cve_metadata.products">
+                                    {{ alias.product }}, CVE's in record: {{ alias.cvesInRecord }}
+                                  </li>
+                                </ul>
+                              </v-tooltip>
+                            </v-list-item-title>
+                          </v-list-item-content>
+                        </v-list-item>
+                      </template>
+                    </v-virtual-scroll>
+                  </v-tab-item>
+                </v-tabs-items>
+              </v-col>
               <v-col v-if="item.binary_packages">
                 <v-tabs v-model="item.binarytab" class="rounded">
-                  <v-tab>
-                    Variant Specific Binaries
-                  </v-tab>
+                  <v-tab> Variant Specific Binaries </v-tab>
                 </v-tabs>
                 <v-tabs-items v-model="item.binarytab" class="rounded">
                   <v-tab-item>
@@ -321,7 +314,7 @@
                       :items="getBinaries(variant.binary_packages)"
                       :item-height="30"
                       height="200"
-                      style="font-size:80%"
+                      style="font-size: 80%"
                     >
                       <template v-slot:default="{ item }">
                         <v-list-item>
@@ -345,26 +338,27 @@
     </v-card>
     <!-- TODO: Same view for Variants & Non-Variants, source file chips should be a component  -->
     <v-card flat tile v-if="!item.isVariant" color="transparent">
-      <v-card-title>{{ item.name || "Missing name" }}</v-card-title>
-      <v-card-subtitle
-        >{{ item.version || "0.0.0" }} |
-        {{ item.revision || "-" }}</v-card-subtitle
-      >
+      <v-card-title
+        >{{ item.name || "Missing name" }}
+
+        <v-tooltip top max-width="500px">
+          <template v-slot:activator="{ on }">
+            <v-chip class="ml-2" v-on="on">{{ item.layer.layer_path }}</v-chip>
+          </template>
+          {{ item.layer.remote }} <br />
+          {{ item.layer.revision }}
+        </v-tooltip>
+      </v-card-title>
+      <v-card-subtitle>{{ item.version || "0.0.0" }} | {{ item.revision || "-" }}</v-card-subtitle>
       <v-card-text>
         <v-row>
           <v-col v-if="item.source_files" class="rounded">
             <v-tabs v-model="item.sourcetab" class="rounded">
-              <v-tab>
-                Common Source Files
-              </v-tab>
+              <v-tab> Common Source Files </v-tab>
             </v-tabs>
             <v-tabs-items v-model="item.sourcetab" class="rounded">
               <v-tab-item>
-                <v-virtual-scroll
-                  :items="item.source_files"
-                  :item-height="30"
-                  height="200"
-                >
+                <v-virtual-scroll :items="item.source_files" :item-height="30" height="200">
                   <template v-slot:default="{ item }">
                     <v-list-item>
                       <v-list-item-content>
@@ -373,65 +367,30 @@
                           <v-chip small v-if="item.files_in_archive"
                             >{{ item.files_in_archive }} Files</v-chip
                           >
-                          <v-chip
-                            small
-                            color="primary"
-                            v-if="getSourceFileRelease(item) != ''"
-                            >{{ getSourceFileRelease(item) }}</v-chip
-                          >
-                          <v-chip
-                            small
-                            v-if="item.src_uri.indexOf('tar.gz') != -1"
-                            >tar.gz</v-chip
-                          >
-                          <v-chip
-                            small
-                            v-if="item.src_uri.indexOf('http://') != -1"
-                            >http</v-chip
-                          >
-                          <v-chip
-                            small
-                            v-if="item.src_uri.indexOf('https://') != -1"
-                            >https</v-chip
-                          >
-                          <v-chip
-                            small
-                            v-if="item.src_uri.indexOf('file://') != -1"
-                            >local</v-chip
-                          >
-                          <v-chip
-                            small
-                            v-if="item.src_uri.indexOf('gnu.org') != -1"
+                          <v-chip small color="primary" v-if="getSourceFileRelease(item) != ''">{{
+                            getSourceFileRelease(item)
+                          }}</v-chip>
+                          <v-chip small v-if="item.src_uri.indexOf('tar.gz') != -1">tar.gz</v-chip>
+                          <v-chip small v-if="item.src_uri.indexOf('http://') != -1">http</v-chip>
+                          <v-chip small v-if="item.src_uri.indexOf('https://') != -1">https</v-chip>
+                          <v-chip small v-if="item.src_uri.indexOf('file://') != -1">local</v-chip>
+                          <v-chip small v-if="item.src_uri.indexOf('gnu.org') != -1"
                             >gnu.org</v-chip
                           >
-                          <v-chip
-                            small
-                            v-if="item.src_uri.indexOf('patch') != -1"
-                            >patch</v-chip
-                          >
+                          <v-chip small v-if="item.src_uri.indexOf('patch') != -1">patch</v-chip>
                           <v-chip
                             color="green"
                             small
-                            v-if="
-                              item.audited ||
-                                item.src_uri.indexOf('file://') != -1
-                            "
+                            v-if="item.audited || item.src_uri.indexOf('file://') != -1"
                             ><v-icon>mdi-check</v-icon></v-chip
                           >
                         </v-list-item-title>
                       </v-list-item-content>
 
                       <v-list-item-action>
-                        <v-btn
-                          depressed
-                          small
-                          :href="item.src_uri"
-                          target="_blank"
-                        >
+                        <v-btn depressed small :href="item.src_uri" target="_blank">
                           File
-                          <v-icon color="orange darken-4" right>
-                            mdi-open-in-new
-                          </v-icon>
+                          <v-icon color="orange darken-4" right> mdi-open-in-new </v-icon>
                         </v-btn>
                       </v-list-item-action>
                     </v-list-item>
@@ -440,11 +399,50 @@
               </v-tab-item>
             </v-tabs-items>
           </v-col>
+          <v-col v-if="item.isCve">
+            <v-tabs v-model="item.binarytab" class="rounded">
+              <v-tab> CVE Status </v-tab>
+            </v-tabs>
+            <v-tabs-items v-model="item.binarytab" class="rounded">
+              <v-tab-item>
+                <v-virtual-scroll
+                  :items="item.cve_metadata.issue"
+                  :item-height="30"
+                  height="200"
+                  style="font-size: 80%"
+                >
+                  <template v-slot:default="{ item }">
+                    <v-list-item>
+                      <v-list-item-content>
+                        <v-list-item-title>
+                          <v-btn x-small elevation="0" :href="item.link">{{ item.id }}</v-btn>
+                          <v-chip small>{{ item.scorev2 }} / {{ item.scorev3 }}</v-chip>
+                          <v-chip small>{{ item.vector }}</v-chip>
+                          <v-chip small>{{ item.status }}</v-chip>
+
+                          <v-tooltip top left max-width="400px">
+                            <template v-slot:activator="{ on }">
+                              <v-icon v-on="on">mdi-information</v-icon>
+                            </template>
+                            <div>{{ item.summary }}</div>
+                            <b class="mt-4" style="display: block">Used scan aliases:</b>
+                            <ul>
+                              <li v-for="alias in $props.item.cve_metadata.products">
+                                {{ alias.product }}, CVE's in record: {{ alias.cvesInRecord }}
+                              </li>
+                            </ul>
+                          </v-tooltip>
+                        </v-list-item-title>
+                      </v-list-item-content>
+                    </v-list-item>
+                  </template>
+                </v-virtual-scroll>
+              </v-tab-item>
+            </v-tabs-items>
+          </v-col>
           <v-col v-if="item.binary_packages">
             <v-tabs v-model="item.binarytab" class="rounded">
-              <v-tab>
-                Binary Packages
-              </v-tab>
+              <v-tab> Binary Packages </v-tab>
             </v-tabs>
             <v-tabs-items v-model="item.binarytab" class="rounded">
               <v-tab-item>
@@ -452,7 +450,7 @@
                   :items="getBinaries(item.binary_packages)"
                   :item-height="30"
                   height="200"
-                  style="font-size:80%"
+                  style="font-size: 80%"
                 >
                   <template v-slot:default="{ item }">
                     <v-list-item>
@@ -476,107 +474,100 @@
 </template>
 
 <script>
-import _ from "lodash";
+import _ from "lodash"
 
 export default {
   props: {
     item: {
       type: Object,
       default: () => {
-        return {};
+        return {}
       }
     },
     filtered: {
       type: Array,
       default: () => {
-        return [];
+        return []
       }
     }
   },
   computed: {
     fileSpecificMachines() {
-      let machines = [];
+      let machines = []
 
       for (let variant in this.item.variant_files) {
-        for (
-          var a = 0;
-          a < this.item.variant_files[variant].source_files.length;
-          a++
-        ) {
+        for (var a = 0; a < this.item.variant_files[variant].source_files.length; a++) {
           if (this.item.variant_files[variant].source_files[a].machines)
-            machines = [
-              ...machines,
-              ...this.item.variant_files[variant].source_files[a].machines
-            ];
+            machines = [...machines, ...this.item.variant_files[variant].source_files[a].machines]
         }
       }
 
-      return machines.length > 0 ? _.uniq(machines) : false;
+      return machines.length > 0 ? _.uniq(machines) : false
     }
   },
   data() {
-    return {};
+    return {}
   },
   methods: {
     isHighlighted(item) {
       for (var a = 0; a < this.filtered.length; a++) {
         if (item.tags.release.indexOf(this.filtered[a]) != -1) {
-          return true;
+          return true
         }
       }
-      return false;
+      return false
     },
     getVariantReleases(vkey) {
-      return this.item.variant_files[vkey].tags.release;
+      return this.item.variant_files[vkey].tags.release
     },
     getVariantDistros(vkey) {
-      return this.item.variant_files[vkey].tags.distro;
+      return this.item.variant_files[vkey].tags.distro
     },
     machineTabNotEmpty(machine, vkey) {
-      var res = true;
+      var res = true
 
       for (let source in this.item.variant_files[vkey].source_files) {
-        var cur = this.item.variant_files[vkey].source_files[source];
-        if (cur.machines.indexOf(machine) != -1) res = false;
+        var cur = this.item.variant_files[vkey].source_files[source]
+        if (cur.machines.indexOf(machine) != -1) res = false
       }
 
-      return res;
+      return res
     },
     getBinaries(item) {
       // input file array inconsistencies
       if (item.length > 0 && typeof item[0].name == "undefined") {
-        return item[0];
-      } else return item;
+        return item[0]
+      } else return item
     },
     getSourceFileRelease(source_file) {
-      var release = "";
+      var release = ""
       if (source_file.paths)
         for (var a = 0; a < source_file.paths.length; a++) {
-          const tags = source_file.paths[a].split("/");
+          const tags = source_file.paths[a].split("/")
           if (tags.length >= 2) {
-            release = tags[2];
+            release = tags[2]
           }
         }
-      return release;
+      return release
     },
     fileIsMachineSpecific(machines) {
       // if no machines, it is valid for all machines
-      if (!machines) return true;
+      if (!machines) return true
 
-      let res = false;
+      let res = false
 
       for (var a = 0; a < this.item.variant_machines.length; a++) {
         if (
           machines.indexOf(this.item.variant_machines[a]) != -1 ||
           machines.indexOf("all") != -1
         ) {
-          res = true;
+          res = true
         } else {
         }
       }
 
-      return res;
+      return res
     }
   }
-};
+}
 </script>

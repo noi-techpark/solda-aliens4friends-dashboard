@@ -1,5 +1,5 @@
 <template>
-  <div style="width:100%">
+  <div style="width: 100%">
     <v-app-bar app>
       <template v-slot:img="{ props }">
         <v-img v-bind="props" gradient="to top right, #FFFFFF, #F5F5F5"></v-img>
@@ -9,19 +9,14 @@
         <v-img
           v-if="entries.length > 0"
           max-width="18"
-          style="display:inline-block;position:relative;top:4px"
+          style="display: inline-block; position: relative; top: 4px"
           class="mr-4 ml-2"
           src="img/alien.png"
         ></v-img>
         <span> Aliens4Friends Dashboard</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn
-        elevation="0"
-        width="250"
-        class="mr-4"
-        :class="{ filtered: isFiltered }"
-      >
+      <v-btn elevation="0" width="250" class="mr-4" :class="{ filtered: isFiltered }">
         {{ current.length }}/{{ entries.length }} packages
       </v-btn>
 
@@ -42,37 +37,35 @@
 
     <v-container fluid fill-height v-if="entries.length == 0">
       <v-row align="center" justify="center">
-        <v-col cols="6" style="width:100%" full-width>
+        <v-col cols="6" style="width: 100%" full-width>
           <v-card tile>
-            <v-card-title class="mb-4"
-              >Welcome to the Aliens4Friends Dashboard
-            </v-card-title>
+            <v-card-title class="mb-4">Welcome to the Aliens4Friends Dashboard </v-card-title>
             <v-card-text>
               <v-row>
                 <v-col>
                   <v-img
                     width="80"
                     src="img/alien.png"
-                    style="display:inline-block; float:left;filter: drop-shadow(2px 0px 2px green) blur(4px);"
+                    style="
+                      display: inline-block;
+                      float: left;
+                      filter: drop-shadow(2px 0px 2px green) blur(4px);
+                    "
                     class="mr-6"
                   ></v-img>
 
                   To start,
-                  <b
-                    >please drag an evaluation file to the upper right
-                    corner.</b
-                  >
+                  <b>please drag an evaluation file to the upper right corner.</b>
 
                   <br />
                   <br />
                   Alternatively,
                   <b
-                    >you can specify a link via the ?json= parameter to load
-                    your evaluation file directly via url</b
+                    >you can specify a link via the ?json= parameter to load your evaluation file
+                    directly via url</b
                   >. <br />
-                  Each time you apply a filter setting, the url is updated and
-                  you receive a deep link with which the current filter
-                  configuration can be restored.
+                  Each time you apply a filter setting, the url is updated and you receive a deep
+                  link with which the current filter configuration can be restored.
                 </v-col>
               </v-row>
             </v-card-text>
@@ -102,10 +95,7 @@
             :series="provenance_charts.series"
             :options="provenance_charts.chartOptions"
             title="Provenance"
-            :subtitle="
-              'Upstream source total: ' +
-                stats.counts.upstream_source_total.value
-            "
+            :subtitle="'Upstream source total: ' + stats.counts.upstream_source_total.value"
             height="110px"
             type="bar"
           ></chart-component>
@@ -228,17 +218,24 @@
     <!-- datatables -->
     <v-container fluid v-if="entries.length > 0">
       <v-row no-gutters class="text-right">
-        <v-col cols="12">
+        <v-col class="text-left">
+          <v-btn-toggle v-model="view" shaped mandatory>
+            <v-btn>
+              <v-icon>mdi-table</v-icon>
+            </v-btn>
+            <v-btn>
+              <v-icon>mdi-graph</v-icon>
+            </v-btn>
+          </v-btn-toggle></v-col
+        >
+        <v-spacer></v-spacer>
+        <v-col cols="8">
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
-              <div
-                style="display:inline-block"
-                class="mr-4"
-                v-bind="attrs"
-                v-on="on"
-              >
+              <div style="display: inline-block" class="mr-4" v-bind="attrs" v-on="on">
                 <v-switch
                   v-model="showVariantCve"
+                  v-if="false"
                   label="1. Level variant CVE"
                   color="red"
                   class="ma-0"
@@ -252,12 +249,7 @@
           </v-tooltip>
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
-              <div
-                style="display:inline-block"
-                class="mr-4"
-                v-bind="attrs"
-                v-on="on"
-              >
+              <div style="display: inline-block" class="mr-4" v-bind="attrs" v-on="on">
                 <v-switch
                   v-model="filterMode"
                   label="Exclusive selection"
@@ -265,9 +257,7 @@
                   class="ma-0"
                   value="exclusive"
                   hide-details
-                  @click="
-                    filterChange = true;
-                  "
+                  @click="filterChange = true"
                 ></v-switch>
               </div>
             </template>
@@ -281,24 +271,21 @@
                 :class="{ highlight: filterChange }"
               >
                 Apply
-                <v-icon right dark>
-                  mdi-filter
-                </v-icon>
+                <v-icon right dark> mdi-filter </v-icon>
               </v-btn>
             </template>
             <span>{{ tooltips.stats.elements.apply_button }}</span>
           </v-tooltip>
           <v-btn outlined @click="clearFilter">
             Reset
-            <v-icon right dark>
-              mdi-close
-            </v-icon>
+            <v-icon right dark> mdi-close </v-icon>
           </v-btn>
         </v-col>
       </v-row>
       <v-row class="mt-0 mb-8">
         <v-col :class="{ filtered: isFiltered }">
           <table-component
+            v-if="view == 0"
             :entries="current"
             :headers="headers"
             :stats="total_stats"
@@ -309,18 +296,13 @@
             @filter-change="filterChange = true"
             ident="Meta"
           ></table-component>
+          <graph-component v-if="view == 1"> </graph-component>
         </v-col>
       </v-row>
       <v-snackbar v-model="snackbar" :timeout="timeout" color="red">
         {{ text }}
         <template v-slot:action="{ attrs }">
-          <v-btn
-            width="230"
-            color="white"
-            text
-            v-bind="attrs"
-            @click="snackbar = false"
-          >
+          <v-btn width="230" color="white" text v-bind="attrs" @click="snackbar = false">
             Close
           </v-btn>
         </template>
@@ -328,7 +310,7 @@
     </v-container>
     <v-footer app elevation="12">
       <v-row class="mt-0" no-gutters>
-        <v-col style="font-size:11px">
+        <v-col style="font-size: 11px">
           <v-bottom-sheet v-model="showAbout">
             <template v-slot:activator="{ on, attrs }">
               <v-row>
@@ -348,57 +330,43 @@
                       :src="company.logo_url"
                       :title="company.name"
                       :alt="company.alt"
-                      style="max-width:100%"
+                      style="max-width: 100%"
                     />
                   </v-btn>
                 </v-col>
                 <v-col class="justify-end text-right">
-                  <v-btn text v-bind="attrs" v-on="on">
-                    about this tool
-                  </v-btn>
+                  <v-btn text v-bind="attrs" v-on="on"> about this tool </v-btn>
                 </v-col>
               </v-row>
             </template>
             <v-sheet class="text-center">
-              <v-btn
-                class="mt-2 mr-2 float-right"
-                text
-                icon
-                @click="showAbout = !showAbout"
-              >
+              <v-btn class="mt-2 mr-2 float-right" text icon @click="showAbout = !showAbout">
                 <v-icon>mdi-close</v-icon>
               </v-btn>
               <div>
                 <v-row>
-                  <v-col
-                    v-for="(company, index) in partner"
-                    :cols="company.size"
-                    :key="index"
-                  >
-                    <a
-                      :href="company.link"
-                      target="_blank"
-                      style="text-decoration:none"
-                    >
+                  <v-col v-for="(company, index) in partner" :cols="company.size" :key="index">
+                    <a :href="company.link" target="_blank" style="text-decoration: none">
                       <v-card class="justify-center ma-4" tile flat>
                         <v-card-title
-                          style="font-size:14px;white-space:nowrap;overflow:hidden;text-overflow: ellipsis;"
+                          style="
+                            font-size: 14px;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                          "
                           v-if="company.title && company.title != ''"
                           class="text-center d-none d-lg-block justify-center"
                           >{{ company.title }}</v-card-title
                         >
                         <img
-                          :height="
-                            (company.size * 20) / (partner.length - 2) +
-                              30 +
-                              'px'
-                          "
+                          :height="(company.size * 20) / (partner.length - 2) + 30 + 'px'"
                           width="auto"
                           class="justify-center"
                           :src="company.logo_url"
                           :title="company.name"
                           :alt="company.alt"
-                          style="max-width:100%"
+                          style="max-width: 100%"
                         />
                       </v-card>
                     </a>
@@ -414,20 +382,21 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from "vuex"
 
-import headers from "../presets/table_headers";
-import partner from "../presets/partner";
-import colors from "../presets/colors";
+import headers from "../presets/table_headers"
+import partner from "../presets/partner"
+import colors from "../presets/colors"
 
-import tooltips from "../presets/tooltips";
-import _ from "lodash";
+import tooltips from "../presets/tooltips"
+import _ from "lodash"
 
-import AlienPackage from "../models/AlienPackage";
+import AlienPackage from "../models/AlienPackage"
 
 export default {
   data() {
     return {
+      view: null,
       showVariantCve: false,
       needle: "",
       params: {
@@ -458,34 +427,32 @@ export default {
       colors: colors.colors,
       partner: partner.companies,
       tooltips: tooltips.tips
-    };
+    }
   },
   mounted: function() {
     if (this.$route.query.params) {
-      this.params = JSON.parse(this.$route.query.params);
+      this.params = JSON.parse(this.$route.query.params)
 
       // preset needle
-      this.needle = this.params.needle;
+      this.needle = this.params.needle
 
       // preset exclusive mode
       // TODO: @ next occurrence, make declarative
-      if (this.params.excl == 1) this.filterMode = "exclusive";
-      if (this.params.cve == 1) this.showVariantCve = true;
+      if (this.params.excl == 1) this.filterMode = "exclusive"
+      if (this.params.cve == 1) this.showVariantCve = true
     }
 
     // override table header tooltips
     for (var a = 0; a < this.headers.length; a++) {
-      this.headers[a].tooltip = this.tooltips.stats.table.headers[
-        this.headers[a].value
-      ];
+      this.headers[a].tooltip = this.tooltips.stats.table.headers[this.headers[a].value]
     }
   },
   watch: {
     filterMode: function(val) {
-      this.params.excl = val == 'exclusive' ? 1 : 0;
+      this.params.excl = val == "exclusive" ? 1 : 0
     },
     showVariantCve: function(val) {
-      this.params.cve = val ? 1 : 0;
+      this.params.cve = val ? 1 : 0
     }
   },
   computed: {
@@ -493,10 +460,10 @@ export default {
       json: "file/json"
     }),
     entries: function() {
-      let source = this.json.source_packages || [];
-      let res = [];
-      let index = 0;
-      let variants = {};
+      let source = this.json.source_packages || []
+      let res = []
+      let index = 0
+      let variants = {}
       let all = {
         known: 0,
         audited: 0,
@@ -505,165 +472,146 @@ export default {
         total: 0,
         min: 0,
         max: 0
-      };
+      }
 
       // group all packages by variant key
       for (let i = 0; i < source.length; i++) {
-        source[i] = new AlienPackage(source[i]);
+        source[i] = new AlienPackage(source[i])
 
-        var variant_key =
-          source[i].name + "-" + source[i].version + "-" + source[i].revision;
+        var variant_key = source[i].name + "-" + source[i].version + "-" + source[i].revision
 
-        if (typeof variants[variant_key] == "undefined")
-          variants[variant_key] = [];
+        if (typeof variants[variant_key] == "undefined") variants[variant_key] = []
 
-        variants[variant_key].push(source[i]);
+        variants[variant_key].push(source[i])
 
-        res.push(source[i]);
+        res.push(source[i])
       }
 
       // remove all variants from result
       res = res.filter(value => {
-        return (
-          variants[value.name + "-" + value.version + "-" + value.revision]
-            .length == 1
-        );
-      });
+        return variants[value.name + "-" + value.version + "-" + value.revision].length == 1
+      })
 
       // remove unique packages from variants
       variants = _.filter(variants, val => {
-        return val.length > 1;
-      });
+        return val.length > 1
+      })
 
       // merge variants, generate diffs and add resulting packages to result
-      var additional_packages = [];
-      additional_packages = this.getVariantDiff(variants);
+      var additional_packages = []
+      additional_packages = this.getVariantDiff(variants)
 
-      res = [...res, ...additional_packages];
+      res = [...res, ...additional_packages]
 
-      let licenses = [];
+      let licenses = []
 
       // iterate all packages and calc overall stats
       for (let i = 0; i < res.length; i++) {
-        res[i].uid = i;
+        res[i].uid = i
 
         if (res[i].statistics) {
-          const filestats = res[i].statistics.files;
+          const filestats = res[i].statistics.files
 
           // predefine license colors
           if (res[i].statistics.licenses) {
             licenses = licenses.concat(
               res[i].statistics.licenses.license_audit_findings.all_licenses
-            );
+            )
 
-            licenses = licenses.concat(
-              res[i].statistics.licenses.license_scanner_findings
-            );
+            licenses = licenses.concat(res[i].statistics.licenses.license_scanner_findings)
           }
 
           // overall progress & normalization params
-          all.known += filestats.known_provenance;
-          all.audited += filestats.audit_done;
-          all.not_audited += filestats.audit_to_do;
-          all.audit_total += filestats.audit_total;
-          all.total += filestats.total;
+          all.known += filestats.known_provenance
+          all.audited += filestats.audit_done
+          all.not_audited += filestats.audit_to_do
+          all.audit_total += filestats.audit_total
+          all.total += filestats.total
           all.max =
-            all.max == 0 || filestats.audit_total > all.max
-              ? filestats.audit_total
-              : all.max;
+            all.max == 0 || filestats.audit_total > all.max ? filestats.audit_total : all.max
 
           all.min =
-            all.min == 0 || filestats.audit_total < all.min
-              ? filestats.audit_total
-              : all.min;
+            all.min == 0 || filestats.audit_total < all.min ? filestats.audit_total : all.min
         }
       }
 
       // assign license colors
       for (let a = 0; a < licenses.length; a++) {
-        if (!this.palette[index]) index = 0;
+        if (!this.palette[index]) index = 0
         if (!this.colors[licenses[a].shortname]) {
-          this.colors[licenses[a].shortname] = this.palette[index];
-          index++;
+          this.colors[licenses[a].shortname] = this.palette[index]
+          index++
         }
       }
 
-      this.total_stats = all;
+      this.total_stats = all
 
       // generate column filter values
       for (let e = 0; e < this.headers.length; e++) {
         if (this.headers[e].autofilter) {
-          this.headers[e].filterVals = [];
-          this.headers[e].activeVals = {};
+          this.headers[e].filterVals = []
+          this.headers[e].activeVals = {}
 
-          for (let f = 0; f < res.length; f++) {
-            let vals = this.resolve(this.headers[e].value, res[f]);
-
-            if (vals) {
-              if (this.headers[e].type == "chart") {
-                vals = vals.map(o => {
-                  return o.shortname;
-                });
-              }
-
-              this.headers[e].filterVals = [
-                ...new Set([...this.headers[e].filterVals, ...vals])
-              ];
-            }
+          // define values for custom filters
+          if (this.headers[e].customFilter == "slugs") {
+            this.headers[e].filterVals = ["isCve", "isVariant", "isNew"]
           }
+          // else generate entries from row values
+          else
+            for (let f = 0; f < res.length; f++) {
+              let vals = this.resolve(this.headers[e].value, res[f])
 
-          this.headers[e].filterVals.sort();
+              if (vals) {
+                if (this.headers[e].type == "chart") {
+                  vals = vals.map(o => {
+                    return o.shortname
+                  })
+                }
 
-          let active = false;
+                this.headers[e].filterVals = [...new Set([...this.headers[e].filterVals, ...vals])]
+              }
+            }
+
+          this.headers[e].filterVals.sort()
+
+          let active = false
           for (let g = 0; g < this.headers[e].filterVals.length; g++) {
             this.headers[e].activeVals[this.headers[e].filterVals[g]] =
               this.params.cols[this.headers[e].value] &&
-              this.params.cols[this.headers[e].value][
-                this.headers[e].filterVals[g]
-              ];
-            if (this.headers[e].activeVals[this.headers[e].filterVals[g]])
-              active = true;
+              this.params.cols[this.headers[e].value][this.headers[e].filterVals[g]]
+            if (this.headers[e].activeVals[this.headers[e].filterVals[g]]) active = true
           }
 
           if (active)
             this.triggerSearch({
               col: this.headers[e].value,
               active: this.headers[e].activeVals
-            });
+            })
         }
 
-        if (
-          this.headers[e].valueFilter &&
-          this.params.filters[this.headers[e].value]
-        ) {
-          this.headers[e].valueFilter = this.params.filters[
-            this.headers[e].value
-          ];
+        if (this.headers[e].valueFilter && this.params.filters[this.headers[e].value]) {
+          this.headers[e].valueFilter = this.params.filters[this.headers[e].value]
         }
       }
 
-      this.current = res;
+      this.current = res
 
-      return res;
+      return res
     },
     auditdiff: function() {
       let res = {
         title: "Files",
         subtitle: "Audit not required",
-        value:
-          this.stats.counts.total.value - this.stats.counts.audit_total.value
-      };
-      return res;
+        value: this.stats.counts.total.value - this.stats.counts.audit_total.value
+      }
+      return res
     },
     isFiltered: function() {
-      return this.filtered;
+      return this.filtered
     },
     provenance_charts: function() {
       return this.getCharts(
-        [
-          this.stats.counts.known_provenance.value,
-          this.stats.counts.unknown_provenance.value
-        ],
+        [this.stats.counts.known_provenance.value, this.stats.counts.unknown_provenance.value],
         [
           this.stats.counts.known_provenance.subtitle,
           this.stats.counts.unknown_provenance.subtitle
@@ -671,7 +619,7 @@ export default {
         false,
         true,
         false
-      );
+      )
     },
     total_charts: function() {
       return this.getCharts(
@@ -689,7 +637,7 @@ export default {
         true,
         false,
         "100%"
-      );
+      )
     },
     stats: function() {
       let res = {
@@ -704,10 +652,8 @@ export default {
                 isNaN(currentValue.statistics.files.known_provenance) ||
                 currentValue.statistics.aggregate === false
               )
-                return accumulator;
-              return (
-                accumulator + currentValue.statistics.files.known_provenance
-              );
+                return accumulator
+              return accumulator + currentValue.statistics.files.known_provenance
             }, 0)
           },
           total: {
@@ -720,8 +666,8 @@ export default {
                 isNaN(currentValue.statistics.files.total) ||
                 currentValue.statistics.aggregate === false
               )
-                return accumulator;
-              return accumulator + currentValue.statistics.files.total;
+                return accumulator
+              return accumulator + currentValue.statistics.files.total
             }, 0)
           },
           audit_total: {
@@ -734,8 +680,8 @@ export default {
                 isNaN(currentValue.statistics.files.audit_total) ||
                 currentValue.statistics.aggregate === false
               )
-                return accumulator;
-              return accumulator + currentValue.statistics.files.audit_total;
+                return accumulator
+              return accumulator + currentValue.statistics.files.audit_total
             }, 0)
           },
           unknown_provenance: {
@@ -748,10 +694,8 @@ export default {
                 isNaN(currentValue.statistics.files.unknown_provenance) ||
                 currentValue.statistics.aggregate === false
               )
-                return accumulator;
-              return (
-                accumulator + currentValue.statistics.files.unknown_provenance
-              );
+                return accumulator
+              return accumulator + currentValue.statistics.files.unknown_provenance
             }, 0)
           },
           audit_done: {
@@ -764,8 +708,8 @@ export default {
                 isNaN(currentValue.statistics.files.audit_done) ||
                 currentValue.statistics.aggregate === false
               )
-                return accumulator;
-              return accumulator + currentValue.statistics.files.audit_done;
+                return accumulator
+              return accumulator + currentValue.statistics.files.audit_done
             }, 0)
           },
           audit_to_do: {
@@ -778,8 +722,8 @@ export default {
                 isNaN(currentValue.statistics.files.audit_to_do) ||
                 currentValue.statistics.aggregate === false
               )
-                return accumulator;
-              return accumulator + currentValue.statistics.files.audit_to_do;
+                return accumulator
+              return accumulator + currentValue.statistics.files.audit_to_do
             }, 0)
           },
           upstream_source_total: {
@@ -792,11 +736,8 @@ export default {
                 isNaN(currentValue.statistics.files.upstream_source_total) ||
                 currentValue.statistics.aggregate === false
               )
-                return accumulator;
-              return (
-                accumulator +
-                currentValue.statistics.files.upstream_source_total
-              );
+                return accumulator
+              return accumulator + currentValue.statistics.files.upstream_source_total
             }, 0)
           },
           flavours: {
@@ -834,45 +775,39 @@ export default {
           scan: {
             title: "License types scanned",
             tooltip: this.tooltips.stats.charts.scan,
-            subtitle:
-              "Results from automated scanners such as scancode, monk, nomos, ojo",
+            subtitle: "Results from automated scanners such as scancode, monk, nomos, ojo",
             value: this.accumulatedLicenses("license_scanner_findings")
           },
           audit_all: {
             title: "License types audited",
             tooltip: this.tooltips.stats.charts.audit_all,
             subtitle: "Results by human auditor analysis",
-            value: this.accumulatedLicenses(
-              "license_audit_findings.all_licenses"
-            )
+            value: this.accumulatedLicenses("license_audit_findings.all_licenses")
           },
           main_licenses: {
             title: "Main license types",
             tooltip: this.tooltips.stats.charts.main_licenses,
             subtitle: "Accumulated main licenses",
-            value: this.accumulatedLicenses(
-              "license_audit_findings.main_licenses",
-              true
-            )
+            value: this.accumulatedLicenses("license_audit_findings.main_licenses", true)
           }
         }
-      };
+      }
 
-      return res;
+      return res
     }
   },
   methods: {
     getVariantDiff(variants) {
-      var new_packages = [];
+      var new_packages = []
 
       // for all variant candidates...
       for (var a = 0; a < variants.length; a++) {
-        var skip = false;
+        var skip = false
 
-        var all_sources = {};
-        var all_source_files = [];
-        var all_binaries = [];
-        var common_sources = [];
+        var all_sources = {}
+        var all_source_files = []
+        var all_binaries = []
+        var common_sources = []
 
         var merged_package = new AlienPackage({
           name: variants[a][0].name,
@@ -880,59 +815,40 @@ export default {
           revision: variants[a][0].revision,
           variant: true,
           session_state: variants[a][0].session_state
-        });
+        })
 
         merged_package.id =
-          variants[a][0].name +
-          "-" +
-          variants[a][0].version +
-          "-" +
-          variants[a][0].revision;
+          variants[a][0].name + "-" + variants[a][0].version + "-" + variants[a][0].revision
 
         // obsolete, remove if no dependency left
-        merged_package.isVariant = true;
+        merged_package.isVariant = true
 
-        merged_package.hasVariants = true;
+        merged_package.hasVariants = true
 
-        merged_package.variant_files = {};
+        merged_package.variant_files = {}
 
-        merged_package.debian_matching.ip_matching_files = 0;
+        merged_package.debian_matching.ip_matching_files = 0
 
         // ...check all variants
         for (var b = 0; b < variants[a].length; b++) {
-          var cur = variants[a][b];
+          var cur = variants[a][b]
 
           // if linux-kernel, do nothing, push all variants back to result
           if (cur.name.indexOf("linux-kernel") != -1) {
-            console.warn("ignoring package: name contains 'linux-kernel'");
-            new_packages.push(cur);
-            skip = true;
-            continue;
+            console.warn("ignoring package: name contains 'linux-kernel'")
+            new_packages.push(cur)
+            skip = true
+            continue
           }
 
-          merged_package.id += " " + cur.variant;
+          merged_package.id += " " + cur.variant
 
           // merge & unique tags
-          merged_package.tags.project = [
-            ...merged_package.tags.project,
-            ...cur.tags.project
-          ];
-          merged_package.tags.distro = [
-            ...merged_package.tags.distro,
-            ...cur.tags.distro
-          ];
-          merged_package.tags.machine = [
-            ...merged_package.tags.machine,
-            ...cur.tags.machine
-          ];
-          merged_package.tags.image = [
-            ...merged_package.tags.image,
-            ...cur.tags.image
-          ];
-          merged_package.tags.release = [
-            ...merged_package.tags.release,
-            ...cur.tags.release
-          ];
+          merged_package.tags.project = [...merged_package.tags.project, ...cur.tags.project]
+          merged_package.tags.distro = [...merged_package.tags.distro, ...cur.tags.distro]
+          merged_package.tags.machine = [...merged_package.tags.machine, ...cur.tags.machine]
+          merged_package.tags.image = [...merged_package.tags.image, ...cur.tags.image]
+          merged_package.tags.release = [...merged_package.tags.release, ...cur.tags.release]
 
           merged_package.debian_matching = {
             name: cur.debian_matching.name,
@@ -941,27 +857,24 @@ export default {
               merged_package.debian_matching.ip_matching_files,
               cur.debian_matching.ip_matching_files
             )
-          };
+          }
+
+          if (cur.is_main_variant) merged_package.cve_metadata = cur.cve_metadata
 
           if (cur.statistics.aggregate) {
             merged_package.statistics = {
               aggregate: true,
               files: {
                 audit_done:
-                  merged_package.statistics.files.audit_done +
-                  cur.statistics.files.audit_done,
+                  merged_package.statistics.files.audit_done + cur.statistics.files.audit_done,
                 audit_to_do:
-                  merged_package.statistics.files.audit_to_do +
-                  cur.statistics.files.audit_to_do,
+                  merged_package.statistics.files.audit_to_do + cur.statistics.files.audit_to_do,
                 audit_total:
-                  merged_package.statistics.files.audit_total +
-                  cur.statistics.files.audit_total,
+                  merged_package.statistics.files.audit_total + cur.statistics.files.audit_total,
                 known_provenance:
                   merged_package.statistics.files.known_provenance +
                   cur.statistics.files.known_provenance,
-                total:
-                  merged_package.statistics.files.total +
-                  cur.statistics.files.total,
+                total: merged_package.statistics.files.total + cur.statistics.files.total,
                 unknown_provenance:
                   merged_package.statistics.files.unknown_provenance +
                   cur.statistics.files.unknown_provenance,
@@ -972,155 +885,139 @@ export default {
               licenses: {
                 license_audit_findings: {
                   all_licenses: [
-                    ...merged_package.statistics.licenses.license_audit_findings
-                      .all_licenses,
-                    ...cur.statistics.licenses.license_audit_findings
-                      .all_licenses
+                    ...merged_package.statistics.licenses.license_audit_findings.all_licenses,
+                    ...cur.statistics.licenses.license_audit_findings.all_licenses
                   ],
                   main_licenses: [
-                    ...merged_package.statistics.licenses.license_audit_findings
-                      .main_licenses,
-                    ...cur.statistics.licenses.license_audit_findings
-                      .main_licenses
+                    ...merged_package.statistics.licenses.license_audit_findings.main_licenses,
+                    ...cur.statistics.licenses.license_audit_findings.main_licenses
                   ]
                 },
                 license_scanner_findings: [
-                  ...merged_package.statistics.licenses
-                    .license_scanner_findings,
+                  ...merged_package.statistics.licenses.license_scanner_findings,
                   ...cur.statistics.licenses.license_scanner_findings
                 ]
               }
-            };
+            }
           }
 
-          merged_package.variant_files[cur.variant] = cur;
+          merged_package.variant_files[cur.variant] = cur
 
-          merged_package.my_source_files = cur.source_files;
+          merged_package.my_source_files = cur.source_files
 
           // check sourcefiles
           for (var i = 0; i < cur.source_files.length; i++) {
-            if (
-              typeof all_sources[cur.source_files[i].sha1_cksum] == "undefined"
-            )
-              all_sources[cur.source_files[i].sha1_cksum] = 1;
-            else all_sources[cur.source_files[i].sha1_cksum]++;
+            if (typeof all_sources[cur.source_files[i].sha1_cksum] == "undefined")
+              all_sources[cur.source_files[i].sha1_cksum] = 1
+            else all_sources[cur.source_files[i].sha1_cksum]++
 
             // all variants have the file
-            if (
-              all_sources[cur.source_files[i].sha1_cksum] == variants[a].length
-            ) {
-              common_sources.push(cur.source_files[i]);
+            if (all_sources[cur.source_files[i].sha1_cksum] == variants[a].length) {
+              common_sources.push(cur.source_files[i])
             }
 
             if (all_sources[cur.source_files[i].sha1_cksum] == 1) {
-              cur.source_files[i].variant = "";
-              all_source_files.push(cur.source_files[i]);
+              cur.source_files[i].variant = ""
+              all_source_files.push(cur.source_files[i])
             }
-            all_binaries = [...all_binaries, ...cur.binary_packages];
+            all_binaries = [...all_binaries, ...cur.binary_packages]
           }
         }
 
-        merged_package.source_files = common_sources;
+        merged_package.source_files = common_sources
 
-        merged_package.meta_source_files = all_source_files;
-        merged_package.binary_packages = all_binaries;
+        merged_package.meta_source_files = all_source_files
+        merged_package.binary_packages = all_binaries
 
-        merged_package.tags.project = _.uniq(merged_package.tags.project);
-        merged_package.tags.distro = _.uniq(merged_package.tags.distro);
-        merged_package.tags.machine = _.uniq(merged_package.tags.machine);
-        merged_package.tags.image = _.uniq(merged_package.tags.image);
-        merged_package.tags.release = _.uniq(merged_package.tags.release);
+        merged_package.tags.project = _.uniq(merged_package.tags.project)
+        merged_package.tags.distro = _.uniq(merged_package.tags.distro)
+        merged_package.tags.machine = _.uniq(merged_package.tags.machine)
+        merged_package.tags.image = _.uniq(merged_package.tags.image)
+        merged_package.tags.release = _.uniq(merged_package.tags.release)
         var common_file_index = merged_package.source_files.map(val => {
-          return val.sha1_cksum;
-        });
+          return val.sha1_cksum
+        })
 
         // source file diffs
-        for (const [key, value] of Object.entries(
-          merged_package.variant_files
-        )) {
-          var vcur = merged_package.variant_files[key];
+        for (const [key, value] of Object.entries(merged_package.variant_files)) {
+          var vcur = merged_package.variant_files[key]
           vcur.source_files = vcur.source_files.filter(val => {
-            return common_file_index.indexOf(val.sha1_cksum) == -1;
-          });
+            return common_file_index.indexOf(val.sha1_cksum) == -1
+          })
         }
 
-        merged_package.setVariantTags();
-        merged_package.processStats();
+        merged_package.setVariantTags()
+        merged_package.collectCves()
+        merged_package.processStats()
 
-        if (!skip) new_packages.push(merged_package);
+        if (!skip) new_packages.push(merged_package)
       }
 
-      return new_packages;
+      return new_packages
     },
     resolve(path, obj = self, separator = ".") {
-      var properties = Array.isArray(path) ? path : path.split(separator);
-      return properties.reduce((prev, curr) => prev && prev[curr], obj);
+      var properties = Array.isArray(path) ? path : path.split(separator)
+      return properties.reduce((prev, curr) => prev && prev[curr], obj)
     },
     triggerSearch(e) {
-      let needle = e;
+      let needle = e
 
       // if column filter, register filter but do not trigger automagically
 
       if (needle.col) {
-        let active = false;
+        let active = false
 
-        this.filterChange = true;
+        this.filterChange = true
 
-        if (!this.params.cols[needle.col]) this.params.cols[needle.col] = {};
+        if (!this.params.cols[needle.col]) this.params.cols[needle.col] = {}
 
         this.columnFilter[needle.col] = {
           state: needle.active,
           needle: "",
           key: needle.col,
           antiNeedle: ""
-        };
+        }
 
         Object.keys(this.columnFilter).forEach((key, index) => {
-          Object.keys(this.columnFilter[key].state).forEach(
-            (innerKey, innerIndex) => {
-              if (this.columnFilter[key].state[innerKey]) {
-                this.columnFilter[key].needle += innerKey + "|||";
-                this.params.cols[needle.col][innerKey] = 1;
-                active = true;
-              } else {
-                this.columnFilter[key].antiNeedle += innerKey + "|||";
-                if (this.params.cols[needle.col][innerKey])
-                  delete this.params.cols[needle.col][innerKey];
-              }
+          Object.keys(this.columnFilter[key].state).forEach((innerKey, innerIndex) => {
+            if (this.columnFilter[key].state[innerKey]) {
+              this.columnFilter[key].needle += innerKey + "|||"
+              this.params.cols[needle.col][innerKey] = 1
+              active = true
+            } else {
+              this.columnFilter[key].antiNeedle += innerKey + "|||"
+              if (this.params.cols[needle.col][innerKey])
+                delete this.params.cols[needle.col][innerKey]
             }
-          );
-        });
+          })
+        })
 
-        if (!active) delete this.columnFilter[needle.col];
+        if (!active) delete this.columnFilter[needle.col]
 
-        return false;
+        return false
       }
 
-      this.filter(e);
+      this.filter(e)
     },
     setParamUrl() {
-      let url = new URL(window.location.href);
-      url.searchParams.delete("params");
-      url.searchParams.set("params", JSON.stringify(this.params));
-      window.history.pushState(
-        { path: JSON.stringify(this.params) },
-        "",
-        url.href
-      );
+      let url = new URL(window.location.href)
+      url.searchParams.delete("params")
+      url.searchParams.set("params", JSON.stringify(this.params))
+      window.history.pushState({ path: JSON.stringify(this.params) }, "", url.href)
     },
     clearFilter() {
-      this.columnFilter = [];
+      this.columnFilter = []
 
       for (var i = 0; i < this.headers.length; i++) {
         if (this.headers[i].activeVals) {
           Object.keys(this.headers[i].activeVals).forEach((key, index) => {
-            this.headers[i].activeVals[key] = false;
-          });
+            this.headers[i].activeVals[key] = false
+          })
         }
 
         if (this.headers[i].valueFilter) {
-          this.headers[i].valueFilter.value = "";
-          this.headers[i].valueFilter.operator = ">";
+          this.headers[i].valueFilter.value = ""
+          this.headers[i].valueFilter.operator = ">"
         }
       }
 
@@ -1129,193 +1026,180 @@ export default {
         cols: {},
         filters: {},
         excl: 0
-      };
+      }
 
-      this.filterMode = "inclusive";
+      this.filterMode = "inclusive"
 
-      this.filter("");
+      this.filter("")
     },
     filter(needle) {
-      this.needle = needle;
+      this.needle = needle
 
-      this.params.needle = needle;
+      this.params.needle = needle
 
-      let res = [];
+      let res = []
 
-      let splitted = needle.split(" ");
+      let splitted = needle.split(" ")
 
       for (var a = 0; a < this.entries.length; a++) {
-        let found = true;
-        let cols_found = true;
+        let found = true
+        let cols_found = true
 
         // table column filter
         // TODO: Remove toggle/triggerSearch and read directly from table headers
         Object.keys(this.columnFilter).forEach((key, index) => {
-          let col = this.resolve(key, this.entries[a]);
+          let col = this.resolve(key, this.entries[a])
 
-          if (!!col) {
-            let colString = JSON.stringify(col).toLowerCase() || "";
-            let colNeedle = this.columnFilter[key].needle.split("|||");
-            let colAntiNeedle = this.columnFilter[key].antiNeedle.split("|||");
+          if (col !== false) {
+            let colString = JSON.stringify(col).toLowerCase() || ""
+
+            if (key == "cveScoreSum") {
+              colString = JSON.stringify(this.entries[a]).toLowerCase()
+            }
+
+            let colNeedle = this.columnFilter[key].needle.split("|||")
+            let colAntiNeedle = this.columnFilter[key].antiNeedle.split("|||")
 
             // check if we find the needles
             for (var i = 0; i < colNeedle.length - 1; i++) {
-              let here =
-                colString.indexOf('"' + colNeedle[i].toLowerCase() + '"') != -1;
+              let here = colString.indexOf('"' + colNeedle[i].toLowerCase() + '"') != -1
               // if (this.filterMode == "exclusive") here = !here;
-              cols_found = here && cols_found;
+              cols_found = here && cols_found
             }
 
             // if exclusive mode, other values should not be present
             if (this.filterMode == "exclusive") {
-              this.params.excl = 1;
+              this.params.excl = 1
               for (var i = 0; i < colAntiNeedle.length - 1; i++) {
-                let here =
-                  colString.indexOf(
-                    '"' + colAntiNeedle[i].toLowerCase() + '"'
-                  ) != -1;
-                cols_found = !here && cols_found;
+                let here = colString.indexOf('"' + colAntiNeedle[i].toLowerCase() + '"') != -1
+                cols_found = !here && cols_found
               }
             }
           } else {
-            cols_found = false;
+            cols_found = false
           }
-        });
+        })
 
         // global text search
         if (this.needle != "") {
-          let str = JSON.stringify(this.entries[a]).toLowerCase() || "";
+          let str = JSON.stringify(this.entries[a]).toLowerCase() || ""
 
           for (var i = 0; i < splitted.length; i++) {
-            found = str.indexOf(splitted[i].toLowerCase()) != -1 && found;
+            found = str.indexOf(splitted[i].toLowerCase()) != -1 && found
           }
         }
 
         if (found && cols_found) {
-          res.push(this.entries[a]);
+          res.push(this.entries[a])
         }
       }
 
       // check table headers for valueFilters
       for (var i = 0; i < this.headers.length; i++) {
-        if (
-          this.headers[i].valueFilter &&
-          !isNaN(this.headers[i].valueFilter.value)
-        ) {
-          const filter = this.headers[i].valueFilter;
+        if (this.headers[i].valueFilter && !isNaN(this.headers[i].valueFilter.value)) {
+          const filter = this.headers[i].valueFilter
 
           if (filter.value != "") {
             switch (filter.operator) {
               case "=":
-                res = res.filter(
-                  val => Math.ceil(val[this.headers[i].value]) == filter.value
-                );
-                break;
+                res = res.filter(val => Math.ceil(val[this.headers[i].value]) == filter.value)
+                break
               case "!":
-                res = res.filter(
-                  val => val[this.headers[i].value] != filter.value
-                );
-                break;
+                res = res.filter(val => val[this.headers[i].value] != filter.value)
+                break
               case "<":
-                res = res.filter(
-                  val => val[this.headers[i].value] < filter.value
-                );
-                break;
+                res = res.filter(val => val[this.headers[i].value] < filter.value)
+                break
               case ">":
-                res = res.filter(
-                  val => val[this.headers[i].value] > filter.value
-                );
-                break;
+                res = res.filter(val => val[this.headers[i].value] > filter.value)
+                break
             }
 
-            this.params.filters[this.headers[i].value] = filter;
+            this.params.filters[this.headers[i].value] = filter
           } else {
-            delete this.params.filters[this.headers[i].value];
+            delete this.params.filters[this.headers[i].value]
           }
         }
       }
 
-      this.current = res;
+      this.current = res
 
-      this.filterChange = false;
-      this.filtered = this.current.length != this.entries.length;
-      this.setParamUrl();
+      this.filterChange = false
+      this.filtered = this.current.length != this.entries.length
+      this.setParamUrl()
     },
     accumulatedMainLicenses: function() {
-      let res = {};
+      let res = {}
       for (let i = 0; i < this.current.length; i++) {
-        let license_names = [];
+        let license_names = []
 
         if (
           this.current[i].statistics &&
           this.current[i].statistics.licenses &&
           this.current[i].statistics.aggregate !== false
         ) {
-          license_names = this.current[i].statistics.licenses
-            .license_audit_findings.main_licenses;
+          license_names = this.current[i].statistics.licenses.license_audit_findings.main_licenses
         }
 
         for (let a = 0; a < license_names.length; a++) {
-          res[license_names[a]] = { name: license_names[a] };
+          res[license_names[a]] = { name: license_names[a] }
         }
       }
 
-      return Object.values(res);
+      return Object.values(res)
     },
     accumulatedLicenses: function(node, count = false) {
-      let res = {};
+      let res = {}
       for (let i = 0; i < this.current.length; i++) {
-        if (this.current[i].statistics.aggregate === false) continue;
+        if (this.current[i].statistics.aggregate === false) continue
 
         let licenses = this.current[i].statistics
           ? this.resolve(node, this.current[i].statistics.licenses) || []
-          : [];
+          : []
         for (let a = 0; a < licenses.length; a++) {
-          const license = licenses[a];
+          const license = licenses[a]
 
           if (!count) {
             res[license.shortname]
               ? (res[license.shortname] += license.file_count)
-              : (res[license.shortname] = license.file_count);
+              : (res[license.shortname] = license.file_count)
           } else {
-            res[license] ? (res[license] += 1) : (res[license] = 1);
+            res[license] ? (res[license] += 1) : (res[license] = 1)
           }
         }
       }
 
-      return res;
+      return res
     },
     accumulatedTags: function(node) {
-      let res = {};
+      let res = {}
 
       for (let i = 0; i < this.current.length; i++) {
-        let tags = this.resolve(node, this.current[i].tags) || [];
+        let tags = this.resolve(node, this.current[i].tags) || []
         for (let a = 0; a < tags.length; a++) {
-          if (this.current[i].statistics.aggregate !== false)
-            res[tags[a]] = { name: tags[a] };
+          if (this.current[i].statistics.aggregate !== false) res[tags[a]] = { name: tags[a] }
         }
       }
 
-      return Object.values(res);
+      return Object.values(res)
     },
     sortNamesAndValueArrays: function(names = [], values = []) {
-      var list = [];
-      for (var j = 0; j < names.length; j++)
-        list.push({ name: names[j], val: values[j] });
+      var list = []
+      for (var j = 0; j < names.length; j++) list.push({ name: names[j], val: values[j] })
 
       list.sort(function(a, b) {
-        return a.val > b.val ? -1 : a.val == b.val ? 0 : 1;
-      });
+        return a.val > b.val ? -1 : a.val == b.val ? 0 : 1
+      })
 
       for (var k = 0; k < list.length; k++) {
-        names[k] = list[k].name;
-        values[k] = list[k].val;
+        names[k] = list[k].name
+        values[k] = list[k].val
       }
 
       return {
         names: names,
         values: values
-      };
+      }
     },
     // TODO: Move to Chart-Component
     getCharts(
@@ -1326,53 +1210,49 @@ export default {
       sorting = true,
       stackType = "normal"
     ) {
-      if (
-        typeof data === "object" &&
-        !(data instanceof Array) &&
-        data !== null
-      ) {
-        const odata = data;
-        data = [];
-        labels = [];
+      if (typeof data === "object" && !(data instanceof Array) && data !== null) {
+        const odata = data
+        data = []
+        labels = []
 
         Object.keys(odata).forEach(function(key, index) {
-          labels.push(key);
-          data.push(odata[key]);
-        });
+          labels.push(key)
+          data.push(odata[key])
+        })
       }
 
       // sorting
       if (sorting) {
-        const sorted = this.sortNamesAndValueArrays(labels, data);
-        labels = sorted.names;
-        data = sorted.values;
+        const sorted = this.sortNamesAndValueArrays(labels, data)
+        labels = sorted.names
+        data = sorted.values
       }
 
-      var raw_labels = labels;
-      var raw_data = data;
+      var raw_labels = labels
+      var raw_data = data
 
       // grouping
       if (grouping) {
-        const odata = data;
+        const odata = data
 
-        labels = labels.slice(0, grouping);
-        data = odata.slice(0, grouping);
+        labels = labels.slice(0, grouping)
+        data = odata.slice(0, grouping)
 
-        let others = odata.slice(grouping);
+        let others = odata.slice(grouping)
 
         if (others.reduce((a, b) => a + b, 0) > 0) {
-          labels.push("Others (" + others.length + ")");
-          data.push(others.reduce((a, b) => a + b, 0));
+          labels.push("Others (" + others.length + ")")
+          data.push(others.reduce((a, b) => a + b, 0))
         }
 
-        this.colors["Others (" + others.length + ")"] = "#999999";
+        this.colors["Others (" + others.length + ")"] = "#999999"
       }
 
       // colorizing
-      this.colors["Others"] = "#999999";
-      var colors = [];
+      this.colors["Others"] = "#999999"
+      var colors = []
       for (var a = 0; a < labels.length; a++) {
-        colors.push(this.colors[labels[a]] || this.palette[a]);
+        colors.push(this.colors[labels[a]] || this.palette[a])
       }
 
       let series = [
@@ -1380,16 +1260,16 @@ export default {
           name: "Files",
           data: data
         }
-      ];
+      ]
 
       if (stacked) {
-        var odata = data;
-        series = [];
+        var odata = data
+        series = []
         for (var a = 0; a < odata.length; a++) {
           series.push({
             name: labels[a],
             data: [odata[a]]
-          });
+          })
         }
       }
 
@@ -1430,10 +1310,10 @@ export default {
           labels: raw_labels,
           data: raw_data
         }
-      };
+      }
 
-      return res;
+      return res
     }
   }
-};
+}
 </script>

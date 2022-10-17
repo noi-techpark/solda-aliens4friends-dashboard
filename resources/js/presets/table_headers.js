@@ -2,9 +2,18 @@ exports.headers = [
   {
     text: "",
     align: "start",
-    value: "isVariant",
+    value: "",
+    type: "actions",
+  },
+  {
+    text: "State",
+    align: "start",
+    value: "cveScoreSum",
     type: "flags",
     tooltip: "package id",
+    customFilter: "slugs",
+    autofilter: true,
+    width: "100px",
   },
   {
     text: "ID",

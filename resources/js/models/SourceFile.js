@@ -5,6 +5,8 @@ export default class SourceFile {
 	src_uri = "";
 	files_in_archive = 0;
 	paths = [];
+	// TODO
+	override_layer = null;
 
 	constructor(data = {}) {
 		if (data.name) this.name = data.name;

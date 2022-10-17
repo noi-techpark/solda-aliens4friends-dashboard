@@ -4,135 +4,791 @@
     "version": "0.3.1"
   },
   "source_packages": [
-   {
-      "id": "xserver-xf86-config-0.1-r33-396dd9a5+a4f",
-      "name": "xserver-xf86-config",
-      "version": "0.1",
-      "revision": "r33",
-      "uploaded": true,
-      "uploaded_reason": "really long reason to check if tooltips fit really long reason to check if tooltips fit really long reason to check if tooltips fit",
-      "selected": false,
-      "selected_reason": "",
-      "variant": "396dd9a5",
-      "debian_matching": null,
+    {
+      "id": "acl-2.3.1-r0-963c29b5+a4f",
+      "name": "acl",
+      "version": "2.3.1",
+      "revision": "r0",
+      "variant": "963c29b5",
+      "debian_matching": {
+        "name": "acl",
+        "version": "2.2.53-10",
+        "ip_matching_files": 132
+      },
+      "session_state": {
+        "selected": true,
+        "selected_reason": "Initial state",
+        "uploaded": null,
+        "uploaded_reason": "Unknown upload status"
+      },
       "statistics": {
         "files": {
-          "audit_total": 0,
-          "audit_done": 0,
+          "audit_total": 166,
+          "audit_done": 166,
           "audit_to_do": 0,
-          "upstream_source_total": 0,
-          "unknown_provenance": 6,
-          "known_provenance": 0,
-          "total": 6
+          "upstream_source_total": 233,
+          "unknown_provenance": 3,
+          "known_provenance": 233,
+          "total": 236
         },
         "licenses": {
-          "license_scanner_findings": [],
+          "license_scanner_findings": [
+            {
+              "shortname": "GPL-2.0-or-later",
+              "file_count": 21
+            },
+            {
+              "shortname": "FSFULLR",
+              "file_count": 5
+            },
+            {
+              "shortname": "GPL-3.0-or-later",
+              "file_count": 3
+            },
+            {
+              "shortname": "X11",
+              "file_count": 1
+            },
+            {
+              "shortname": "LGPL-2.0-or-later",
+              "file_count": 1
+            },
+            {
+              "shortname": "FSFUL",
+              "file_count": 1
+            }
+          ],
           "license_audit_findings": {
             "main_licenses": [],
-            "all_licenses": []
+            "all_licenses": [
+              {
+                "shortname": "GPL-2.0-or-later",
+                "file_count": 20
+              },
+              {
+                "shortname": "Autoconf-exception",
+                "file_count": 5
+              },
+              {
+                "shortname": "GPL-3.0-or-later",
+                "file_count": 2
+              },
+              {
+                "shortname": "Autoconf-exception-3.0",
+                "file_count": 2
+              },
+              {
+                "shortname": "X11",
+                "file_count": 1
+              },
+              {
+                "shortname": "Public-domain",
+                "file_count": 1
+              },
+              {
+                "shortname": "Libtool-exception",
+                "file_count": 1
+              }
+            ]
           }
         },
-        "aggregate": false
+        "aggregate": true
       },
       "source_files": [
         {
-          "name": "xorg.conf",
-          "sha1_cksum": "137519d4a444b7301439c311d41d1faa2a4f35bb",
+          "name": "acl-2.3.1.tar.gz",
+          "sha1_cksum": "a5343e9f75326ffe5aa8d5d042e52227a3fd66cb",
           "git_sha1": null,
-          "src_uri": "file://xorg.conf",
-          "files_in_archive": false,
-          "paths": [
-            "_tagged/ohos/v0.1.0/allscenarios-linux/qemux86",
-            "_tagged/ohos/v0.1.0/allscenarios-linux/qemux86-64"
-          ]
+          "src_uri": "https://download.savannah.gnu.org/releases/acl/acl-2.3.1.tar.gz",
+          "files_in_archive": 233,
+          "paths": [],
+          "override_layer": null
         },
         {
-          "name": "xorg.conf",
-          "sha1_cksum": "50cfb25ed7c150f0c211dfeda1cbbf5d2e5e4614",
+          "name": "run-ptest",
+          "sha1_cksum": "520fe0ee2f430cb882000335d232b120acef926b",
           "git_sha1": null,
-          "src_uri": "file://xorg.conf",
+          "src_uri": "file://run-ptest",
           "files_in_archive": false,
-          "paths": [
-            "_tagged/ohos/v0.1.0/allscenarios-linux/raspberrypi4-64"
-          ]
+          "paths": [],
+          "override_layer": null
         },
         {
-          "name": "xorg.conf.d/98-pitft.conf",
-          "sha1_cksum": "613fdc02403becb23c283c32ee131b7365212529",
+          "name": "0001-tests-do-not-hardcode-the-build-path-into-a-helper-l.patch",
+          "sha1_cksum": "f556dcc0ec6d5f111ebb692ba49526d2684569ab",
           "git_sha1": null,
-          "src_uri": "file://xorg.conf.d/98-pitft.conf",
+          "src_uri": "file://0001-tests-do-not-hardcode-the-build-path-into-a-helper-l.patch",
           "files_in_archive": false,
-          "paths": [
-            "_tagged/ohos/v0.1.0/allscenarios-linux/raspberrypi4-64"
-          ]
+          "paths": [],
+          "override_layer": null
         },
         {
-          "name": "xorg.conf.d/99-calibration.conf",
-          "sha1_cksum": "8f4eda97702176dde7f766c8b8feab05bb936e25",
+          "name": "0001-test-patch-out-failing-bits.patch",
+          "sha1_cksum": "e88ef8fb4105ab095ee2c6d2e0b1646652570fdf",
           "git_sha1": null,
-          "src_uri": "file://xorg.conf.d/99-calibration.conf",
+          "src_uri": "file://0001-test-patch-out-failing-bits.patch",
           "files_in_archive": false,
-          "paths": [
-            "_tagged/ohos/v0.1.0/allscenarios-linux/raspberrypi4-64"
-          ]
-        },
-        {
-          "name": "xorg.conf",
-          "sha1_cksum": "1031f2adfd15845aef09c74aa025d196d6367494",
-          "git_sha1": null,
-          "src_uri": "file://xorg.conf",
-          "files_in_archive": false,
-          "paths": [
-            "_tagged/ohos/v0.1.0/allscenarios-linux/seco-imx8mm-c61"
-          ]
-        },
-        {
-          "name": "xorg.conf",
-          "sha1_cksum": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
-          "git_sha1": null,
-          "src_uri": "file://xorg.conf",
-          "files_in_archive": false,
-          "paths": [
-            "_tagged/ohos/v0.1.0/allscenarios-linux/seco-intel-b68",
-            "_tagged/ohos/v0.1.0/allscenarios-linux/stm32mp1-av96"
-          ]
+          "paths": [],
+          "override_layer": null
         }
       ],
+      "metadata": {
+        "name": "acl",
+        "base_name": "acl",
+        "version": "2.3.1",
+        "revision": "r0",
+        "variant": "963c29b5",
+        "build_toolchains": [
+          "clang",
+          "gcc"
+        ],
+        "author": null,
+        "homepage": "http://savannah.nongnu.org/projects/acl/",
+        "summary": "Utilities for managing POSIX Access Control Lists",
+        "description": "ACL allows you to provide different levels of access to files and folders for different users.",
+        "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+        "depends_provides": {
+          "qemux86-64-clang": {
+            "depends": [
+              "attr",
+              "autoconf-native",
+              "automake-native",
+              "clang-cross-x86_64",
+              "compiler-rt",
+              "gettext-native",
+              "libcxx",
+              "libtool-cross",
+              "libtool-native",
+              "virtual/libc"
+            ],
+            "provides": [
+              "acl"
+            ]
+          },
+          "seco-imx8mm-c61-2gb-gcc": {
+            "depends": [
+              "attr",
+              "autoconf-native",
+              "automake-native",
+              "gettext-native",
+              "libtool-cross",
+              "libtool-native",
+              "virtual/aarch64-oniro-linux-musl-compilerlibs",
+              "virtual/aarch64-oniro-linux-musl-gcc",
+              "virtual/libc"
+            ],
+            "provides": [
+              "acl"
+            ]
+          },
+          "seco-intel-b68-gcc": {
+            "depends": [
+              "attr",
+              "autoconf-native",
+              "automake-native",
+              "gettext-native",
+              "libtool-cross",
+              "libtool-native",
+              "virtual/libc",
+              "virtual/x86_64-oniro-linux-musl-compilerlibs",
+              "virtual/x86_64-oniro-linux-musl-gcc"
+            ],
+            "provides": [
+              "acl"
+            ]
+          },
+          "seco-imx8mm-c61-4gb-gcc": {
+            "depends": [
+              "attr",
+              "autoconf-native",
+              "automake-native",
+              "gettext-native",
+              "libtool-cross",
+              "libtool-native",
+              "virtual/aarch64-oniro-linux-musl-compilerlibs",
+              "virtual/aarch64-oniro-linux-musl-gcc",
+              "virtual/libc"
+            ],
+            "provides": [
+              "acl"
+            ]
+          },
+          "qemuarm64-efi-gcc": {
+            "depends": [
+              "attr",
+              "autoconf-native",
+              "automake-native",
+              "gettext-native",
+              "libtool-cross",
+              "libtool-native",
+              "virtual/aarch64-oniro-linux-musl-compilerlibs",
+              "virtual/aarch64-oniro-linux-musl-gcc",
+              "virtual/libc"
+            ],
+            "provides": [
+              "acl"
+            ]
+          },
+          "qemux86": {
+            "depends": [
+              "attr",
+              "autoconf-native",
+              "automake-native",
+              "gettext-native",
+              "libtool-cross",
+              "libtool-native",
+              "virtual/i686-oniro-linux-musl-compilerlibs",
+              "virtual/i686-oniro-linux-musl-gcc",
+              "virtual/libc"
+            ],
+            "provides": [
+              "acl"
+            ]
+          },
+          "qemuarm-efi-clang": {
+            "depends": [
+              "attr",
+              "autoconf-native",
+              "automake-native",
+              "clang-cross-arm",
+              "compiler-rt",
+              "gettext-native",
+              "libcxx",
+              "libtool-cross",
+              "libtool-native",
+              "virtual/libc"
+            ],
+            "provides": [
+              "acl"
+            ]
+          },
+          "qemux86-64": {
+            "depends": [
+              "attr",
+              "autoconf-native",
+              "automake-native",
+              "gettext-native",
+              "libtool-cross",
+              "libtool-native",
+              "virtual/libc",
+              "virtual/x86_64-oniro-linux-musl-compilerlibs",
+              "virtual/x86_64-oniro-linux-musl-gcc"
+            ],
+            "provides": [
+              "acl"
+            ]
+          },
+          "qemux86-clang": {
+            "depends": [
+              "attr",
+              "autoconf-native",
+              "automake-native",
+              "clang-cross-i686",
+              "compiler-rt",
+              "gettext-native",
+              "libcxx",
+              "libtool-cross",
+              "libtool-native",
+              "virtual/libc"
+            ],
+            "provides": [
+              "acl"
+            ]
+          },
+          "qemux86-gcc": {
+            "depends": [
+              "attr",
+              "autoconf-native",
+              "automake-native",
+              "gettext-native",
+              "libtool-cross",
+              "libtool-native",
+              "virtual/i686-oniro-linux-musl-compilerlibs",
+              "virtual/i686-oniro-linux-musl-gcc",
+              "virtual/libc"
+            ],
+            "provides": [
+              "acl"
+            ]
+          },
+          "qemux86-64-gcc": {
+            "depends": [
+              "attr",
+              "autoconf-native",
+              "automake-native",
+              "gettext-native",
+              "libtool-cross",
+              "libtool-native",
+              "virtual/libc",
+              "virtual/x86_64-oniro-linux-musl-compilerlibs",
+              "virtual/x86_64-oniro-linux-musl-gcc"
+            ],
+            "provides": [
+              "acl"
+            ]
+          },
+          "seco-imx8mm-c61-4gb": {
+            "depends": [
+              "attr",
+              "autoconf-native",
+              "automake-native",
+              "gettext-native",
+              "libtool-cross",
+              "libtool-native",
+              "virtual/aarch64-oniro-linux-musl-compilerlibs",
+              "virtual/aarch64-oniro-linux-musl-gcc",
+              "virtual/libc"
+            ],
+            "provides": [
+              "acl"
+            ]
+          },
+          "seco-intel-b68-clang": {
+            "depends": [
+              "attr",
+              "autoconf-native",
+              "automake-native",
+              "clang-cross-x86_64",
+              "compiler-rt",
+              "gettext-native",
+              "libcxx",
+              "libtool-cross",
+              "libtool-native",
+              "virtual/libc"
+            ],
+            "provides": [
+              "acl"
+            ]
+          },
+          "raspberrypi4-64-clang": {
+            "depends": [
+              "attr",
+              "autoconf-native",
+              "automake-native",
+              "clang-cross-aarch64",
+              "compiler-rt",
+              "gettext-native",
+              "libcxx",
+              "libtool-cross",
+              "libtool-native",
+              "virtual/libc"
+            ],
+            "provides": [
+              "acl"
+            ]
+          },
+          "raspberrypi4-64": {
+            "depends": [
+              "attr",
+              "autoconf-native",
+              "automake-native",
+              "gettext-native",
+              "libtool-cross",
+              "libtool-native",
+              "virtual/aarch64-oniro-linux-musl-compilerlibs",
+              "virtual/aarch64-oniro-linux-musl-gcc",
+              "virtual/libc"
+            ],
+            "provides": [
+              "acl"
+            ]
+          },
+          "seco-px30-d23-clang": {
+            "depends": [
+              "attr",
+              "autoconf-native",
+              "automake-native",
+              "clang-cross-aarch64",
+              "compiler-rt",
+              "gettext-native",
+              "libcxx",
+              "libtool-cross",
+              "libtool-native",
+              "virtual/libc"
+            ],
+            "provides": [
+              "acl"
+            ]
+          },
+          "seco-intel-b68": {
+            "depends": [
+              "attr",
+              "autoconf-native",
+              "automake-native",
+              "gettext-native",
+              "libtool-cross",
+              "libtool-native",
+              "virtual/libc",
+              "virtual/x86_64-oniro-linux-musl-compilerlibs",
+              "virtual/x86_64-oniro-linux-musl-gcc"
+            ],
+            "provides": [
+              "acl"
+            ]
+          },
+          "seco-imx8mm-c61-2gb": {
+            "depends": [
+              "attr",
+              "autoconf-native",
+              "automake-native",
+              "gettext-native",
+              "libtool-cross",
+              "libtool-native",
+              "virtual/aarch64-oniro-linux-musl-compilerlibs",
+              "virtual/aarch64-oniro-linux-musl-gcc",
+              "virtual/libc"
+            ],
+            "provides": [
+              "acl"
+            ]
+          },
+          "qemuarm64-efi-clang": {
+            "depends": [
+              "attr",
+              "autoconf-native",
+              "automake-native",
+              "clang-cross-aarch64",
+              "compiler-rt",
+              "gettext-native",
+              "libcxx",
+              "libtool-cross",
+              "libtool-native",
+              "virtual/libc"
+            ],
+            "provides": [
+              "acl"
+            ]
+          },
+          "qemuarm-efi-gcc": {
+            "depends": [
+              "attr",
+              "autoconf-native",
+              "automake-native",
+              "gettext-native",
+              "libtool-cross",
+              "libtool-native",
+              "virtual/arm-oniro-linux-musleabi-compilerlibs",
+              "virtual/arm-oniro-linux-musleabi-gcc",
+              "virtual/libc"
+            ],
+            "provides": [
+              "acl"
+            ]
+          },
+          "seco-px30-d23-gcc": {
+            "depends": [
+              "attr",
+              "autoconf-native",
+              "automake-native",
+              "gettext-native",
+              "libtool-cross",
+              "libtool-native",
+              "virtual/aarch64-oniro-linux-musl-compilerlibs",
+              "virtual/aarch64-oniro-linux-musl-gcc",
+              "virtual/libc"
+            ],
+            "provides": [
+              "acl"
+            ]
+          },
+          "raspberrypi4-64-gcc": {
+            "depends": [
+              "attr",
+              "autoconf-native",
+              "automake-native",
+              "gettext-native",
+              "libtool-cross",
+              "libtool-native",
+              "virtual/aarch64-oniro-linux-musl-compilerlibs",
+              "virtual/aarch64-oniro-linux-musl-gcc",
+              "virtual/libc"
+            ],
+            "provides": [
+              "acl"
+            ]
+          }
+        }
+      },
+      "cve_metadata": {
+        "products": [
+          {
+            "product": "acl",
+            "cvesInRecord": "Yes"
+          }
+        ],
+        "issue": [
+          {
+            "id": "CVE-2009-4411",
+            "summary": "The (1) setfacl and (2) getfacl commands in XFS acl 2.2.47, when running in recursive (-R) mode, follow symbolic links even when the --physical (aka -P) or -L option is specified, which might allow local users to modify the ACL for arbitrary files or directories via a symlink attack.",
+            "scorev2": "3.7",
+            "scorev3": "0.0",
+            "vector": "LOCAL",
+            "status": "Patched",
+            "link": "https://nvd.nist.gov/vuln/detail/CVE-2009-4411"
+          }
+        ]
+      },
       "binary_packages": [
         {
-          "name": "xserver-xf86-config-0.1-r33+ohos_v0.1.0+allscenarios-linux+qemux86",
-          "version": "0.1",
-          "revision": "r33",
+          "name": "acl-dbg-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+seco-imx8mm-c61-4gb",
+          "version": "2.3.1",
+          "revision": "r0",
           "tags": {
             "project": [
-              "allscenarios"
+              "oniro"
             ],
             "release": [
-              "v1.0.0-alpha"
+              "kirkstone-v2.0.0-beta"
             ],
             "distro": [
-              "allscenarios-linux"
+              "linux-gcc"
+            ],
+            "machine": [
+              "seco-imx8mm-c61-4gb"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-extra-dev"
+            ]
+          },
+          "metadata": {
+            "name": "acl-dbg",
+            "base_name": "acl-dbg",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa53-crypto",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+seco-imx8mm-c61-4gb",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "seco-imx8mm-c61-4gb"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl",
+            "base_name": "acl",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa53-crypto",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": null,
+            "summary": "Utilities for managing POSIX Access Control Lists",
+            "description": "ACL allows you to provide different levels of access to files and folders for different users.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+seco-intel-b68",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-clang"
+            ],
+            "machine": [
+              "seco-intel-b68"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl",
+            "base_name": "acl",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "corei7-64",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": null,
+            "summary": "Utilities for managing POSIX Access Control Lists",
+            "description": "ACL allows you to provide different levels of access to files and folders for different users.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-ptest-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+seco-imx8mm-c61-2gb",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "seco-imx8mm-c61-2gb"
+            ],
+            "image": [
+              "image-base-tests",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl-ptest",
+            "base_name": "acl-ptest",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa53-crypto",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "libacl1-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+qemuarm-efi",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-clang"
+            ],
+            "machine": [
+              "qemuarm-efi"
+            ],
+            "image": [
+              "image-base",
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "libacl1",
+            "base_name": "libacl1",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa15t2-neon",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": null,
+            "summary": "Utilities for managing POSIX Access Control Lists",
+            "description": "ACL allows you to provide different levels of access to files and folders for different users.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-dev-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+qemux86",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-clang"
             ],
             "machine": [
               "qemux86"
             ],
             "image": [
-              "allscenarios-image-extra",
-              "allscenarios-image-extra-tests"
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra-dev",
+              "image-extra-tests"
             ]
           },
           "metadata": {
-            "name": "xserver-xf86-config",
-            "base_name": "xserver-xf86-config",
-            "version": "0.1",
-            "revision": "r33",
-            "package_arch": "qemux86",
-            "recipe_name": "xserver-xf86-config",
-            "recipe_version": "0.1",
-            "recipe_revision": "r33",
-            "license": "MIT-X",
-            "summary": "X.Org X server configuration file",
-            "description": "X.Org X server configuration file.",
+            "name": "acl-dev",
+            "base_name": "acl-dev",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "core2-32",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
             "depends": [
               null
             ],
@@ -142,39 +798,40 @@
           }
         },
         {
-          "name": "xserver-xf86-config-0.1-r33+ohos_v0.1.0+allscenarios-linux+qemux86-64",
-          "version": "0.1",
-          "revision": "r33",
+          "name": "acl-ptest-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+qemux86-64",
+          "version": "2.3.1",
+          "revision": "r0",
           "tags": {
             "project": [
-              "allscenarios"
+              "oniro"
             ],
             "release": [
-              "v1.0.0-alpha"
+              "kirkstone-v2.0.0-beta"
             ],
             "distro": [
-              "allscenarios-linux"
+              "linux-gcc"
             ],
             "machine": [
               "qemux86-64"
             ],
             "image": [
-              "allscenarios-image-extra",
-              "allscenarios-image-extra-tests"
+              "image-base-tests",
+              "image-extra-tests"
             ]
           },
           "metadata": {
-            "name": "xserver-xf86-config",
-            "base_name": "xserver-xf86-config",
-            "version": "0.1",
-            "revision": "r33",
-            "package_arch": "qemux86_64",
-            "recipe_name": "xserver-xf86-config",
-            "recipe_version": "0.1",
-            "recipe_revision": "r33",
-            "license": "MIT-X",
-            "summary": "X.Org X server configuration file",
-            "description": "X.Org X server configuration file.",
+            "name": "acl-ptest",
+            "base_name": "acl-ptest",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "core2-64",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
             "depends": [
               null
             ],
@@ -184,39 +841,666 @@
           }
         },
         {
-          "name": "xserver-xf86-config-0.1-r33+ohos_v0.1.0+allscenarios-linux+raspberrypi4-64",
-          "version": "0.1",
-          "revision": "r33",
+          "name": "libacl1-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+qemuarm64-efi",
+          "version": "2.3.1",
+          "revision": "r0",
           "tags": {
             "project": [
-              "allscenarios"
+              "oniro"
             ],
             "release": [
-              "v1.0.0-alpha"
+              "kirkstone-v2.0.0-beta"
             ],
             "distro": [
-              "allscenarios-linux"
+              "linux-gcc"
+            ],
+            "machine": [
+              "qemuarm64-efi"
+            ],
+            "image": [
+              "image-base",
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "libacl1",
+            "base_name": "libacl1",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa57",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": null,
+            "summary": "Utilities for managing POSIX Access Control Lists",
+            "description": "ACL allows you to provide different levels of access to files and folders for different users.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "libacl1-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+qemux86",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "qemux86"
+            ],
+            "image": [
+              "image-base",
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "libacl1",
+            "base_name": "libacl1",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "core2-32",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": null,
+            "summary": "Utilities for managing POSIX Access Control Lists",
+            "description": "ACL allows you to provide different levels of access to files and folders for different users.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+qemux86",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "qemux86"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl",
+            "base_name": "acl",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "core2-32",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": null,
+            "summary": "Utilities for managing POSIX Access Control Lists",
+            "description": "ACL allows you to provide different levels of access to files and folders for different users.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-ptest-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+qemux86",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-clang"
+            ],
+            "machine": [
+              "qemux86"
+            ],
+            "image": [
+              "image-base-tests",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl-ptest",
+            "base_name": "acl-ptest",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "core2-32",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+qemux86",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-clang"
+            ],
+            "machine": [
+              "qemux86"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl",
+            "base_name": "acl",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "core2-32",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": null,
+            "summary": "Utilities for managing POSIX Access Control Lists",
+            "description": "ACL allows you to provide different levels of access to files and folders for different users.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-dev-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+seco-intel-b68",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "seco-intel-b68"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl-dev",
+            "base_name": "acl-dev",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "corei7-64",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+qemuarm-efi",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-clang"
+            ],
+            "machine": [
+              "qemuarm-efi"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl",
+            "base_name": "acl",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa15t2-neon",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": null,
+            "summary": "Utilities for managing POSIX Access Control Lists",
+            "description": "ACL allows you to provide different levels of access to files and folders for different users.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+qemuarm-efi",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "qemuarm-efi"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl",
+            "base_name": "acl",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa15t2-neon",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": null,
+            "summary": "Utilities for managing POSIX Access Control Lists",
+            "description": "ACL allows you to provide different levels of access to files and folders for different users.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-ptest-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+qemux86",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "qemux86"
+            ],
+            "image": [
+              "image-base-tests",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl-ptest",
+            "base_name": "acl-ptest",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "core2-32",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-ptest-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+seco-imx8mm-c61-4gb",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "seco-imx8mm-c61-4gb"
+            ],
+            "image": [
+              "image-base-tests",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl-ptest",
+            "base_name": "acl-ptest",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa53-crypto",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+seco-imx8mm-c61-2gb",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "seco-imx8mm-c61-2gb"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl",
+            "base_name": "acl",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa53-crypto",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": null,
+            "summary": "Utilities for managing POSIX Access Control Lists",
+            "description": "ACL allows you to provide different levels of access to files and folders for different users.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "libacl1-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+qemuarm64-efi",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-clang"
+            ],
+            "machine": [
+              "qemuarm64-efi"
+            ],
+            "image": [
+              "image-base",
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "libacl1",
+            "base_name": "libacl1",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa57",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": null,
+            "summary": "Utilities for managing POSIX Access Control Lists",
+            "description": "ACL allows you to provide different levels of access to files and folders for different users.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-ptest-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+seco-intel-b68",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-clang"
+            ],
+            "machine": [
+              "seco-intel-b68"
+            ],
+            "image": [
+              "image-base-tests",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl-ptest",
+            "base_name": "acl-ptest",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "corei7-64",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-dbg-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+seco-intel-b68",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-clang"
+            ],
+            "machine": [
+              "seco-intel-b68"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-extra-dev"
+            ]
+          },
+          "metadata": {
+            "name": "acl-dbg",
+            "base_name": "acl-dbg",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "corei7-64",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-dbg-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+raspberrypi4-64",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
             ],
             "machine": [
               "raspberrypi4-64"
             ],
             "image": [
-              "allscenarios-image-extra",
-              "allscenarios-image-extra-tests"
+              "image-base-dev",
+              "image-extra-dev"
             ]
           },
           "metadata": {
-            "name": "xserver-xf86-config",
-            "base_name": "xserver-xf86-config",
-            "version": "0.1",
-            "revision": "r33",
-            "package_arch": "raspberrypi4_64",
-            "recipe_name": "xserver-xf86-config",
-            "recipe_version": "0.1",
-            "recipe_revision": "r33",
-            "license": "MIT-X",
-            "summary": "X.Org X server configuration file",
-            "description": "X.Org X server configuration file.",
+            "name": "acl-dbg",
+            "base_name": "acl-dbg",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa72",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
             "depends": [
               null
             ],
@@ -226,39 +1510,42 @@
           }
         },
         {
-          "name": "xserver-xf86-config-0.1-r33+ohos_v0.1.0+allscenarios-linux+seco-imx8mm-c61",
-          "version": "0.1",
-          "revision": "r33",
+          "name": "acl-dev-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+qemuarm-efi",
+          "version": "2.3.1",
+          "revision": "r0",
           "tags": {
             "project": [
-              "allscenarios"
+              "oniro"
             ],
             "release": [
-              "v1.0.0-alpha"
+              "kirkstone-v2.0.0-beta"
             ],
             "distro": [
-              "allscenarios-linux"
+              "linux-gcc"
             ],
             "machine": [
-              "seco-imx8mm-c61"
+              "qemuarm-efi"
             ],
             "image": [
-              "allscenarios-image-extra",
-              "allscenarios-image-extra-tests"
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra-dev",
+              "image-extra-tests"
             ]
           },
           "metadata": {
-            "name": "xserver-xf86-config",
-            "base_name": "xserver-xf86-config",
-            "version": "0.1",
-            "revision": "r33",
-            "package_arch": "seco_imx8mm_c61",
-            "recipe_name": "xserver-xf86-config",
-            "recipe_version": "0.1",
-            "recipe_revision": "r33",
-            "license": "MIT-X",
-            "summary": "X.Org X server configuration file",
-            "description": "X.Org X server configuration file.",
+            "name": "acl-dev",
+            "base_name": "acl-dev",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa15t2-neon",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
             "depends": [
               null
             ],
@@ -268,39 +1555,40 @@
           }
         },
         {
-          "name": "xserver-xf86-config-0.1-r33+ohos_v0.1.0+allscenarios-linux+seco-intel-b68",
-          "version": "0.1",
-          "revision": "r33",
+          "name": "acl-ptest-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+qemuarm64-efi",
+          "version": "2.3.1",
+          "revision": "r0",
           "tags": {
             "project": [
-              "allscenarios"
+              "oniro"
             ],
             "release": [
-              "v1.0.0-alpha"
+              "kirkstone-v2.0.0-beta"
             ],
             "distro": [
-              "allscenarios-linux"
+              "linux-gcc"
             ],
             "machine": [
-              "seco-intel-b68"
+              "qemuarm64-efi"
             ],
             "image": [
-              "allscenarios-image-extra",
-              "allscenarios-image-extra-tests"
+              "image-base-tests",
+              "image-extra-tests"
             ]
           },
           "metadata": {
-            "name": "xserver-xf86-config",
-            "base_name": "xserver-xf86-config",
-            "version": "0.1",
-            "revision": "r33",
-            "package_arch": "seco_intel_b68",
-            "recipe_name": "xserver-xf86-config",
-            "recipe_version": "0.1",
-            "recipe_revision": "r33",
-            "license": "MIT-X",
-            "summary": "X.Org X server configuration file",
-            "description": "X.Org X server configuration file.",
+            "name": "acl-ptest",
+            "base_name": "acl-ptest",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa57",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
             "depends": [
               null
             ],
@@ -310,39 +1598,40 @@
           }
         },
         {
-          "name": "xserver-xf86-config-0.1-r33+ohos_v0.1.0+allscenarios-linux+stm32mp1-av96",
-          "version": "0.1",
-          "revision": "r33",
+          "name": "acl-ptest-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+seco-px30-d23",
+          "version": "2.3.1",
+          "revision": "r0",
           "tags": {
             "project": [
-              "allscenarios"
+              "oniro"
             ],
             "release": [
-              "v1.0.0-alpha"
+              "kirkstone-v2.0.0-beta"
             ],
             "distro": [
-              "allscenarios-linux"
+              "linux-gcc"
             ],
             "machine": [
-              "stm32mp1-av96"
+              "seco-px30-d23"
             ],
             "image": [
-              "allscenarios-image-extra",
-              "allscenarios-image-extra-tests"
+              "image-base-tests-seco-px30-d23-emmc.manifest",
+              "image-extra-tests-seco-px30-d23-emmc.manifest"
             ]
           },
           "metadata": {
-            "name": "xserver-xf86-config",
-            "base_name": "xserver-xf86-config",
-            "version": "0.1",
-            "revision": "r33",
-            "package_arch": "stm32mp1_av96",
-            "recipe_name": "xserver-xf86-config",
-            "recipe_version": "0.1",
-            "recipe_revision": "r33",
-            "license": "MIT-X",
-            "summary": "X.Org X server configuration file",
-            "description": "X.Org X server configuration file.",
+            "name": "acl-ptest",
+            "base_name": "acl-ptest",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "armv8a",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
             "depends": [
               null
             ],
@@ -350,216 +1639,44 @@
               null
             ]
           }
-        }
-      ],
-      "tags": {
-        "project": [
-          "allscenarios"
-        ],
-        "release": [
-          "v1.0.0-alpha"
-        ],
-        "distro": [
-          "allscenarios-linux"
-        ],
-        "machine": [
-          "stm32mp1-av96",
-          "qemux86-64",
-          "seco-intel-b68",
-          "qemux86",
-          "seco-imx8mm-c61",
-          "raspberrypi4-64"
-        ],
-        "image": [
-          "allscenarios-image-extra",
-          "allscenarios-image-extra-tests"
-        ]
-      },
-      "metadata": {
-        "name": "xserver-xf86-config",
-        "base_name": "xserver-xf86-config",
-        "version": "0.1",
-        "revision": "r33",
-        "variant": "396dd9a5",
-        "author": null,
-        "homepage": "http://www.x.org",
-        "summary": "X.Org X server configuration file",
-        "description": "X.Org X server configuration file.",
-        "license": "MIT-X",
-        "depends_provides": {
-          "qemux86": {
-            "depends": [
-              "virtual/i686-poky-linux-musl-compilerlibs",
-              "virtual/i686-poky-linux-musl-gcc",
-              "virtual/libc"
-            ],
-            "provides": [
-              "xserver-xf86-config"
-            ]
-          },
-          "qemux86-64": {
-            "depends": [
-              "virtual/libc",
-              "virtual/x86_64-poky-linux-musl-compilerlibs",
-              "virtual/x86_64-poky-linux-musl-gcc"
-            ],
-            "provides": [
-              "xserver-xf86-config"
-            ]
-          },
-          "raspberrypi4-64": {
-            "depends": [
-              "virtual/aarch64-poky-linux-musl-compilerlibs",
-              "virtual/aarch64-poky-linux-musl-gcc",
-              "virtual/libc"
-            ],
-            "provides": [
-              "xserver-xf86-config"
-            ]
-          },
-          "seco-imx8mm-c61": {
-            "depends": [
-              "virtual/aarch64-poky-linux-musl-compilerlibs",
-              "virtual/aarch64-poky-linux-musl-gcc",
-              "virtual/libc"
-            ],
-            "provides": [
-              "xserver-xf86-config"
-            ]
-          },
-          "seco-intel-b68": {
-            "depends": [
-              "virtual/libc",
-              "virtual/x86_64-poky-linux-musl-compilerlibs",
-              "virtual/x86_64-poky-linux-musl-gcc"
-            ],
-            "provides": [
-              "xserver-xf86-config"
-            ]
-          },
-          "stm32mp1-av96": {
-            "depends": [
-              "virtual/arm-poky-linux-musleabi-compilerlibs",
-              "virtual/arm-poky-linux-musleabi-gcc",
-              "virtual/libc"
-            ],
-            "provides": [
-              "xserver-xf86-config"
-            ]
-          }
-        }
-      }
-    },
-    {
-      "id": "xserver-xf86-config-0.1-r33-6fd29cd1+a4f",
-      "name": "xserver-xf86-config",
-      "version": "0.1",
-      "revision": "r33",
-	  "uploaded": true,
-      "uploaded_reason": "Reason",
-      "selected": true,
-      "selected_reason": "",
-      "variant": "6fd29cd1",
-      "debian_matching": null,
-      "statistics": {
-        "files": {
-          "audit_total": 0,
-          "audit_done": 0,
-          "audit_to_do": 0,
-          "upstream_source_total": 0,
-          "unknown_provenance": 4,
-          "known_provenance": 0,
-          "total": 4
-        },
-        "licenses": {
-          "license_scanner_findings": [],
-          "license_audit_findings": {
-            "main_licenses": [],
-            "all_licenses": []
-          }
-        },
-        "aggregate": false
-      },
-      "source_files": [
-        {
-          "name": "xorg.conf",
-          "sha1_cksum": "4860c412ac0873af399e1bc03dd92e13d063c550",
-          "git_sha1": null,
-          "src_uri": "file://xorg.conf",
-          "files_in_archive": false,
-          "paths": [
-            "_tagged/ohos/v0.1.0/openharmony-linux/qemuarm"
-          ]
         },
         {
-          "name": "xorg.conf",
-          "sha1_cksum": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
-          "git_sha1": null,
-          "src_uri": "file://xorg.conf",
-          "files_in_archive": false,
-          "paths": [
-            "_tagged/ohos/v0.1.0/openharmony-linux/qemuarm64",
-            "_tagged/ohos/v0.1.0/openharmony-linux/seco-intel-b68",
-            "_tagged/ohos/v0.1.0/openharmony-linux/stm32mp1-av96"
-          ]
-        },
-        {
-          "name": "xorg.conf",
-          "sha1_cksum": "137519d4a444b7301439c311d41d1faa2a4f35bb",
-          "git_sha1": null,
-          "src_uri": "file://xorg.conf",
-          "files_in_archive": false,
-          "paths": [
-            "_tagged/ohos/v0.1.0/openharmony-linux/qemux86",
-            "_tagged/ohos/v0.1.0/openharmony-linux/qemux86-64"
-          ]
-        },
-        {
-          "name": "xorg.conf",
-          "sha1_cksum": "1031f2adfd15845aef09c74aa025d196d6367494",
-          "git_sha1": null,
-          "src_uri": "file://xorg.conf",
-          "files_in_archive": false,
-          "paths": [
-            "_tagged/ohos/v0.1.0/openharmony-linux/seco-imx8mm-c61"
-          ]
-        }
-      ],
-      "binary_packages": [
-        {
-          "name": "xserver-xf86-config-0.1-r33+ohos_v0.1.0+openharmony-linux+qemuarm",
-          "version": "0.1",
-          "revision": "r33",
+          "name": "acl-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+qemuarm64-efi",
+          "version": "2.3.1",
+          "revision": "r0",
           "tags": {
             "project": [
-              "ohos"
+              "oniro"
             ],
             "release": [
-              "v0.1.0"
+              "kirkstone-v2.0.0-beta"
             ],
             "distro": [
-              "openharmony-linux"
+              "linux-clang"
             ],
             "machine": [
-              "qemuarm"
+              "qemuarm64-efi"
             ],
             "image": [
-              "openharmony-image-extra",
-              "openharmony-image-extra-tests"
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra-dev",
+              "image-extra-tests"
             ]
           },
           "metadata": {
-            "name": "xserver-xf86-config",
-            "base_name": "xserver-xf86-config",
-            "version": "0.1",
-            "revision": "r33",
-            "package_arch": "qemuarm",
-            "recipe_name": "xserver-xf86-config",
-            "recipe_version": "0.1",
-            "recipe_revision": "r33",
-            "license": "MIT-X",
-            "summary": "X.Org X server configuration file",
-            "description": "X.Org X server configuration file.",
+            "name": "acl",
+            "base_name": "acl",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa57",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": null,
+            "summary": "Utilities for managing POSIX Access Control Lists",
+            "description": "ACL allows you to provide different levels of access to files and folders for different users.",
             "depends": [
               null
             ],
@@ -569,81 +1686,40 @@
           }
         },
         {
-          "name": "xserver-xf86-config-0.1-r33+ohos_v0.1.0+openharmony-linux+qemuarm64",
-          "version": "0.1",
-          "revision": "r33",
+          "name": "acl-dbg-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+qemux86",
+          "version": "2.3.1",
+          "revision": "r0",
           "tags": {
             "project": [
-              "ohos"
+              "oniro"
             ],
             "release": [
-              "v0.1.0"
+              "kirkstone-v2.0.0-beta"
             ],
             "distro": [
-              "openharmony-linux"
-            ],
-            "machine": [
-              "qemuarm64"
-            ],
-            "image": [
-              "openharmony-image-extra",
-              "openharmony-image-extra-tests"
-            ]
-          },
-          "metadata": {
-            "name": "xserver-xf86-config",
-            "base_name": "xserver-xf86-config",
-            "version": "0.1",
-            "revision": "r33",
-            "package_arch": "qemuarm64",
-            "recipe_name": "xserver-xf86-config",
-            "recipe_version": "0.1",
-            "recipe_revision": "r33",
-            "license": "MIT-X",
-            "summary": "X.Org X server configuration file",
-            "description": "X.Org X server configuration file.",
-            "depends": [
-              null
-            ],
-            "provides": [
-              null
-            ]
-          }
-        },
-        {
-          "name": "xserver-xf86-config-0.1-r33+ohos_v0.1.0+openharmony-linux+qemux86",
-          "version": "0.1",
-          "revision": "r33",
-          "tags": {
-            "project": [
-              "ohos"
-            ],
-            "release": [
-              "v0.1.0"
-            ],
-            "distro": [
-              "openharmony-linux"
+              "linux-gcc"
             ],
             "machine": [
               "qemux86"
             ],
             "image": [
-              "openharmony-image-extra",
-              "openharmony-image-extra-tests"
+              "image-base-dev",
+              "image-extra-dev"
             ]
           },
           "metadata": {
-            "name": "xserver-xf86-config",
-            "base_name": "xserver-xf86-config",
-            "version": "0.1",
-            "revision": "r33",
-            "package_arch": "qemux86",
-            "recipe_name": "xserver-xf86-config",
-            "recipe_version": "0.1",
-            "recipe_revision": "r33",
-            "license": "MIT-X",
-            "summary": "X.Org X server configuration file",
-            "description": "X.Org X server configuration file.",
+            "name": "acl-dbg",
+            "base_name": "acl-dbg",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "core2-32",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
             "depends": [
               null
             ],
@@ -653,39 +1729,40 @@
           }
         },
         {
-          "name": "xserver-xf86-config-0.1-r33+ohos_v0.1.0+openharmony-linux+qemux86-64",
-          "version": "0.1",
-          "revision": "r33",
+          "name": "acl-ptest-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+raspberrypi4-64",
+          "version": "2.3.1",
+          "revision": "r0",
           "tags": {
             "project": [
-              "ohos"
+              "oniro"
             ],
             "release": [
-              "v0.1.0"
+              "kirkstone-v2.0.0-beta"
             ],
             "distro": [
-              "openharmony-linux"
+              "linux-clang"
             ],
             "machine": [
-              "qemux86-64"
+              "raspberrypi4-64"
             ],
             "image": [
-              "openharmony-image-extra",
-              "openharmony-image-extra-tests"
+              "image-base-tests",
+              "image-extra-tests"
             ]
           },
           "metadata": {
-            "name": "xserver-xf86-config",
-            "base_name": "xserver-xf86-config",
-            "version": "0.1",
-            "revision": "r33",
-            "package_arch": "qemux86_64",
-            "recipe_name": "xserver-xf86-config",
-            "recipe_version": "0.1",
-            "recipe_revision": "r33",
-            "license": "MIT-X",
-            "summary": "X.Org X server configuration file",
-            "description": "X.Org X server configuration file.",
+            "name": "acl-ptest",
+            "base_name": "acl-ptest",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa72",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
             "depends": [
               null
             ],
@@ -695,39 +1772,40 @@
           }
         },
         {
-          "name": "xserver-xf86-config-0.1-r33+ohos_v0.1.0+openharmony-linux+seco-imx8mm-c61",
-          "version": "0.1",
-          "revision": "r33",
+          "name": "acl-ptest-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+seco-px30-d23",
+          "version": "2.3.1",
+          "revision": "r0",
           "tags": {
             "project": [
-              "ohos"
+              "oniro"
             ],
             "release": [
-              "v0.1.0"
+              "kirkstone-v2.0.0-beta"
             ],
             "distro": [
-              "openharmony-linux"
+              "linux-clang"
             ],
             "machine": [
-              "seco-imx8mm-c61"
+              "seco-px30-d23"
             ],
             "image": [
-              "openharmony-image-extra",
-              "openharmony-image-extra-tests"
+              "image-base-tests-seco-px30-d23-emmc.manifest",
+              "image-extra-tests-seco-px30-d23-emmc.manifest"
             ]
           },
           "metadata": {
-            "name": "xserver-xf86-config",
-            "base_name": "xserver-xf86-config",
-            "version": "0.1",
-            "revision": "r33",
-            "package_arch": "seco_imx8mm_c61",
-            "recipe_name": "xserver-xf86-config",
-            "recipe_version": "0.1",
-            "recipe_revision": "r33",
-            "license": "MIT-X",
-            "summary": "X.Org X server configuration file",
-            "description": "X.Org X server configuration file.",
+            "name": "acl-ptest",
+            "base_name": "acl-ptest",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "armv8a",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
             "depends": [
               null
             ],
@@ -737,39 +1815,263 @@
           }
         },
         {
-          "name": "xserver-xf86-config-0.1-r33+ohos_v0.1.0+openharmony-linux+seco-intel-b68",
-          "version": "0.1",
-          "revision": "r33",
+          "name": "acl-dbg-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+qemuarm-efi",
+          "version": "2.3.1",
+          "revision": "r0",
           "tags": {
             "project": [
-              "ohos"
+              "oniro"
             ],
             "release": [
-              "v0.1.0"
+              "kirkstone-v2.0.0-beta"
             ],
             "distro": [
-              "openharmony-linux"
+              "linux-clang"
+            ],
+            "machine": [
+              "qemuarm-efi"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-extra-dev"
+            ]
+          },
+          "metadata": {
+            "name": "acl-dbg",
+            "base_name": "acl-dbg",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa15t2-neon",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "libacl1-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+raspberrypi4-64",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "raspberrypi4-64"
+            ],
+            "image": [
+              "image-base",
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "libacl1",
+            "base_name": "libacl1",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa72",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": null,
+            "summary": "Utilities for managing POSIX Access Control Lists",
+            "description": "ACL allows you to provide different levels of access to files and folders for different users.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-src-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+seco-imx8mm-c61-2gb",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "seco-imx8mm-c61-2gb"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-extra-dev"
+            ]
+          },
+          "metadata": {
+            "name": "acl-src",
+            "base_name": "acl-src",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa53-crypto",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-dev-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+qemuarm-efi",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-clang"
+            ],
+            "machine": [
+              "qemuarm-efi"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl-dev",
+            "base_name": "acl-dev",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa15t2-neon",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+qemuarm64-efi",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "qemuarm64-efi"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl",
+            "base_name": "acl",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa57",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": null,
+            "summary": "Utilities for managing POSIX Access Control Lists",
+            "description": "ACL allows you to provide different levels of access to files and folders for different users.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-ptest-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+seco-intel-b68",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
             ],
             "machine": [
               "seco-intel-b68"
             ],
             "image": [
-              "openharmony-image-extra",
-              "openharmony-image-extra-tests"
+              "image-base-tests",
+              "image-extra-tests"
             ]
           },
           "metadata": {
-            "name": "xserver-xf86-config",
-            "base_name": "xserver-xf86-config",
-            "version": "0.1",
-            "revision": "r33",
-            "package_arch": "seco_intel_b68",
-            "recipe_name": "xserver-xf86-config",
-            "recipe_version": "0.1",
-            "recipe_revision": "r33",
-            "license": "MIT-X",
-            "summary": "X.Org X server configuration file",
-            "description": "X.Org X server configuration file.",
+            "name": "acl-ptest",
+            "base_name": "acl-ptest",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "corei7-64",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
             "depends": [
               null
             ],
@@ -779,39 +2081,2260 @@
           }
         },
         {
-          "name": "xserver-xf86-config-0.1-r33+ohos_v0.1.0+openharmony-linux+stm32mp1-av96",
-          "version": "0.1",
-          "revision": "r33",
+          "name": "acl-dev-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+seco-intel-b68",
+          "version": "2.3.1",
+          "revision": "r0",
           "tags": {
             "project": [
-              "ohos"
+              "oniro"
             ],
             "release": [
-              "v0.1.0"
+              "kirkstone-v2.0.0-beta"
             ],
             "distro": [
-              "openharmony-linux"
+              "linux-clang"
             ],
             "machine": [
-              "stm32mp1-av96"
+              "seco-intel-b68"
             ],
             "image": [
-              "openharmony-image-extra",
-              "openharmony-image-extra-tests"
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra-dev",
+              "image-extra-tests"
             ]
           },
           "metadata": {
-            "name": "xserver-xf86-config",
-            "base_name": "xserver-xf86-config",
-            "version": "0.1",
-            "revision": "r33",
-            "package_arch": "stm32mp1_av96",
-            "recipe_name": "xserver-xf86-config",
-            "recipe_version": "0.1",
-            "recipe_revision": "r33",
-            "license": "MIT-X",
-            "summary": "X.Org X server configuration file",
-            "description": "X.Org X server configuration file.",
+            "name": "acl-dev",
+            "base_name": "acl-dev",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "corei7-64",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-ptest-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+qemuarm-efi",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-clang"
+            ],
+            "machine": [
+              "qemuarm-efi"
+            ],
+            "image": [
+              "image-base-tests",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl-ptest",
+            "base_name": "acl-ptest",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa15t2-neon",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-ptest-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+raspberrypi4-64",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "raspberrypi4-64"
+            ],
+            "image": [
+              "image-base-tests",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl-ptest",
+            "base_name": "acl-ptest",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa72",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-dbg-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+qemux86-64",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-clang"
+            ],
+            "machine": [
+              "qemux86-64"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-extra-dev"
+            ]
+          },
+          "metadata": {
+            "name": "acl-dbg",
+            "base_name": "acl-dbg",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "core2-64",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-src-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+qemuarm64-efi",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "qemuarm64-efi"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-extra-dev"
+            ]
+          },
+          "metadata": {
+            "name": "acl-src",
+            "base_name": "acl-src",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa57",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-ptest-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+qemux86-64",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-clang"
+            ],
+            "machine": [
+              "qemux86-64"
+            ],
+            "image": [
+              "image-base-tests",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl-ptest",
+            "base_name": "acl-ptest",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "core2-64",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "libacl1-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+seco-intel-b68",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "seco-intel-b68"
+            ],
+            "image": [
+              "image-base",
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "libacl1",
+            "base_name": "libacl1",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "corei7-64",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": null,
+            "summary": "Utilities for managing POSIX Access Control Lists",
+            "description": "ACL allows you to provide different levels of access to files and folders for different users.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-src-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+qemux86",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "qemux86"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-extra-dev"
+            ]
+          },
+          "metadata": {
+            "name": "acl-src",
+            "base_name": "acl-src",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "core2-32",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "libacl1-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+seco-imx8mm-c61-2gb",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "seco-imx8mm-c61-2gb"
+            ],
+            "image": [
+              "image-base",
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "libacl1",
+            "base_name": "libacl1",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa53-crypto",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": null,
+            "summary": "Utilities for managing POSIX Access Control Lists",
+            "description": "ACL allows you to provide different levels of access to files and folders for different users.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+seco-px30-d23",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-clang"
+            ],
+            "machine": [
+              "seco-px30-d23"
+            ],
+            "image": [
+              "image-base-tests-seco-px30-d23-emmc.manifest",
+              "image-extra-tests-seco-px30-d23-emmc.manifest"
+            ]
+          },
+          "metadata": {
+            "name": "acl",
+            "base_name": "acl",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "armv8a",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": null,
+            "summary": "Utilities for managing POSIX Access Control Lists",
+            "description": "ACL allows you to provide different levels of access to files and folders for different users.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-dev-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+seco-px30-d23",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-clang"
+            ],
+            "machine": [
+              "seco-px30-d23"
+            ],
+            "image": [
+              "image-base-tests-seco-px30-d23-emmc.manifest",
+              "image-extra-tests-seco-px30-d23-emmc.manifest"
+            ]
+          },
+          "metadata": {
+            "name": "acl-dev",
+            "base_name": "acl-dev",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "armv8a",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-src-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+qemux86-64",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "qemux86-64"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-extra-dev"
+            ]
+          },
+          "metadata": {
+            "name": "acl-src",
+            "base_name": "acl-src",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "core2-64",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-dbg-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+qemuarm-efi",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "qemuarm-efi"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-extra-dev"
+            ]
+          },
+          "metadata": {
+            "name": "acl-dbg",
+            "base_name": "acl-dbg",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa15t2-neon",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-dbg-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+qemux86-64",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "qemux86-64"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-extra-dev"
+            ]
+          },
+          "metadata": {
+            "name": "acl-dbg",
+            "base_name": "acl-dbg",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "core2-64",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-dev-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+qemux86",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "qemux86"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl-dev",
+            "base_name": "acl-dev",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "core2-32",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-dbg-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+raspberrypi4-64",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-clang"
+            ],
+            "machine": [
+              "raspberrypi4-64"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-extra-dev"
+            ]
+          },
+          "metadata": {
+            "name": "acl-dbg",
+            "base_name": "acl-dbg",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa72",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "libacl1-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+seco-px30-d23",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "seco-px30-d23"
+            ],
+            "image": [
+              "image-base-seco-px30-d23-emmc.manifest",
+              "image-base-tests-seco-px30-d23-emmc.manifest",
+              "image-extra-seco-px30-d23-emmc.manifest",
+              "image-extra-tests-seco-px30-d23-emmc.manifest"
+            ]
+          },
+          "metadata": {
+            "name": "libacl1",
+            "base_name": "libacl1",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "armv8a",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": null,
+            "summary": "Utilities for managing POSIX Access Control Lists",
+            "description": "ACL allows you to provide different levels of access to files and folders for different users.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-dev-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+seco-imx8mm-c61-4gb",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "seco-imx8mm-c61-4gb"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl-dev",
+            "base_name": "acl-dev",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa53-crypto",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+seco-px30-d23",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "seco-px30-d23"
+            ],
+            "image": [
+              "image-base-tests-seco-px30-d23-emmc.manifest",
+              "image-extra-tests-seco-px30-d23-emmc.manifest"
+            ]
+          },
+          "metadata": {
+            "name": "acl",
+            "base_name": "acl",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "armv8a",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": null,
+            "summary": "Utilities for managing POSIX Access Control Lists",
+            "description": "ACL allows you to provide different levels of access to files and folders for different users.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-src-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+qemuarm-efi",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "qemuarm-efi"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-extra-dev"
+            ]
+          },
+          "metadata": {
+            "name": "acl-src",
+            "base_name": "acl-src",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa15t2-neon",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "libacl1-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+seco-px30-d23",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-clang"
+            ],
+            "machine": [
+              "seco-px30-d23"
+            ],
+            "image": [
+              "image-base-seco-px30-d23-emmc.manifest",
+              "image-base-tests-seco-px30-d23-emmc.manifest",
+              "image-extra-seco-px30-d23-emmc.manifest",
+              "image-extra-tests-seco-px30-d23-emmc.manifest"
+            ]
+          },
+          "metadata": {
+            "name": "libacl1",
+            "base_name": "libacl1",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "armv8a",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": null,
+            "summary": "Utilities for managing POSIX Access Control Lists",
+            "description": "ACL allows you to provide different levels of access to files and folders for different users.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+raspberrypi4-64",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-clang"
+            ],
+            "machine": [
+              "raspberrypi4-64"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl",
+            "base_name": "acl",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa72",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": null,
+            "summary": "Utilities for managing POSIX Access Control Lists",
+            "description": "ACL allows you to provide different levels of access to files and folders for different users.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "libacl1-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+qemuarm-efi",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "qemuarm-efi"
+            ],
+            "image": [
+              "image-base",
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "libacl1",
+            "base_name": "libacl1",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa15t2-neon",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": null,
+            "summary": "Utilities for managing POSIX Access Control Lists",
+            "description": "ACL allows you to provide different levels of access to files and folders for different users.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-src-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+raspberrypi4-64",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "raspberrypi4-64"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-extra-dev"
+            ]
+          },
+          "metadata": {
+            "name": "acl-src",
+            "base_name": "acl-src",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa72",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-src-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+seco-intel-b68",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "seco-intel-b68"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-extra-dev"
+            ]
+          },
+          "metadata": {
+            "name": "acl-src",
+            "base_name": "acl-src",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "corei7-64",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-dev-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+raspberrypi4-64",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-clang"
+            ],
+            "machine": [
+              "raspberrypi4-64"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl-dev",
+            "base_name": "acl-dev",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa72",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-src-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+seco-imx8mm-c61-4gb",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "seco-imx8mm-c61-4gb"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-extra-dev"
+            ]
+          },
+          "metadata": {
+            "name": "acl-src",
+            "base_name": "acl-src",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa53-crypto",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-ptest-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+qemuarm-efi",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "qemuarm-efi"
+            ],
+            "image": [
+              "image-base-tests",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl-ptest",
+            "base_name": "acl-ptest",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa15t2-neon",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-dev-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+qemuarm64-efi",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-clang"
+            ],
+            "machine": [
+              "qemuarm64-efi"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl-dev",
+            "base_name": "acl-dev",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa57",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-ptest-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+qemuarm64-efi",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-clang"
+            ],
+            "machine": [
+              "qemuarm64-efi"
+            ],
+            "image": [
+              "image-base-tests",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl-ptest",
+            "base_name": "acl-ptest",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa57",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "libacl1-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+seco-intel-b68",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-clang"
+            ],
+            "machine": [
+              "seco-intel-b68"
+            ],
+            "image": [
+              "image-base",
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "libacl1",
+            "base_name": "libacl1",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "corei7-64",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": null,
+            "summary": "Utilities for managing POSIX Access Control Lists",
+            "description": "ACL allows you to provide different levels of access to files and folders for different users.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-dbg-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+qemuarm64-efi",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-clang"
+            ],
+            "machine": [
+              "qemuarm64-efi"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-extra-dev"
+            ]
+          },
+          "metadata": {
+            "name": "acl-dbg",
+            "base_name": "acl-dbg",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa57",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "libacl1-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+raspberrypi4-64",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-clang"
+            ],
+            "machine": [
+              "raspberrypi4-64"
+            ],
+            "image": [
+              "image-base",
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "libacl1",
+            "base_name": "libacl1",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa72",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": null,
+            "summary": "Utilities for managing POSIX Access Control Lists",
+            "description": "ACL allows you to provide different levels of access to files and folders for different users.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-dev-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+qemux86-64",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "qemux86-64"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl-dev",
+            "base_name": "acl-dev",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "core2-64",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-dev-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+raspberrypi4-64",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "raspberrypi4-64"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl-dev",
+            "base_name": "acl-dev",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa72",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-dev-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+qemux86-64",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-clang"
+            ],
+            "machine": [
+              "qemux86-64"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl-dev",
+            "base_name": "acl-dev",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "core2-64",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-dev-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+seco-px30-d23",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "seco-px30-d23"
+            ],
+            "image": [
+              "image-base-tests-seco-px30-d23-emmc.manifest",
+              "image-extra-tests-seco-px30-d23-emmc.manifest"
+            ]
+          },
+          "metadata": {
+            "name": "acl-dev",
+            "base_name": "acl-dev",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "armv8a",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+qemux86-64",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-clang"
+            ],
+            "machine": [
+              "qemux86-64"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl",
+            "base_name": "acl",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "core2-64",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": null,
+            "summary": "Utilities for managing POSIX Access Control Lists",
+            "description": "ACL allows you to provide different levels of access to files and folders for different users.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-dbg-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+seco-imx8mm-c61-2gb",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "seco-imx8mm-c61-2gb"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-extra-dev"
+            ]
+          },
+          "metadata": {
+            "name": "acl-dbg",
+            "base_name": "acl-dbg",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa53-crypto",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "libacl1-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+seco-imx8mm-c61-4gb",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "seco-imx8mm-c61-4gb"
+            ],
+            "image": [
+              "image-base",
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "libacl1",
+            "base_name": "libacl1",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa53-crypto",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": null,
+            "summary": "Utilities for managing POSIX Access Control Lists",
+            "description": "ACL allows you to provide different levels of access to files and folders for different users.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-dev-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+qemuarm64-efi",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "qemuarm64-efi"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl-dev",
+            "base_name": "acl-dev",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa57",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "libacl1-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+qemux86-64",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-clang"
+            ],
+            "machine": [
+              "qemux86-64"
+            ],
+            "image": [
+              "image-base",
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "libacl1",
+            "base_name": "libacl1",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "core2-64",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": null,
+            "summary": "Utilities for managing POSIX Access Control Lists",
+            "description": "ACL allows you to provide different levels of access to files and folders for different users.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-dbg-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+qemux86",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-clang"
+            ],
+            "machine": [
+              "qemux86"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-extra-dev"
+            ]
+          },
+          "metadata": {
+            "name": "acl-dbg",
+            "base_name": "acl-dbg",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "core2-32",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+raspberrypi4-64",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "raspberrypi4-64"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl",
+            "base_name": "acl",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa72",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": null,
+            "summary": "Utilities for managing POSIX Access Control Lists",
+            "description": "ACL allows you to provide different levels of access to files and folders for different users.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "libacl1-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+qemux86-64",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "qemux86-64"
+            ],
+            "image": [
+              "image-base",
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "libacl1",
+            "base_name": "libacl1",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "core2-64",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": null,
+            "summary": "Utilities for managing POSIX Access Control Lists",
+            "description": "ACL allows you to provide different levels of access to files and folders for different users.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-dbg-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+qemuarm64-efi",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "qemuarm64-efi"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-extra-dev"
+            ]
+          },
+          "metadata": {
+            "name": "acl-dbg",
+            "base_name": "acl-dbg",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa57",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+qemux86-64",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "qemux86-64"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl",
+            "base_name": "acl",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "core2-64",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": null,
+            "summary": "Utilities for managing POSIX Access Control Lists",
+            "description": "ACL allows you to provide different levels of access to files and folders for different users.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-dbg-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+seco-intel-b68",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "seco-intel-b68"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-extra-dev"
+            ]
+          },
+          "metadata": {
+            "name": "acl-dbg",
+            "base_name": "acl-dbg",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "corei7-64",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-dev-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+seco-imx8mm-c61-2gb",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "seco-imx8mm-c61-2gb"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl-dev",
+            "base_name": "acl-dev",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "cortexa53-crypto",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": "LGPL-2.1-or-later & GPL-2.0-or-later",
+            "summary": null,
+            "description": null,
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "libacl1-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-clang+qemux86",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-clang"
+            ],
+            "machine": [
+              "qemux86"
+            ],
+            "image": [
+              "image-base",
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "libacl1",
+            "base_name": "libacl1",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "core2-32",
+            "build_toolchain": "clang",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": null,
+            "summary": "Utilities for managing POSIX Access Control Lists",
+            "description": "ACL allows you to provide different levels of access to files and folders for different users.",
+            "depends": [
+              null
+            ],
+            "provides": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "acl-2.3.1-r0+oniro_kirkstone-v2.0.0-beta+linux-gcc+seco-intel-b68",
+          "version": "2.3.1",
+          "revision": "r0",
+          "tags": {
+            "project": [
+              "oniro"
+            ],
+            "release": [
+              "kirkstone-v2.0.0-beta"
+            ],
+            "distro": [
+              "linux-gcc"
+            ],
+            "machine": [
+              "seco-intel-b68"
+            ],
+            "image": [
+              "image-base-dev",
+              "image-base-tests",
+              "image-extra-dev",
+              "image-extra-tests"
+            ]
+          },
+          "metadata": {
+            "name": "acl",
+            "base_name": "acl",
+            "version": "2.3.1",
+            "revision": "r0",
+            "package_arch": "corei7-64",
+            "build_toolchain": "gcc",
+            "recipe_name": "acl",
+            "recipe_version": "2.3.1",
+            "recipe_revision": "r0",
+            "license": null,
+            "summary": "Utilities for managing POSIX Access Control Lists",
+            "description": "ACL allows you to provide different levels of access to files and folders for different users.",
             "depends": [
               null
             ],
@@ -823,115 +4346,46 @@
       ],
       "tags": {
         "project": [
-          "ohos"
+          "oniro"
         ],
         "release": [
-          "v0.1.0"
+          "kirkstone-v2.0.0-beta"
         ],
         "distro": [
-          "openharmony-linux"
+          "linux",
+          "linux-clang",
+          "linux-gcc"
         ],
         "machine": [
-          "stm32mp1-av96",
-          "qemuarm64",
-          "qemux86-64",
-          "qemuarm",
-          "seco-intel-b68",
+          "qemuarm-efi",
+          "qemuarm64-efi",
           "qemux86",
-          "seco-imx8mm-c61"
+          "qemux86-64",
+          "raspberrypi4-64",
+          "seco-imx8mm-c61-2gb",
+          "seco-imx8mm-c61-4gb",
+          "seco-intel-b68",
+          "seco-px30-d23"
         ],
         "image": [
-          "openharmony-image-extra",
-          "openharmony-image-extra-tests"
+          "image-base",
+          "image-base-dev",
+          "image-base-seco-px30-d23-emmc.manifest",
+          "image-base-tests",
+          "image-base-tests-seco-px30-d23-emmc.manifest",
+          "image-extra",
+          "image-extra-dev",
+          "image-extra-seco-px30-d23-emmc.manifest",
+          "image-extra-tests",
+          "image-extra-tests-seco-px30-d23-emmc.manifest"
         ]
       },
-      "metadata": {
-        "name": "xserver-xf86-config",
-        "base_name": "xserver-xf86-config",
-        "version": "0.1",
-        "revision": "r33",
-        "variant": "6fd29cd1",
-        "author": null,
-        "homepage": "http://www.x.org",
-        "summary": "X.Org X server configuration file",
-        "description": "X.Org X server configuration file.",
-        "license": "MIT-X",
-        "depends_provides": {
-          "qemuarm": {
-            "depends": [
-              "virtual/arm-poky-linux-musleabi-compilerlibs",
-              "virtual/arm-poky-linux-musleabi-gcc",
-              "virtual/libc"
-            ],
-            "provides": [
-              "xserver-xf86-config"
-            ]
-          },
-          "qemuarm64": {
-            "depends": [
-              "virtual/aarch64-poky-linux-musl-compilerlibs",
-              "virtual/aarch64-poky-linux-musl-gcc",
-              "virtual/libc"
-            ],
-            "provides": [
-              "xserver-xf86-config"
-            ]
-          },
-          "qemux86": {
-            "depends": [
-              "virtual/i686-poky-linux-musl-compilerlibs",
-              "virtual/i686-poky-linux-musl-gcc",
-              "virtual/libc"
-            ],
-            "provides": [
-              "xserver-xf86-config"
-            ]
-          },
-          "qemux86-64": {
-            "depends": [
-              "virtual/libc",
-              "virtual/x86_64-poky-linux-musl-compilerlibs",
-              "virtual/x86_64-poky-linux-musl-gcc"
-            ],
-            "provides": [
-              "xserver-xf86-config"
-            ]
-          },
-          "seco-imx8mm-c61": {
-            "depends": [
-              "virtual/aarch64-poky-linux-musl-compilerlibs",
-              "virtual/aarch64-poky-linux-musl-gcc",
-              "virtual/libc"
-            ],
-            "provides": [
-              "xserver-xf86-config"
-            ]
-          },
-          "seco-intel-b68": {
-            "depends": [
-              "virtual/libc",
-              "virtual/x86_64-poky-linux-musl-compilerlibs",
-              "virtual/x86_64-poky-linux-musl-gcc"
-            ],
-            "provides": [
-              "xserver-xf86-config"
-            ]
-          },
-          "stm32mp1-av96": {
-            "depends": [
-              "virtual/arm-poky-linux-musleabi-compilerlibs",
-              "virtual/arm-poky-linux-musleabi-gcc",
-              "virtual/libc"
-            ],
-            "provides": [
-              "xserver-xf86-config"
-            ]
-          }
-        }
-      }
+      "layer": {
+        "layer_path": "oe-core/meta",
+        "remote": "git://git.openembedded.org/openembedded-core",
+        "revision": "2022-04.3-kirkstone-96-g2363d69d68"
+      },
+      "is_main_variant": true
     }
   ]
 }
-
-
-

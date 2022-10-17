@@ -24,7 +24,8 @@ after docker run the app is reachable via hostname:[PORT].
 
 Local development with Docker Compose (preconfigured without SSL @ port 8085):
 
-	sudo docker-compose up
+	vendor/bin/sail up
+	vendor/bin/sail npm run hot
 
 ### further configuration
 

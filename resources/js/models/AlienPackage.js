@@ -1,6 +1,7 @@
 // TODO
 import SourceFile from "./SourceFile";
 import BinaryPackage from "./BinaryPackage";
+
 import _ from "lodash";
 
 export default class AlienPackage {
@@ -54,8 +55,11 @@ export default class AlienPackage {
 	source_files = [];
 	binary_packages = [];
 
+	cveScoreSum = 0;
+
 	metadata = false;
 	cve_metadata = false;
+	is_main_variant = false;
 
 	constructor(data = {}) {
 		if (data.id) this.id = data.id;
@@ -69,10 +73,15 @@ export default class AlienPackage {
 		if (data.source_files) this.source_files = data.source_files;
 		if (data.binary_packages) this.binary_packages = data.binary_packages;
 		if (data.session_state) this.session_state = data.session_state
-		if (data.cve_metadata && data.cve_metadata.result) {
-			this.cve_metadata = data.cve_metadata
-			this.collectCves();
-		}
+		if (data.metadata) this.metadata = data.metadata
+
+		this.is_main_variant = data.is_main_variant
+
+		this.cve_metadata = data.cve_metadata && data.cve_metadata.issue != null ? data.cve_metadata : { issue: [] }
+
+		this.layer = data.layer ? data.layer : {}
+
+		this.collectCves();
 		this.processStats();
 	}
 
@@ -82,71 +91,48 @@ export default class AlienPackage {
 			filestats.audit_total == 0
 				? 100
 				: parseInt(
-						(filestats.audit_done / filestats.audit_total) * 100
-				  );
+					(filestats.audit_done / filestats.audit_total) * 100
+				);
 		this.workload = filestats.audit_done;
 		this.workload_total = filestats.audit_total;
 		this.match = this.debian_matching
 			? (this.debian_matching.ip_matching_files /
-					filestats.upstream_source_total) *
-			  100
+				filestats.upstream_source_total) *
+			100
 			: 0;
 	}
 
 	collectCves() {
-		this.isCve = true
-
-		this.cveStatus = {
-			open : 0,
-			patched : 0,
-			whitelisted : 0,
-			audit_necessary: this.cve_metadata.result.review.length,
-			data : []
+		this.cveStatus = {}
+		this.maxCveScores = {
+			v2: 0,
+			v3: 0
 		}
 
-		for (var a = 0; a < this.cve_metadata.result.identified.length; a++) {
-			var val = this.cve_metadata.result.identified[a]
+		for (var a = 0; a < this.cve_metadata.issue.length; a++) {
+			var val = this.cve_metadata.issue[a]
 
-			var impact = val.data.impact.baseMetricV3 ? val.data.impact.baseMetricV3.cvssV3 : false
-			impact = impact === false && val.data.impact.baseMetricV2 ? val.data.impact.baseMetricV2.cvssV2 : impact
+			if (typeof this.cveStatus[this.cve_metadata.issue[a].status.toLowerCase()] == "undefined")
+				this.cveStatus[this.cve_metadata.issue[a].status.toLowerCase()] = 0;
 
-			var res = {
-				id : val.id,
-				references : val.data.cve.references.reference_data,
-				impact : impact
-			}
+			if (this.maxCveScores.v2 < this.cve_metadata.issue[a].scorev2 && this.cve_metadata.issue[a].status.toLowerCase() == 'unpatched') this.maxCveScores.v2 = parseFloat(this.cve_metadata.issue[a].scorev2)
+			if (this.maxCveScores.v3 < this.cve_metadata.issue[a].scorev3 && this.cve_metadata.issue[a].status.toLowerCase() == 'unpatched') this.maxCveScores.v3 = parseFloat(this.cve_metadata.issue[a].scorev3)
 
-			for (var i = 0; i < this.source_files.length; i++) {
-				// TODO: Regex / respect filename variations
-				if(this.source_files[i].name.toUpperCase().indexOf(res.id.toUpperCase()) != -1) {
-					res.patched = true
-					this.cveStatus.patched++;
-				}
-			}
+			this.cveScoreSum = this.maxCveScores.v2 + this.maxCveScores.v3
 
-			for (var i = 0; i < this.cve_metadata.cve_check_whitelist.length; i++) {
-				let whitelisted = this.cve_metadata.cve_check_whitelist[i]
-				if(whitelisted.toUpperCase().indexOf(res.id.toUpperCase()) != -1) {
-					res.whitelist = true
-					this.cveStatus.whitelisted++;
-				}
-			}
+			this.cveStatus[this.cve_metadata.issue[a].status.toLowerCase()]++;
 
-			if(!res.whitelist && !res.patched) this.cveStatus.open++;
+			this.cveStatus.scores = this.maxCveScores.v2 + " / " + this.maxCveScores.v3
 
-			this.cveStatus.data.push(res);
+			this.isCve = true
 		}
-	}
-
-	// all cves without whitelisted and patched
-	getOpenCves() {
-		return this.isCve ? data.cve_metadata.result.identified : []
 	}
 
 	setVariantTags() {
 		if (!this.isVariant) return;
 
 		let variant_machines = {};
+
 		// 	"it is assumed that there is only 1 release and 1 image in paths. thus these two infos are overwritten."
 		for (var a = 0; a < this.meta_source_files.length; a++) {
 			if (this.meta_source_files[a].paths.length > 0) {

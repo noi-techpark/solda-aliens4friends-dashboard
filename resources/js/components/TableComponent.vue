@@ -13,24 +13,19 @@
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>
-            Package Explorer
-          </v-toolbar-title>
+          <v-toolbar-title> Package Explorer </v-toolbar-title>
         </v-toolbar>
       </template>
 
       <template v-slot:expanded-item="{ headers, item }">
-        <td :colspan="headers.length" style="padding:0">
-          <table-detail-component
-            :item="item"
-            :filtered="filteredTags()"
-          ></table-detail-component>
+        <td :colspan="headers.length" style="padding: 0">
+          <table-detail-component :item="item" :filtered="filteredTags()"></table-detail-component>
         </td>
       </template>
 
       <template v-for="h in headers" v-slot:[`header.${h.value}`]="{ header }">
         <div
-          style="float: left;"
+          style="float: left"
           v-if="header.filterVals && header.filterVals.length > 0"
           :key="h.value"
         >
@@ -46,12 +41,12 @@
               <span
                 :class="{
                   act: Object.values(header.activeVals).reduce((a, o) => {
-                    return a || o;
+                    return a || o
                   }, false)
                 }"
                 v-on="on"
                 v-bind="attrs"
-                style="line-height:16px"
+                style="line-height: 16px"
                 ><v-icon small class="mr-1 mb-1">mdi-filter</v-icon></span
               >
             </template>
@@ -62,9 +57,9 @@
                   :value="item"
                   :ripple="false"
                   dense
-                  style="background:white;"
+                  style="background: white"
                 >
-                  <v-list-item-action style="margin:0;" class="mr-2">
+                  <v-list-item-action style="margin: 0" class="mr-2">
                     <v-checkbox
                       v-model="header.activeVals[item]"
                       @click="toggle(header, item)"
@@ -82,7 +77,7 @@
             </v-list>
           </v-menu>
         </div>
-        <div style="float: left;" v-if="header.valueFilter" :key="h.value">
+        <div style="float: left" v-if="header.valueFilter" :key="h.value">
           <v-menu
             :close-on-content-click="false"
             offset-y
@@ -94,16 +89,14 @@
               <span
                 v-on="on"
                 v-bind="attrs"
-                style="line-height:16px"
+                style="line-height: 16px"
                 :class="{ act: header.valueFilter.value != '' }"
               >
-                <v-icon small class="mr-1 mb-1"
-                  >mdi-numeric-1-box-multiple-outline</v-icon
-                ></span
+                <v-icon small class="mr-1 mb-1">mdi-numeric-1-box-multiple-outline</v-icon></span
               >
             </template>
             <v-row
-              style="background:white;width:250px;overflow:hidden"
+              style="background: white; width: 250px; overflow: hidden"
               class="pa-2"
               no-gutters
             >
@@ -115,7 +108,7 @@
                   v-model="header.valueFilter.operator"
                   single-line
                   class="mr-4"
-                  style="top:2px;position:relative"
+                  style="top: 2px; position: relative"
                   @change="$emit('filter-change')"
                 ></v-select>
               </v-col>
@@ -126,7 +119,7 @@
                   single-line
                   :rules="[rules.isnumber]"
                   :suffix="header.valueFilter.unit"
-                  style="text-align:center;"
+                  style="text-align: center"
                   class="pt-0 mt-0 text-center"
                   @blur="$emit('filter-change')"
                 >
@@ -136,98 +129,59 @@
             </v-row>
           </v-menu>
         </div>
+
         <v-tooltip top :key="h.text">
           <template v-slot:activator="{ on }">
-            <span v-on="on" style="line-height:16px">{{ h.text }}</span>
+            <span v-on="on" style="line-height: 16px">{{ h.text }}</span>
           </template>
           <span>{{ h.tooltip }}</span>
         </v-tooltip>
       </template>
 
-      <template
-        v-for="head in headers"
-        v-slot:[`item.${head.value}`]="{ item }"
-      >
+      <template v-for="head in headers" v-slot:[`item.${head.value}`]="{ item }">
         <div v-if="head.type == 'implode'" :key="head.value">
-          <div
-            v-for="text in resolve(head.value, item)"
-            style="font-size:11px"
-            :key="text"
-          >
+          <div v-for="text in resolve(head.value, item)" style="font-size: 11px" :key="text">
             {{ text }}
           </div>
         </div>
 
         <div v-if="head.type == 'implode_tag'" :key="head.value">
-          <div
-            v-for="text in resolve(head.value, item)"
-            style="font-size:11px"
-            :key="text"
-          >
-            <v-chip
-              x-small
-              class="mb-1"
-              color="primary"
-              v-if="head.activeVals[text] == true"
-              >{{ text }}</v-chip
-            >
+          <div v-for="text in resolve(head.value, item)" style="font-size: 11px" :key="text">
+            <v-chip x-small class="mb-1" color="primary" v-if="head.activeVals[text] == true">{{
+              text
+            }}</v-chip>
             <v-chip x-small class="mb-1" v-else>{{ text }}</v-chip>
           </div>
         </div>
 
         <div v-if="head.type == 'progress'" :key="head.value">
-          <v-progress-linear
-            :value="item.progress"
-            :color="palette[0]"
-            :height="25"
-          >
+          <v-progress-linear :value="item.progress" :color="palette[0]" :height="25">
             <template v-slot:default="{ value }">
-              <strong style="font-size:11px">{{ Math.ceil(value) }}%</strong>
+              <strong style="font-size: 11px">{{ Math.ceil(value) }}%</strong>
             </template>
           </v-progress-linear>
-          <div style="font-size:11px" class="text-center mt-1">
-            {{ item.workload }} Files done
-          </div>
+          <div style="font-size: 11px" class="text-center mt-1">{{ item.workload }} Files done</div>
         </div>
-
+        <div v-if="head.type == 'actions'" :key="head.value">
+          <v-icon class="mb-2">mdi-graph</v-icon>
+        </div>
         <div v-if="head.type == 'flags'" :key="head.value">
-          <v-icon v-if="item.isVariant">mdi-link-variant-plus</v-icon>
-          <v-tooltip
-            top
-            v-if="
-              item.cveStatus && item.isCve && (!item.isVariant || showMainCve)
-            "
-          >
-            <template v-slot:activator="{ on }">
-              <v-icon v-if="item.cveStatus.open > 0" color="red" v-on="on"
-                >mdi-security</v-icon
-              >
-              <v-icon
-                v-else-if="item.cveStatus.audit_necessary > 0"
-                color="orange"
-                v-on="on"
-                >mdi-security</v-icon
-              >
-              <v-icon v-else color="green" v-on="on">mdi-security</v-icon>
-            </template>
-            <span>
-              {{ item.cveStatus.open }} applicable <br />
-              {{ item.cveStatus.whitelisted }} whitelisted <br />
-              {{ item.cveStatus.patched }} patched <br />
-              {{ item.cveStatus.audit_necessary }} uncertain <br />
-            </span>
-          </v-tooltip>
+          <span v-if="item.isCve" v-show="false">isCve</span>
+          <span v-if="item.isVariant" v-show="false">isVariant</span>
+          <span v-if="item.isNew" v-show="false">isNew</span>
+          <v-icon v-if="item.isVariant" class="mb-2">mdi-link-variant-plus</v-icon>
+          <badge-component :item="item"></badge-component>
           <v-tooltip top>
             <template v-slot:activator="{ on }">
-              <v-icon color="green" v-on="on" v-if="item.session_state.uploaded"
+              <v-icon class="mb-2" color="green" v-on="on" v-if="item.session_state.uploaded"
                 >mdi-upload</v-icon
               >
               <v-icon
                 color="red"
                 v-on="on"
+                class="mb-2"
                 v-if="
-                  typeof item.session_state.uploaded != 'boolean' ||
-                    !item.session_state.uploaded
+                  typeof item.session_state.uploaded != 'boolean' || !item.session_state.uploaded
                 "
                 >mdi-upload</v-icon
               >
@@ -236,63 +190,30 @@
               {{ item.session_state.uploaded_reason }}
             </span>
           </v-tooltip>
-
-          <v-tooltip top>
-            <template v-slot:activator="{ on }">
-              <v-icon color="green" v-on="on" v-if="item.session_state.selected"
-                >mdi-select-all</v-icon
-              >
-              <v-icon
-                color="red"
-                v-on="on"
-                v-if="
-                  typeof item.session_state.selected != 'boolean' ||
-                    !item.session_state.selected
-                "
-                >mdi-select-all</v-icon
-              >
-            </template>
-            <span>
-              {{ item.session_state.selected_reason }}
-            </span>
-          </v-tooltip>
         </div>
 
         <div v-if="head.type == 'workload'" :key="head.value">
           <div>
-            <v-icon size="15" v-if="normalize(item.workload_total) < 0.2"
-              >mdi-weight</v-icon
-            >
+            <v-icon size="15" v-if="normalize(item.workload_total) < 0.2">mdi-weight</v-icon>
             <v-icon
               size="30"
-              v-if="
-                normalize(item.workload_total) < 0.4 &&
-                  normalize(item.workload_total) >= 0.2
-              "
+              v-if="normalize(item.workload_total) < 0.4 && normalize(item.workload_total) >= 0.2"
               >mdi-weight</v-icon
             >
             <v-icon
               size="45"
-              v-if="
-                normalize(item.workload_total) < 0.6 &&
-                  normalize(item.workload_total) >= 0.4
-              "
+              v-if="normalize(item.workload_total) < 0.6 && normalize(item.workload_total) >= 0.4"
               >mdi-weight</v-icon
             >
             <v-icon
               size="60"
-              v-if="
-                normalize(item.workload_total) < 0.8 &&
-                  normalize(item.workload_total) >= 0.6
-              "
+              v-if="normalize(item.workload_total) < 0.8 && normalize(item.workload_total) >= 0.6"
               >mdi-weight</v-icon
             >
-            <v-icon size="75" v-if="normalize(item.workload_total) >= 0.8"
-              >mdi-weight</v-icon
-            >
+            <v-icon size="75" v-if="normalize(item.workload_total) >= 0.8">mdi-weight</v-icon>
           </div>
 
-          <div style="font-size:11px" class="text-center mt-2">
+          <div style="font-size: 11px" class="text-center mt-2">
             {{ item.workload_total }} Files total
           </div>
         </div>
@@ -300,15 +221,9 @@
         <div v-if="head.type == 'chart'" :key="head.value">
           <div
             class="ma-1"
-            v-if="
-              head.value ==
-                'statistics.licenses.license_audit_findings.all_licenses'
-            "
+            v-if="head.value == 'statistics.licenses.license_audit_findings.all_licenses'"
           >
-            <div
-              class="ma-1 text-center"
-              style="font-weight:bold;min-height:21px"
-            >
+            <div class="ma-1 text-center" style="font-weight: bold; min-height: 21px">
               {{ sums["all_" + item.uid] }}
             </div>
 
@@ -320,30 +235,21 @@
             >
               <template v-slot:placeholder>
                 <v-row class="fill-height ma-0" align="center" justify="center">
-                  <v-progress-circular
-                    indeterminate
-                    color="white"
-                  ></v-progress-circular>
+                  <v-progress-circular indeterminate color="white"></v-progress-circular>
                 </v-row>
               </template>
             </v-img>
 
             <canvas
-              style="display:none;width:200px;height:120px;"
+              style="display: none; width: 200px; height: 120px"
               width="200"
               :ref="'canvas_' + item.uid"
               :id="'all_' + item.uid"
             ></canvas>
           </div>
 
-          <div
-            class="ma-1"
-            v-if="head.value == 'statistics.licenses.license_scanner_findings'"
-          >
-            <div
-              class="ma-1 text-center"
-              style="font-weight:bold;min-height:21px"
-            >
+          <div class="ma-1" v-if="head.value == 'statistics.licenses.license_scanner_findings'">
+            <div class="ma-1 text-center" style="font-weight: bold; min-height: 21px">
               {{ sums["scan_" + item.uid] }}
             </div>
 
@@ -355,16 +261,13 @@
             >
               <template v-slot:placeholder>
                 <v-row class="fill-height ma-0" align="center" justify="center">
-                  <v-progress-circular
-                    indeterminate
-                    color="white"
-                  ></v-progress-circular>
+                  <v-progress-circular indeterminate color="white"></v-progress-circular>
                 </v-row>
               </template>
             </v-img>
 
             <canvas
-              style="display:none;width:200px;height:120px;"
+              style="display: none; width: 200px; height: 120px"
               width="200"
               :ref="'canvas3_' + item.uid"
               :id="'scan_' + item.uid"
@@ -372,17 +275,10 @@
           </div>
         </div>
 
-        <div
-          v-if="head.type == 'match' && item.debian_matching"
-          :key="head.value"
-        >
+        <div v-if="head.type == 'match' && item.debian_matching" :key="head.value">
           <v-tooltip top>
             <template v-slot:activator="{ on }">
-              <v-icon
-                v-on="on"
-                large
-                :color="match(item.match)"
-                v-if="match(item.match) == 'red'"
+              <v-icon v-on="on" large :color="match(item.match)" v-if="match(item.match) == 'red'"
                 >mdi-network-strength-1</v-icon
               >
               <v-icon
@@ -399,17 +295,12 @@
                 v-if="match(item.match) == 'yellow'"
                 >mdi-network-strength-3</v-icon
               >
-              <v-icon
-                v-on="on"
-                large
-                :color="match(item.match)"
-                v-if="match(item.match) == 'green'"
+              <v-icon v-on="on" large :color="match(item.match)" v-if="match(item.match) == 'green'"
                 >mdi-network-strength-4</v-icon
               >
             </template>
             <span
-              >{{ item.debian_matching.ip_matching_files }} /
-              {{ item.statistics.files.total }} ({{
+              >{{ item.debian_matching.ip_matching_files }} / {{ item.statistics.files.total }} ({{
                 item.debian_matching.name
               }})</span
             >
@@ -418,7 +309,7 @@
 
         <div
           v-if="head.type == 'string'"
-          style="font-size:11px;word-break: break-all;"
+          style="font-size: 11px; word-break: break-all"
           :key="head.value"
         >
           {{ item[head.value] }}
@@ -429,34 +320,34 @@
 </template>
 
 <script>
-import Chart from "chart.js/auto";
-import ChartDataLabels from "chartjs-plugin-datalabels";
-import _ from "lodash";
+import Chart from "chart.js/auto"
+import ChartDataLabels from "chartjs-plugin-datalabels"
+import _ from "lodash"
 
 export default {
   props: {
     entries: {
       type: Array,
       default: () => {
-        return [];
+        return []
       }
     },
     all: {
       type: Array,
       default: () => {
-        return [];
+        return []
       }
     },
     headers: {
       type: Array,
       default: () => {
-        return [];
+        return []
       }
     },
     stats: {
       type: Object,
       default: () => {
-        return {};
+        return {}
       }
     },
     ident: {
@@ -466,13 +357,13 @@ export default {
     palette: {
       type: Array,
       default: () => {
-        return [];
+        return []
       }
     },
     colors: {
       type: Object,
       default: () => {
-        return {};
+        return {}
       }
     },
     showMainCve: {
@@ -491,24 +382,24 @@ export default {
         isnumber: value => !isNaN(value) || "numbers only"
       },
       singleExpand: false
-    };
+    }
   },
   computed: {},
   methods: {
     filteredTags() {
-      var activeTags = [];
+      var activeTags = []
       for (var a = 0; a < this.headers.length; a++) {
         for (var val in this.headers[a].activeVals) {
-          if (this.headers[a].activeVals[val] === true) activeTags.push(val);
+          if (this.headers[a].activeVals[val] === true) activeTags.push(val)
         }
       }
-      return activeTags;
+      return activeTags
     },
     getBinaries(item) {
       // input file array inconsistencies
       if (item.length > 0 && typeof item[0].name == "undefined") {
-        return item[0];
-      } else return item;
+        return item[0]
+      } else return item
     },
     toggle(header, item) {
       this.$emit("filter-clicked", {
@@ -516,12 +407,12 @@ export default {
         val: item,
         active: header.activeVals,
         item: item
-      });
+      })
     },
     getCDef(e) {
       Vue.nextTick(() => {
-        this.getCharts(e);
-      });
+        this.getCharts(e)
+      })
     },
     getCharts(e) {
       for (var i = 0; i < e.length; i++) {
@@ -532,7 +423,7 @@ export default {
             3,
             res => {},
             "all_" + e[i].uid
-          );
+          )
 
           this.getStaticChartsJS(
             e[i].statistics.licenses.license_scanner_findings,
@@ -540,103 +431,92 @@ export default {
             3,
             res => {},
             "scan_" + e[i].uid
-          );
+          )
         } else {
           this.srcs["all_" + e[i].uid] =
-            "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
-          this.sums["all_" + e[i].uid] = 0;
+            "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+          this.sums["all_" + e[i].uid] = 0
           this.srcs["scan_" + e[i].uid] =
-            "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
-          this.sums["scan_" + e[i].uid] = 0;
+            "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+          this.sums["scan_" + e[i].uid] = 0
           e[i].chartSRC =
-            "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
+            "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
         }
       }
     },
     resolve(path, obj = self, separator = ".") {
-      var properties = Array.isArray(path) ? path : path.split(separator);
-      return properties.reduce((prev, curr) => prev && prev[curr], obj) || [];
+      var properties = Array.isArray(path) ? path : path.split(separator)
+      return properties.reduce((prev, curr) => prev && prev[curr], obj) || []
     },
 
     emitFiltered(e) {
-      this.$emit("filtered-items", e);
+      this.$emit("filtered-items", e)
     },
     normalize(x, faktor = 1) {
-      if (isNaN(x)) x = 0;
-      let norm =
-        ((x - this.stats.min) / (this.stats.max - this.stats.min)) * faktor;
-      return norm + 0.1 * faktor;
+      if (isNaN(x)) x = 0
+      let norm = ((x - this.stats.min) / (this.stats.max - this.stats.min)) * faktor
+      return norm + 0.1 * faktor
     },
     match: function(match) {
-      if (match >= 95) return "green";
-      if (match >= 60) return "yellow";
-      if (match >= 10) return "orange";
+      if (match >= 95) return "green"
+      if (match >= 60) return "yellow"
+      if (match >= 10) return "orange"
 
-      return "red";
+      return "red"
     },
     columnFiltered: function(items) {
-      return items.reduce((acc, cur) => acc || cur, false);
+      return items.reduce((acc, cur) => acc || cur, false)
     },
     sortNamesAndValueArrays: function(names = [], values = []) {
-      var list = [];
-      for (var j = 0; j < names.length; j++)
-        list.push({ name: names[j], val: values[j] });
+      var list = []
+      for (var j = 0; j < names.length; j++) list.push({ name: names[j], val: values[j] })
 
       list.sort(function(a, b) {
-        return a.val > b.val ? -1 : a.val == b.val ? 0 : 1;
-      });
+        return a.val > b.val ? -1 : a.val == b.val ? 0 : 1
+      })
 
       for (var k = 0; k < list.length; k++) {
-        names[k] = list[k].name;
-        values[k] = list[k].val;
+        names[k] = list[k].name
+        values[k] = list[k].val
       }
 
       return {
         names: names,
         values: values
-      };
+      }
     },
-    getStaticChartsJS: function(
-      data,
-      item,
-      grouping = 3,
-      callback = () => {},
-      uid
-    ) {
-      let names = data.map(ob => ob.shortname);
-      let values = data.map(ob => ob.file_count);
+    getStaticChartsJS: function(data, item, grouping = 3, callback = () => {}, uid) {
+      let names = data.map(ob => ob.shortname)
+      let values = data.map(ob => ob.file_count)
 
       if (values.length == 0) {
         this.srcs[uid] =
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
-        return false;
+          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+        return false
       }
 
       // total
-      this.sums[uid] =
-        values.reduce(
-          (accumulator, currentValue) => accumulator + currentValue
-        ) || 0;
+      this.sums[uid] = values.reduce((accumulator, currentValue) => accumulator + currentValue) || 0
 
       // sorting
-      const sorted = this.sortNamesAndValueArrays(names, values);
+      const sorted = this.sortNamesAndValueArrays(names, values)
 
-      names = sorted.names.slice(0, grouping);
-      values = sorted.values.slice(0, grouping);
+      names = sorted.names.slice(0, grouping)
+      values = sorted.values.slice(0, grouping)
 
       // grouping
-      let others = sorted.values.slice(grouping);
+      let others = sorted.values.slice(grouping)
 
       if (others.reduce((a, b) => a + b, 0) > 0) {
-        names.push("Others (" + others.length + ")");
-        this.colors["Others (" + others.length + ")"] = "#999999";
-        values.push(others.reduce((a, b) => a + b, 0));
+        names.push("Others (" + others.length + ")")
+        this.colors["Others (" + others.length + ")"] = "#999999"
+        values.push(others.reduce((a, b) => a + b, 0))
       }
 
       // colorizing
-      var colors = [];
+      var colors = []
       for (var a = 0; a < names.length; a++) {
-        colors.push(this.colors[names[a]] || this.palette[a]);
+        colors.push(this.colors[names[a]] || this.palette[a])
       }
 
       let dat = {
@@ -647,7 +527,7 @@ export default {
             backgroundColor: colors
           }
         ]
-      };
+      }
 
       let chartjs = {
         plugins: [ChartDataLabels],
@@ -656,10 +536,10 @@ export default {
         options: {
           animation: {
             onComplete: () => {
-              callback(this.charts[uid].toBase64Image());
-              this.srcs[uid] = this.charts[uid].toBase64Image();
-              this.charts[uid].destroy();
-              this.$forceUpdate();
+              callback(this.charts[uid].toBase64Image())
+              this.srcs[uid] = this.charts[uid].toBase64Image()
+              this.charts[uid].destroy()
+              this.$forceUpdate()
             }
           },
           plugins: {
@@ -675,15 +555,15 @@ export default {
             },
             datalabels: {
               formatter: (value, ctx) => {
-                let sum = 0;
-                let dataArr = ctx.chart.data.datasets[0].data;
+                let sum = 0
+                let dataArr = ctx.chart.data.datasets[0].data
                 dataArr.map(data => {
-                  sum += data;
-                });
-                let res = (value * 100) / sum;
-                if (res < 4) return "";
-                let percentage = ((value * 100) / sum).toFixed(2) + "%";
-                return value;
+                  sum += data
+                })
+                let res = (value * 100) / sum
+                if (res < 4) return ""
+                let percentage = ((value * 100) / sum).toFixed(2) + "%"
+                return value
               },
               responsive: false,
               font: {
@@ -693,17 +573,14 @@ export default {
             }
           }
         }
-      };
+      }
 
       if (document.getElementById(uid)) {
-        this.charts[uid] = new Chart(
-          document.getElementById(uid).getContext("2d"),
-          chartjs
-        );
+        this.charts[uid] = new Chart(document.getElementById(uid).getContext("2d"), chartjs)
       } else
         this.srcs[uid] =
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
+          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
     }
   }
-};
+}
 </script>
