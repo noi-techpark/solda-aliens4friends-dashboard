@@ -218,7 +218,7 @@
     <!-- datatables -->
     <v-container fluid v-if="entries.length > 0">
       <v-row no-gutters class="text-right">
-        <v-col class="text-left">
+        <v-col class="text-left" v-if="false">
           <v-btn-toggle v-model="view" shaped mandatory>
             <v-btn>
               <v-icon>mdi-table</v-icon>
@@ -294,9 +294,10 @@
             :showMainCve="showVariantCve"
             @filter-clicked="triggerSearch"
             @filter-change="filterChange = true"
+            @show_graph="showPackageGraph"
             ident="Meta"
           ></table-component>
-          <graph-component v-if="view == 1"> </graph-component>
+          <graph-component ref="graph" v-show="view == 1" v-if="false"> </graph-component>
         </v-col>
       </v-row>
       <v-snackbar v-model="snackbar" :timeout="timeout" color="red">
@@ -396,7 +397,7 @@ import AlienPackage from "../models/AlienPackage"
 export default {
   data() {
     return {
-      view: null,
+      view: 0,
       showVariantCve: false,
       needle: "",
       params: {
@@ -430,6 +431,7 @@ export default {
     }
   },
   mounted: function() {
+    console.log(this.$refs)
     if (this.$route.query.params) {
       this.params = JSON.parse(this.$route.query.params)
 
@@ -460,6 +462,8 @@ export default {
       json: "file/json"
     }),
     entries: function() {
+      console.log("loading entries... ")
+
       let source = this.json.source_packages || []
       let res = []
       let index = 0
@@ -477,6 +481,8 @@ export default {
       // group all packages by variant key
       for (let i = 0; i < source.length; i++) {
         source[i] = new AlienPackage(source[i])
+
+        //if (source[i].name.indexOf("curl") == -1) return
 
         var variant_key = source[i].name + "-" + source[i].version + "-" + source[i].revision
 
@@ -507,6 +513,7 @@ export default {
 
       // iterate all packages and calc overall stats
       for (let i = 0; i < res.length; i++) {
+        console.log("calc stats... ")
         res[i].uid = i
 
         if (res[i].statistics) {
@@ -554,7 +561,7 @@ export default {
 
           // define values for custom filters
           if (this.headers[e].customFilter == "slugs") {
-            this.headers[e].filterVals = ["isCve", "isVariant", "isNew"]
+            this.headers[e].filterVals = ["isCve", "isUnpatched", "isVariant", "isNew"]
           }
           // else generate entries from row values
           else
@@ -595,7 +602,7 @@ export default {
       }
 
       this.current = res
-
+      console.log("res... ")
       return res
     },
     auditdiff: function() {
@@ -797,6 +804,11 @@ export default {
     }
   },
   methods: {
+    showPackageGraph(item) {
+      console.log(this.$refs)
+      this.view = 1
+      this.$refs.graph.show(item)
+    },
     getVariantDiff(variants) {
       var new_packages = []
 

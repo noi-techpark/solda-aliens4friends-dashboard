@@ -22,7 +22,7 @@
   
 <script>
 export default {
-  name: "Search",
+  name: "Badge",
   props: {
     item: {
       type: Object,

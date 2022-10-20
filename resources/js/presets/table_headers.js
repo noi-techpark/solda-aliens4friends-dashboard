@@ -1,10 +1,12 @@
 exports.headers = [
-  {
-    text: "",
-    align: "start",
-    value: "",
-    type: "actions",
-  },
+  /* WIP
+    {
+      text: "",
+      align: "start",
+      value: "",
+      type: "actions",
+    },
+  */
   {
     text: "State",
     align: "start",

@@ -163,11 +163,12 @@
           <div style="font-size: 11px" class="text-center mt-1">{{ item.workload }} Files done</div>
         </div>
         <div v-if="head.type == 'actions'" :key="head.value">
-          <v-icon class="mb-2">mdi-graph</v-icon>
+          <v-icon class="mb-2" @click="$emit('show_graph', item)">mdi-graph</v-icon>
         </div>
         <div v-if="head.type == 'flags'" :key="head.value">
           <span v-if="item.isCve" v-show="false">isCve</span>
           <span v-if="item.isVariant" v-show="false">isVariant</span>
+          <span v-if="item.isUnpatched" v-show="false">isUnpatched</span>
           <span v-if="item.isNew" v-show="false">isNew</span>
           <v-icon v-if="item.isVariant" class="mb-2">mdi-link-variant-plus</v-icon>
           <badge-component :item="item"></badge-component>

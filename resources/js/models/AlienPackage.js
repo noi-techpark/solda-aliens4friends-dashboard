@@ -81,6 +81,12 @@ export default class AlienPackage {
 
 		this.layer = data.layer ? data.layer : {}
 
+		this.cve_metadata.issue.sort(function (a, b) {
+			if (a.status == "Unpatched") return -1;
+			if (a.status == "Patched") return 1;
+			if (a.status == "Ignored") return 0;
+		})
+
 		this.collectCves();
 		this.processStats();
 	}
@@ -126,6 +132,9 @@ export default class AlienPackage {
 
 			this.isCve = true
 		}
+
+		if (this.cveStatus['unpatched'] > 0) this.isUnpatched = true;
+
 	}
 
 	setVariantTags() {

@@ -7,13 +7,20 @@
           :key="vkey"
           color="transparent"
         >
-          <v-expansion-panel-header>
+          <v-expansion-panel-header hide-actions class="ml-4">
+            <template v-slot:default="{ open }">
+      <div>
+
             <div
               class="ml-2"
               :class="{
                 variant_disabled: !item.variant_files[vkey].is_main_variant
               }"
             >
+            <v-icon class="float-left">
+          <template v-if="open">mdi-chevron-up</template>
+          <template v-else>mdi-chevron-down</template>
+        </v-icon>
               <badge-component :item="item.variant_files[vkey]"></badge-component>
               <b>Variant: {{ vkey }}</b> | {{ variant.name }} | {{ variant.version }} |
               {{ variant.revision }} <br />
@@ -64,8 +71,10 @@
                 {{ item.variant_files[vkey].layer.revision }}
               </v-tooltip>
             </div>
+          </div>
+    </template>
           </v-expansion-panel-header>
-          <v-expansion-panel-content>
+          <v-expansion-panel-content  class="ml-4">
             <v-row>
               <!-- TODO: source_files = common_files for variants -->
               <v-col cols="3" v-if="item.source_files">
@@ -263,46 +272,7 @@
               </v-col>
 
               <v-col v-if="item.isCve && item.variant_files[vkey].is_main_variant">
-                {{ item.is_main_variant }}
-                <v-tabs v-model="item.cvetab" class="rounded">
-                  <v-tab> CVE Status </v-tab>
-                </v-tabs>
-                <v-tabs-items v-model="item.cvetab" class="rounded">
-                  <v-tab-item>
-                    <v-virtual-scroll
-                      :items="item.cve_metadata.issue"
-                      :item-height="30"
-                      height="200"
-                      style="font-size: 80%"
-                    >
-                      <template v-slot:default="{ item }">
-                        <v-list-item>
-                          <v-list-item-content>
-                            <v-list-item-title>
-                              <v-btn x-small elevation="0" :href="item.link">{{ item.id }}</v-btn>
-                              <v-chip small>{{ item.scorev2 }} / {{ item.scorev3 }}</v-chip>
-                              <v-chip small>{{ item.vector }}</v-chip>
-                              <v-chip small>{{ item.status }}</v-chip>
-
-                              <v-tooltip top left max-width="400px">
-                                <template v-slot:activator="{ on }">
-                                  <v-icon v-on="on">mdi-information</v-icon>
-                                </template>
-                                <div>{{ item.summary }}</div>
-                                <b class="mt-4" style="display: block">Used scan aliases:</b>
-                                <ul>
-                                  <li v-for="alias in $props.item.cve_metadata.products">
-                                    {{ alias.product }}, CVE's in record: {{ alias.cvesInRecord }}
-                                  </li>
-                                </ul>
-                              </v-tooltip>
-                            </v-list-item-title>
-                          </v-list-item-content>
-                        </v-list-item>
-                      </template>
-                    </v-virtual-scroll>
-                  </v-tab-item>
-                </v-tabs-items>
+                <cve-status-component :item="item"></cve-status-component>
               </v-col>
               <v-col v-if="item.binary_packages">
                 <v-tabs v-model="item.binarytab" class="rounded">
@@ -400,45 +370,7 @@
             </v-tabs-items>
           </v-col>
           <v-col v-if="item.isCve">
-            <v-tabs v-model="item.binarytab" class="rounded">
-              <v-tab> CVE Status </v-tab>
-            </v-tabs>
-            <v-tabs-items v-model="item.binarytab" class="rounded">
-              <v-tab-item>
-                <v-virtual-scroll
-                  :items="item.cve_metadata.issue"
-                  :item-height="30"
-                  height="200"
-                  style="font-size: 80%"
-                >
-                  <template v-slot:default="{ item }">
-                    <v-list-item>
-                      <v-list-item-content>
-                        <v-list-item-title>
-                          <v-btn x-small elevation="0" :href="item.link">{{ item.id }}</v-btn>
-                          <v-chip small>{{ item.scorev2 }} / {{ item.scorev3 }}</v-chip>
-                          <v-chip small>{{ item.vector }}</v-chip>
-                          <v-chip small>{{ item.status }}</v-chip>
-
-                          <v-tooltip top left max-width="400px">
-                            <template v-slot:activator="{ on }">
-                              <v-icon v-on="on">mdi-information</v-icon>
-                            </template>
-                            <div>{{ item.summary }}</div>
-                            <b class="mt-4" style="display: block">Used scan aliases:</b>
-                            <ul>
-                              <li v-for="alias in $props.item.cve_metadata.products">
-                                {{ alias.product }}, CVE's in record: {{ alias.cvesInRecord }}
-                              </li>
-                            </ul>
-                          </v-tooltip>
-                        </v-list-item-title>
-                      </v-list-item-content>
-                    </v-list-item>
-                  </template>
-                </v-virtual-scroll>
-              </v-tab-item>
-            </v-tabs-items>
+            <cve-status-component :item="item"></cve-status-component>
           </v-col>
           <v-col v-if="item.binary_packages">
             <v-tabs v-model="item.binarytab" class="rounded">
