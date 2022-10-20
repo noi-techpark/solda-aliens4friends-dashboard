@@ -297,7 +297,6 @@
             @show_graph="showPackageGraph"
             ident="Meta"
           ></table-component>
-          <graph-component ref="graph" v-show="view == 1" v-if="false"> </graph-component>
         </v-col>
       </v-row>
       <v-snackbar v-model="snackbar" :timeout="timeout" color="red">
