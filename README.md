@@ -1,5 +1,8 @@
 
 #  Aliens4friends Dashboard
+
+![REUSE Compliance](https://github.com/noi-techpark/solda-aliens4friends-dashboard/actions/workflows/reuse.yml/badge.svg)
+
 An expandable dashboard to filter and visualize Aliens4Friends license statistics
 
 ## Basics/Requirements
