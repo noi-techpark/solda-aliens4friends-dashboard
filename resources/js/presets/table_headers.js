@@ -1,10 +1,21 @@
 exports.headers = [
+  /* WIP
+    {
+      text: "",
+      align: "start",
+      value: "",
+      type: "actions",
+    },
+  */
   {
-    text: "",
+    text: "State",
     align: "start",
-    value: "isVariant",
+    value: "cveScoreSum",
     type: "flags",
     tooltip: "package id",
+    customFilter: "slugs",
+    autofilter: true,
+    width: "100px",
   },
   {
     text: "ID",
